@@ -385,6 +385,8 @@ def build_interactive_geocode_map(
     numbering_mode: str | None = None,
     origin: tuple[float, float] | None = None,
     direction_deg: float | None = None,
+    default_center: tuple[float, float] | None = None,
+    default_zoom: int | None = None,
 ) -> folium.Map:
     """Render a click-to-geocode folium map for one subregion.
 
@@ -440,6 +442,10 @@ def build_interactive_geocode_map(
             starting point in ``"grid"`` mode (optional there).
         direction_deg: The primary axis (deg, 0 = north, clockwise) for
             the two red arrows in ``"grid"`` mode.
+        default_center: If given, overrides the computed streets-bounds
+            center as the map's initial view.
+        default_zoom: If given, overrides the default ``zoom_start`` (15)
+            the map opens at.
 
     Returns:
         The folium Map object (also already saved to ``out_html_path``).
@@ -453,9 +459,9 @@ def build_interactive_geocode_map(
     streets_wgs84 = streets_gdf.to_crs(4326)
     bounds = streets_wgs84.total_bounds  # minx, miny, maxx, maxy
     bounds_proj = streets_gdf.total_bounds
-    center = [(bounds[1] + bounds[3]) / 2, (bounds[0] + bounds[2]) / 2]
+    center = list(default_center) if default_center is not None else [(bounds[1] + bounds[3]) / 2, (bounds[0] + bounds[2]) / 2]
 
-    fmap = _new_map(center, zoom_start=15)
+    fmap = _new_map(center, zoom_start=default_zoom if default_zoom is not None else 15)
 
     if numbering_mode == "radial" and origin is not None:
         _draw_origin_marker(fmap, origin, streets_gdf.crs)
