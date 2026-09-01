@@ -69,6 +69,22 @@ DEFAULT_HIGHWAY_RANKS = {
 DEFAULT_RANK = 4  # fallback for unrecognized highway types
 
 
+# --- street_signs.py: compute_intersections / build_street_signs_map ---
+
+# Groups DEFAULT_HIGHWAY_RANKS' numeric street_rank into the four road
+# categories street_signs.py classifies intersections by. Any street_rank
+# not listed under "primary"/"secondary"/"tertiary" here (e.g. 4:
+# unclassified/residential/service, 5: footway) falls back to "other".
+# User-configurable: pass a differently-shaped dict of the same three
+# keys to street_signs.rank_to_category/compute_intersections to change
+# where the category boundaries fall.
+DEFAULT_INTERSECTION_CATEGORY_RANKS = {
+    "primary": {0, 1},
+    "secondary": {2},
+    "tertiary": {3},
+}
+
+
 # --- street_ids.py: label_streets ---
 
 # Streets within this many degrees of each other (undirected orientation,
@@ -103,6 +119,51 @@ DEFAULT_MAIN_PATH_ANGLE_THRESHOLD_DEG = 90.0
 # pre-filter), since node geometry digitization noise is largest right
 # at the node itself.
 DEFAULT_NODE_DIRECTION_TOLERANCE_DEG = 30.0
+
+# Phase 2's own per-node_id direction assignment (above) already checks
+# that two edges' LOCAL tangents at the shared node agree (within
+# DEFAULT_NODE_DIRECTION_TOLERANCE_DEG); the union() helper it then calls
+# separately re-checks each pair's own WHOLE-EDGE bearing, which exists
+# to reject a genuine fork (two edges whose tangents happen to look
+# aligned right at the node, then immediately diverge for good - see the
+# node-binning regression test in tests/test_street_ids.py). That same
+# whole-edge check also rejects a real, gently curving street whenever
+# it runs long/curved enough for its own overall bearing to drift past
+# tolerance, even though every individual step along it stayed
+# straight - a real bug found via real-data testing (two collinear,
+# unnamed, same-rank edges meeting cleanly at one node, ~4 deg apart in
+# local tangent, refused merging because one of them curved gently over
+# its own ~90m and drifted ~30 deg in overall bearing by the far end).
+#
+# The fix distinguishes the two cases by how much of the LONGER edge's
+# own length actually stays close to the straight tangent line from the
+# node: a fork diverges almost immediately (low coverage - the test
+# regression's synthetic fork covers ~25% at a 15m corridor), a genuine
+# curve stays close for most of its own length (the real bug's own
+# curving street covers ~81% at the same corridor) - see
+# street_ids._tangent_continuation_fraction. This threshold is
+# deliberately lenient (not a strict "must hug the tangent almost the
+# whole way", and the corridor width used is whatever touching_dist_m
+# the caller already passed for the branch-drift check, itself already a
+# generous per-node tolerance) - the real-world cases so far separate by
+# a wide margin either side of 0.5, so there's no need to demand more.
+DEFAULT_TANGENT_CONTINUATION_FRACTION = 0.5
+
+# How far along the LONGER edge, from the shared node, to measure
+# _tangent_continuation_fraction's own coverage over - the rest of a
+# long edge (past this distance) is ignored entirely, not just
+# de-weighted. Demanding coverage over an edge's FULL length instead
+# breaks down for real, long, gently curving streets (several hundred
+# meters, still gently curving the whole way): even fully ordinary
+# curvature exceeds any fixed corridor width once accumulated over
+# enough distance, which is exactly the false-negative this whole
+# mechanism exists to avoid. Calibrated against real data: a genuine
+# fork (this module's own synthetic regression test) covers ~25-65% of
+# this window depending on exactly how it's sized, while every real
+# curving-street case found so far covers at least ~64%, and the
+# window itself is generous enough that a genuine local fork right at
+# the node still shows up clearly within it.
+DEFAULT_TANGENT_CONTINUATION_WINDOW_M = 100.0
 
 # How many equal-width bins to split each node_id's own [0, 180)
 # direction range into for phase 2's per-node_id direction assignment
@@ -197,17 +258,6 @@ DEFAULT_PARKING_SERVICE_VALUES = {"parking_aisle"}
 # street_id) for it to be stripped entirely. Not quite a literal 1.0
 # (100%) to tolerate floating-point/geometry-union noise at the edges.
 DEFAULT_STREET_ABSORB_COVERAGE_FRACTION = 0.999
-
-# How far into an edge (as a fraction of its own length) the local
-# tangent check (rule 3, the fork tie-break, and every endpoint-direction
-# measurement this module makes - node-level direction binning, connector
-# matching, main-path turn-angle measurement after reorientation) reaches
-# for its second point, instead of just the next raw vertex - averages
-# over noisy digitization right at a node. Kept tight (1%) so the
-# measured direction reflects the edge's own real bearing as it actually
-# leaves the node, not an average blended with the rest of a curving
-# street further along.
-DEFAULT_TANGENT_FRACTION = 0.01
 
 # The two interpolation fractions the "is this edge parallel to that
 # one" check reads its direction between - the tangent at the edge's

@@ -1,0 +1,838 @@
+[
+  {
+    "name": "Ecole du Centre (DEMKOU)",
+    "description": "School",
+    "icon": "🏫",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        10.157588599999999,
+        5.266188799999999
+      ]
+    },
+    "sign_type": 3,
+    "max_distance": 4000.0,
+    "min_distance": 0.0,
+    "detail_distance": 1500.0,
+    "detail_node_rank": 5,
+    "node_rank": 5
+  },
+  {
+    "name": "École",
+    "description": "School",
+    "icon": "🏫",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        10.2598655,
+        5.341470699999999
+      ]
+    },
+    "sign_type": 3,
+    "max_distance": 4000.0,
+    "min_distance": 0.0,
+    "detail_distance": 1500.0,
+    "detail_node_rank": 5,
+    "node_rank": 5
+  },
+  {
+    "name": "École",
+    "description": "School",
+    "icon": "🏫",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        10.2704805,
+        5.346584300000001
+      ]
+    },
+    "sign_type": 3,
+    "max_distance": 4000.0,
+    "min_distance": 0.0,
+    "detail_distance": 1500.0,
+    "detail_node_rank": 5,
+    "node_rank": 5
+  },
+  {
+    "name": "École",
+    "description": "School",
+    "icon": "🏫",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        10.2689108,
+        5.1866249999999985
+      ]
+    },
+    "sign_type": 3,
+    "max_distance": 4000.0,
+    "min_distance": 0.0,
+    "detail_distance": 1500.0,
+    "detail_node_rank": 5,
+    "node_rank": 5
+  },
+  {
+    "name": "Lycée de Fondjomekwet",
+    "description": "School",
+    "icon": "🏫",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        10.176958,
+        5.281251500000001
+      ]
+    },
+    "sign_type": 3,
+    "max_distance": 4000.0,
+    "min_distance": 0.0,
+    "detail_distance": 1500.0,
+    "detail_node_rank": 5,
+    "node_rank": 5
+  },
+  {
+    "name": "École Catcholique Saint Jean",
+    "description": "School",
+    "icon": "🏫",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        10.188387861305669,
+        5.275187017860418
+      ]
+    },
+    "sign_type": 3,
+    "max_distance": 4000.0,
+    "min_distance": 0.0,
+    "detail_distance": 1500.0,
+    "detail_node_rank": 5,
+    "node_rank": 5
+  },
+  {
+    "name": "École Catcholique Saint Jean",
+    "description": "School",
+    "icon": "🏫",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        10.18860126504541,
+        5.2750611013698
+      ]
+    },
+    "sign_type": 3,
+    "max_distance": 4000.0,
+    "min_distance": 0.0,
+    "detail_distance": 1500.0,
+    "detail_node_rank": 5,
+    "node_rank": 5
+  },
+  {
+    "name": "École Publique de Bachicheu",
+    "description": "School",
+    "icon": "🏫",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        10.18477929999994,
+        5.273942400001311
+      ]
+    },
+    "sign_type": 3,
+    "max_distance": 4000.0,
+    "min_distance": 0.0,
+    "detail_distance": 1500.0,
+    "detail_node_rank": 5,
+    "node_rank": 5
+  },
+  {
+    "name": "École Publique de Bachicheu",
+    "description": "School",
+    "icon": "🏫",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        10.184956850004568,
+        5.274030100002547
+      ]
+    },
+    "sign_type": 3,
+    "max_distance": 4000.0,
+    "min_distance": 0.0,
+    "detail_distance": 1500.0,
+    "detail_node_rank": 5,
+    "node_rank": 5
+  },
+  {
+    "name": "École Publique de Bachicheu",
+    "description": "School",
+    "icon": "🏫",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        10.185110916813398,
+        5.273918699708165
+      ]
+    },
+    "sign_type": 3,
+    "max_distance": 4000.0,
+    "min_distance": 0.0,
+    "detail_distance": 1500.0,
+    "detail_node_rank": 5,
+    "node_rank": 5
+  },
+  {
+    "name": "Lycée de Fondjomekwet",
+    "description": "School",
+    "icon": "🏫",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        10.177377354374682,
+        5.28138122894562
+      ]
+    },
+    "sign_type": 3,
+    "max_distance": 4000.0,
+    "min_distance": 0.0,
+    "detail_distance": 1500.0,
+    "detail_node_rank": 5,
+    "node_rank": 5
+  },
+  {
+    "name": "Lycée de Fondjomekwet",
+    "description": "School",
+    "icon": "🏫",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        10.177197288017462,
+        5.2813732203193275
+      ]
+    },
+    "sign_type": 3,
+    "max_distance": 4000.0,
+    "min_distance": 0.0,
+    "detail_distance": 1500.0,
+    "detail_node_rank": 5,
+    "node_rank": 5
+  },
+  {
+    "name": "Lycée de Fondjomekwet",
+    "description": "School",
+    "icon": "🏫",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        10.177197571303926,
+        5.281173707775832
+      ]
+    },
+    "sign_type": 3,
+    "max_distance": 4000.0,
+    "min_distance": 0.0,
+    "detail_distance": 1500.0,
+    "detail_node_rank": 5,
+    "node_rank": 5
+  },
+  {
+    "name": "Lycée de Fondjomekwet",
+    "description": "School",
+    "icon": "🏫",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        10.176616428960461,
+        5.28115753709957
+      ]
+    },
+    "sign_type": 3,
+    "max_distance": 4000.0,
+    "min_distance": 0.0,
+    "detail_distance": 1500.0,
+    "detail_node_rank": 5,
+    "node_rank": 5
+  },
+  {
+    "name": "Lycée de Fondjomekwet",
+    "description": "School",
+    "icon": "🏫",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        10.176858299993311,
+        5.281073950036736
+      ]
+    },
+    "sign_type": 3,
+    "max_distance": 4000.0,
+    "min_distance": 0.0,
+    "detail_distance": 1500.0,
+    "detail_node_rank": 5,
+    "node_rank": 5
+  },
+  {
+    "name": "Lycée de Fotouni",
+    "description": "School",
+    "icon": "🏫",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        10.225701931796161,
+        5.322585783065952
+      ]
+    },
+    "sign_type": 3,
+    "max_distance": 4000.0,
+    "min_distance": 0.0,
+    "detail_distance": 1500.0,
+    "detail_node_rank": 5,
+    "node_rank": 5
+  },
+  {
+    "name": "École Publique de Latcheu",
+    "description": "School",
+    "icon": "🏫",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        10.16725169586949,
+        5.293412375344181
+      ]
+    },
+    "sign_type": 3,
+    "max_distance": 4000.0,
+    "min_distance": 0.0,
+    "detail_distance": 1500.0,
+    "detail_node_rank": 5,
+    "node_rank": 5
+  },
+  {
+    "name": "École du Centre (DEMKOU)",
+    "description": "School",
+    "icon": "🏫",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        10.165218174582478,
+        5.275993073386015
+      ]
+    },
+    "sign_type": 3,
+    "max_distance": 4000.0,
+    "min_distance": 0.0,
+    "detail_distance": 1500.0,
+    "detail_node_rank": 5,
+    "node_rank": 5
+  },
+  {
+    "name": "Centre de Santé de Fondjomekwet",
+    "description": "Healthcare centre",
+    "icon": "🏥",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        10.167447,
+        5.286239700000001
+      ]
+    },
+    "sign_type": 3,
+    "max_distance": 4000.0,
+    "min_distance": 0.0,
+    "detail_distance": 1500.0,
+    "detail_node_rank": 5,
+    "node_rank": 5
+  },
+  {
+    "name": "Centre de santé",
+    "description": "Healthcare centre",
+    "icon": "🏥",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        10.31827435001264,
+        5.18646809999346
+      ]
+    },
+    "sign_type": 3,
+    "max_distance": 4000.0,
+    "min_distance": 0.0,
+    "detail_distance": 1500.0,
+    "detail_node_rank": 5,
+    "node_rank": 5
+  },
+  {
+    "name": "Centre de santé intégré (CSI)",
+    "description": "Healthcare centre",
+    "icon": "🏥",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        10.228025979771813,
+        5.321384816331258
+      ]
+    },
+    "sign_type": 3,
+    "max_distance": 4000.0,
+    "min_distance": 0.0,
+    "detail_distance": 1500.0,
+    "detail_node_rank": 5,
+    "node_rank": 5
+  },
+  {
+    "name": "Chefferie Batié",
+    "description": "Chiefferie",
+    "icon": "🏰",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        10.2954678,
+        5.291408099999999
+      ]
+    },
+    "sign_type": 2,
+    "max_distance": 5000.0,
+    "min_distance": 0.0,
+    "detail_distance": 2000.0,
+    "detail_node_rank": 5,
+    "node_rank": 5
+  },
+  {
+    "name": "Chefferie Bangam",
+    "description": "Chiefferie",
+    "icon": "🏰",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        10.2576838,
+        5.3403625
+      ]
+    },
+    "sign_type": 2,
+    "max_distance": 5000.0,
+    "min_distance": 0.0,
+    "detail_distance": 2000.0,
+    "detail_node_rank": 5,
+    "node_rank": 5
+  },
+  {
+    "name": "Chefferie Fondjomekwet",
+    "description": "Chiefferie",
+    "icon": "🏰",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        10.1625932,
+        5.2790509
+      ]
+    },
+    "sign_type": 2,
+    "max_distance": 5000.0,
+    "min_distance": 0.0,
+    "detail_distance": 2000.0,
+    "detail_node_rank": 5,
+    "node_rank": 5
+  },
+  {
+    "name": "Chefferie",
+    "description": "Chiefferie",
+    "icon": "🏰",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        10.1629335,
+        5.279168
+      ]
+    },
+    "sign_type": 2,
+    "max_distance": 5000.0,
+    "min_distance": 0.0,
+    "detail_distance": 2000.0,
+    "detail_node_rank": 5,
+    "node_rank": 5
+  },
+  {
+    "name": "Chefferie Fotouni",
+    "description": "Chiefferie",
+    "icon": "🏰",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        10.2315078,
+        5.325148099999999
+      ]
+    },
+    "sign_type": 2,
+    "max_distance": 5000.0,
+    "min_distance": 0.0,
+    "detail_distance": 2000.0,
+    "detail_node_rank": 5,
+    "node_rank": 5
+  },
+  {
+    "name": "Ecole Publique de Batié Chefferie",
+    "description": "Chiefferie",
+    "icon": "🏰",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        10.2941507,
+        5.2931282
+      ]
+    },
+    "sign_type": 2,
+    "max_distance": 5000.0,
+    "min_distance": 0.0,
+    "detail_distance": 2000.0,
+    "detail_node_rank": 5,
+    "node_rank": 5
+  },
+  {
+    "name": "Chefferie Bakoven",
+    "description": "Chiefferie",
+    "icon": "🏰",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        10.1990838,
+        5.2374373
+      ]
+    },
+    "sign_type": 2,
+    "max_distance": 5000.0,
+    "min_distance": 0.0,
+    "detail_distance": 2000.0,
+    "detail_node_rank": 5,
+    "node_rank": 5
+  },
+  {
+    "name": "Chefferie Bachicheu",
+    "description": "Chiefferie",
+    "icon": "🏰",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        10.19379105309344,
+        5.279996595637359
+      ]
+    },
+    "sign_type": 2,
+    "max_distance": 5000.0,
+    "min_distance": 0.0,
+    "detail_distance": 2000.0,
+    "detail_node_rank": 5,
+    "node_rank": 5
+  },
+  {
+    "name": "Chefferie Bandja",
+    "description": "Chiefferie",
+    "icon": "🏰",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        10.270234637388041,
+        5.228490693820552
+      ]
+    },
+    "sign_type": 2,
+    "max_distance": 5000.0,
+    "min_distance": 0.0,
+    "detail_distance": 2000.0,
+    "detail_node_rank": 5,
+    "node_rank": 5
+  },
+  {
+    "name": "chefferie",
+    "description": "Chiefferie",
+    "icon": "🏰",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        10.215996866464915,
+        5.209201746122706
+      ]
+    },
+    "sign_type": 2,
+    "max_distance": 5000.0,
+    "min_distance": 0.0,
+    "detail_distance": 2000.0,
+    "detail_node_rank": 5,
+    "node_rank": 5
+  },
+  {
+    "name": "Fotouni",
+    "description": "Fotouni town centre",
+    "icon": "🏘️",
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            10.231947645126784,
+            5.321088997836221
+          ],
+          [
+            10.231925038476337,
+            5.320645786799687
+          ],
+          [
+            10.231859200133396,
+            5.320206930949027
+          ],
+          [
+            10.23175076423977,
+            5.319776656671926
+          ],
+          [
+            10.231600775164022,
+            5.3193591077042015
+          ],
+          [
+            10.231410677440863,
+            5.318958305224919
+          ],
+          [
+            10.231182301857295,
+            5.318578109132015
+          ],
+          [
+            10.230917847819507,
+            5.318222180871242
+          ],
+          [
+            10.230619862170455,
+            5.31789394817639
+          ],
+          [
+            10.230291214662156,
+            5.317596572060248
+          ],
+          [
+            10.229935070318886,
+            5.317332916374155
+          ],
+          [
+            10.229554858957469,
+            5.317105520229196
+          ],
+          [
+            10.229154242158094,
+            5.316916573544605
+          ],
+          [
+            10.228737078003736,
+            5.3167678959588
+          ],
+          [
+            10.228307383927604,
+            5.316660919306078
+          ],
+          [
+            10.227869298026363,
+            5.316596673827745
+          ],
+          [
+            10.227427039211532,
+            5.316575778250408
+          ],
+          [
+            10.226984866582724,
+            5.316598433827005
+          ],
+          [
+            10.226547038413798,
+            5.316664422397985
+          ],
+          [
+            10.22611777114684,
+            5.316773108491291
+          ],
+          [
+            10.225701198788668,
+            5.316923445441
+          ],
+          [
+            10.225301333100852,
+            5.317113985465747
+          ],
+          [
+            10.224922024966471,
+            5.317342893609877
+          ],
+          [
+            10.224566927305618,
+            5.317607965413218
+          ],
+          [
+            10.22423945989674,
+            5.317906648139278
+          ],
+          [
+            10.22394277644253,
+            5.318236065357608
+          ],
+          [
+            10.223679734197571,
+            5.318593044643561
+          ],
+          [
+            10.223452866450229,
+            5.318974148128811
+          ],
+          [
+            10.223264358123885,
+            5.319375705608492
+          ],
+          [
+            10.223116024732498,
+            5.319793849886097
+          ],
+          [
+            10.223009294893325,
+            5.320224554015893
+          ],
+          [
+            10.222945196565249,
+            5.320663670084111
+          ],
+          [
+            10.222924347145453,
+            5.321106969155545
+          ],
+          [
+            10.22294694751988,
+            5.321550182000783
+          ],
+          [
+            10.223012780124959,
+            5.321989040211876
+          ],
+          [
+            10.223121211039384,
+            5.322419317310429
+          ],
+          [
+            10.22327119608594,
+            5.322836869452198
+          ],
+          [
+            10.223461290884751,
+            5.323237675336135
+          ],
+          [
+            10.223689664761203,
+            5.323617874933472
+          ],
+          [
+            10.223954118374708,
+            5.323973806663781
+          ],
+          [
+            10.224252104898614,
+            5.324302042659938
+          ],
+          [
+            10.224580754547285,
+            5.324599421782287
+          ],
+          [
+            10.224936902214191,
+            5.324863080063962
+          ],
+          [
+            10.22531711795478,
+            5.325090478294134
+          ],
+          [
+            10.225717740020578,
+            5.325279426473432
+          ],
+          [
+            10.226134910126223,
+            5.325428104905999
+          ],
+          [
+            10.226564610609802,
+            5.325535081724997
+          ],
+          [
+            10.227002703128413,
+            5.32559932668273
+          ],
+          [
+            10.227444968516235,
+            5.3256202210725965
+          ],
+          [
+            10.227887147421065,
+            5.325597563687293
+          ],
+          [
+            10.228324981327853,
+            5.325531572755881
+          ],
+          [
+            10.228754253574014,
+            5.325422883841124
+          ],
+          [
+            10.229170829961376,
+            5.325272543717371
+          ],
+          [
+            10.229570698573538,
+            5.325082000287968
+          ],
+          [
+            10.229950008415036,
+            5.324853088639403
+          ],
+          [
+            10.230305106500172,
+            5.324588013366531
+          ],
+          [
+            10.230632573034196,
+            5.324289327339164
+          ],
+          [
+            10.230929254348034,
+            5.3239599071146255
+          ],
+          [
+            10.23119229326936,
+            5.323602925233092
+          ],
+          [
+            10.231419156637529,
+            5.3232218196626295
+          ],
+          [
+            10.23160765969745,
+            5.322820260688242
+          ],
+          [
+            10.231755987137547,
+            5.3224021155638725
+          ],
+          [
+            10.231862710569276,
+            5.3219714112678025
+          ],
+          [
+            10.231926802279983,
+            5.321532295720185
+          ],
+          [
+            10.231947645126784,
+            5.321088997836221
+          ]
+        ]
+      ]
+    },
+    "sign_type": 1,
+    "max_distance": 10000.0,
+    "min_distance": 200.0,
+    "detail_distance": 2000.0,
+    "detail_node_rank": 3,
+    "node_rank": 1
+  }
+]

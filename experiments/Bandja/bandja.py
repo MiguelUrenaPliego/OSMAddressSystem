@@ -31,6 +31,7 @@ from osmaddresssystem import (
     osm,
     pipeline,
     street_editor,
+    street_signs,
     subregions,
     utils,
 )
@@ -65,7 +66,9 @@ def process_subregion(
     streets_csv_path = os.path.join(folder, "streets.csv")
     edge_edits_csv_path = os.path.join(folder, "edge_edits.csv")
     editor_html_path = os.path.join(folder, "streets_editor.html")
+    editor_simple_html_path = os.path.join(folder, "streets_editor_simple.html")
     geocode_map_html_path = os.path.join(folder, "geocode_map.html")
+    street_signs_html_path = os.path.join(folder, "street_signs_map.html")
 
     already_generated = all(
         os.path.exists(p) for p in (nodes_path, edges_path, streets_gpkg_path, streets_csv_path)
@@ -105,8 +108,13 @@ def process_subregion(
         print(f"Wrote {nodes_path}, {edges_path}, {streets_gpkg_path}, {streets_csv_path}")
 
         street_editor.build_street_editor_map(streets_gdf, edges_gdf, editor_html_path)
+        street_editor.build_street_editor_map_simple(streets_gdf, edges_gdf, editor_simple_html_path)
         geocode_map.build_interactive_geocode_map(
             streets_gdf, geocode_map_html_path, numbering_mode=NUMBERING_MODE, origin=origin,
+        )
+        intersections_gdf = street_signs.compute_intersections(nodes_gdf, edges_gdf, streets_gdf)
+        street_signs.build_street_signs_map(
+            streets_gdf, intersections_gdf, street_signs_html_path, edges_gdf=edges_gdf,
         )
     else:
         print(f"{subregion_name!r} already generated, applying any pending edits")
@@ -133,8 +141,13 @@ def process_subregion(
         pipeline.write_gpkg(streets_gdf, streets_gpkg_path)
         streets_gdf.drop(columns="geometry").to_csv(streets_csv_path, index=False)
         street_editor.build_street_editor_map(streets_gdf, new_edges, editor_html_path)
+        street_editor.build_street_editor_map_simple(streets_gdf, new_edges, editor_simple_html_path)
         geocode_map.build_interactive_geocode_map(
             streets_gdf, geocode_map_html_path, numbering_mode=NUMBERING_MODE, origin=origin,
+        )
+        intersections_gdf = street_signs.compute_intersections(nodes_gdf, new_edges, streets_gdf)
+        street_signs.build_street_signs_map(
+            streets_gdf, intersections_gdf, street_signs_html_path, edges_gdf=new_edges,
         )
 
 

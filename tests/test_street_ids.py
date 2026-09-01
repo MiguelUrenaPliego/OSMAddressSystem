@@ -534,17 +534,15 @@ def _oneway_edge(G, u, v, uxy, vxy, highway="residential", name=None, osmid=1, k
     G.add_edge(u, v, key, highway=highway, name=name, geometry=line, length=line.length, osmid=osmid)
 
 
-def test_tangent_uses_10pct_fraction_not_the_adjacent_vertex():
-    """A noisy first/last vertex right at a node (a stray dogleg a
-    couple meters in, the kind real OSM digitizing produces) must not
-    throw off the tangent enough to wrongly cut an otherwise-straight
-    street. Edge A runs due east for 98m, then jogs sharply for its
-    last 2m into the shared node - its raw adjacent-vertex tangent
-    there would be ~26.6 deg off due east (over the default 20 deg
-    angle_threshold_deg), but measuring 10% of the edge's own length in
-    (see _TANGENT_FRACTION) averages past that jog and reads much
-    closer to the edge's real overall direction, so it still merges
-    with the perfectly straight, due-east edge B."""
+def test_tangent_uses_adjacent_vertex_not_a_fraction_in():
+    """The endpoint tangent is measured between the node and its
+    immediately adjacent vertex - the edge's real bearing exactly as it
+    leaves the node - not some fraction of the edge's own length in.
+    Edge A runs due east for 98m, then jogs sharply for its last 2m
+    into the shared node - its adjacent-vertex tangent there is ~26.6
+    deg off due east, within the looser node-direction tolerance
+    (default 30 deg), so it still merges with the perfectly straight,
+    due-east edge B via node-direction binning."""
     G = nx.MultiDiGraph(crs="EPSG:3857")
     G.add_node(0, x=-100, y=0)
     G.add_node(1, x=0, y=0)
@@ -1972,9 +1970,9 @@ def test_node_binning_rejects_an_edge_that_curves_away_past_the_shared_node():
     """Two edges sharing a node with a close LOCAL tangent there (within
     ``direction_tolerance_deg``) must NOT be joined if one of them then
     curves away well past that tolerance before reaching its own far
-    endpoint - the local tangent (measured only ``_TANGENT_FRACTION``
-    into the edge) can look aligned even though the edge, as a whole,
-    heads somewhere completely different. Regression test: a real
+    endpoint - the local tangent (measured only to the adjacent vertex)
+    can look aligned even though the edge, as a whole, heads somewhere
+    completely different. Regression test: a real
     residential edge reported as sharing a street_id with another edge
     it only matched at the shared node itself, before visibly curving
     away from it."""
@@ -2714,3 +2712,146 @@ def test_recompute_main_paths_is_idempotent():
         streets3.sort_values("street_id").reset_index(drop=True),
         check_like=True,
     )
+
+
+def test_curvy_edge_merges_with_short_collinear_edge_despite_far_chord_drift():
+    """Bug repro: two unnamed, same-highway-rank edges meeting cleanly at
+    one shared node, with near-identical tangents there (~1 deg apart -
+    well inside every angle tolerance), must merge into one street_id
+    even when one of them is long and gently curves along its own length
+    (a real rural/mountain road tracking terrain).
+
+    The branch-drift point-to-line check in phase 2 (and its mirror in
+    ``_split_branching_street_ids``) used to test each edge's own RAW,
+    uncapped far (opposite) endpoint against the other edge's line. For
+    a long, gently curving edge that's the wrong test: the far endpoint
+    can easily drift more than ``touching_dist_m`` from the near-node
+    tangent line purely from the edge's own overall curvature, with
+    nothing wrong at the shared node itself. Real data hit exactly this:
+    two secondary-highway edges (one ~225m, one ~584m, both gently
+    curving) with tangents 115.5/116.5 deg apart at their shared node
+    were kept on separate street_ids.
+
+    This uses a similar shape: edge A is a long (~240m), gently curving
+    polyline (a discretized circular arc) whose LOCAL tangent at the
+    shared node N is due east, and edge B is a short, dead-straight
+    segment continuing east from N at a 1 deg tilt - collinear enough at
+    the node to belong to the same street, but edge A's own far endpoint
+    ends up over 100m off the node's tangent line, well past the default
+    15m touching distance.
+    """
+    import math as _math
+
+    G = nx.MultiDiGraph(crs="EPSG:3857")
+
+    # Edge A: a discretized arc of a circle (radius 200, sweeping ~68.7
+    # deg), from far node "A" up to shared node "N" at the origin. Built
+    # so its tangent AT "N" is exactly due east (angle 0), matching how a
+    # circle is tangent to its own chord's perpendicular at any point,
+    # while its far endpoint drifts far off that tangent line.
+    radius = 200.0
+    sweep_rad = 0.5  # ~28.6 deg
+    n_segments = 24
+    coords = []
+    for i in range(n_segments, -1, -1):
+        t = -sweep_rad * i / n_segments
+        x = radius * math.sin(t)
+        y = radius * (1 - math.cos(t))
+        coords.append((x, y))
+    # coords[0] is node "A" (far end), coords[-1] is (0, 0) == node "N".
+    node_a_xy = coords[0]
+    assert coords[-1] == (0.0, 0.0)
+
+    edge_a = LineString(coords)
+    edge_a_rev = LineString(list(reversed(coords)))
+    far_drift = radius * (1 - _math.cos(sweep_rad))
+    assert far_drift > 15.0  # comfortably past the default touching_dist_m
+
+    G.add_node("A", x=node_a_xy[0], y=node_a_xy[1])
+    G.add_node("N", x=0.0, y=0.0)
+    G.add_edge(
+        "A", "N", 0, highway="secondary", name=None, geometry=edge_a,
+        length=edge_a.length, osmid=1,
+    )
+    G.add_edge(
+        "N", "A", 0, highway="secondary", name=None, geometry=edge_a_rev,
+        length=edge_a_rev.length, osmid=1,
+    )
+
+    # Edge B: short, straight, continuing east from N at a 1 deg tilt -
+    # near-identical (not exact) tangent to edge A's ~0 deg at N.
+    tilt = math.radians(1.0)
+    node_b_xy = (100.0 * math.cos(tilt), 100.0 * math.sin(tilt))
+    _add_edge(G, "N", "B", (0.0, 0.0), node_b_xy, highway="secondary", name=None, osmid=2)
+
+    _, edges_gdf, streets_df = street_ids.label_streets(G)
+
+    a_id = street_id_of(edges_gdf, "A", "N")
+    b_id = street_id_of(edges_gdf, "N", "B")
+    assert a_id == b_id
+    assert len(streets_df) == 1
+
+
+def test_fuzzy_named_merge_gives_every_edge_the_same_final_street_name():
+    """Naming invariant: once two edges with different literal OSM name
+    strings share a street_id (here via fuzzy name matching - "Nationale
+    5" vs. "Douala-Bafoussam (N5)"), EVERY edge under that street_id must
+    report the SAME final ``street_name`` - not each edge's own raw OSM
+    string. Real gap found via real-data testing: the final per-edge
+    ``street_name`` used to always prefer an edge's own literal OSM name
+    over the group's representative name, so two edges sharing one
+    street_id could end up with two different ``street_name`` values."""
+    G = nx.MultiDiGraph(crs="EPSG:3857")
+    _add_edge(G, 0, 1, (0, 0), (200, 0), name="Nationale 5")
+    _add_edge(G, 1, 2, (200, 0), (400, 0), name="Douala-Bafoussam (N5)")
+
+    _, edges_gdf, streets_df = street_ids.label_streets(G)
+
+    assert len(streets_df) == 1
+    names = {
+        edges_gdf.loc[(0, 1, 0), "street_name"],
+        edges_gdf.loc[(1, 2, 0), "street_name"],
+    }
+    assert len(names) == 1
+    assert names == {streets_df.loc[0, "street_name"]}
+
+
+def test_named_non_drivable_edge_is_not_donated_to_a_differently_named_road():
+    """Naming invariant: a non-drivable edge with its OWN real name (e.g.
+    a footway called "Sentier des Fleurs") must never be donated to a
+    nearby drivable street_id with a genuinely different name (e.g.
+    "Avenue Kennedy"), even if it runs alongside that road closely enough
+    to otherwise qualify for the coverage-based donation pass. Real gap
+    found via real-data testing: ``_coverage_donate_non_drivable_edges``
+    had no name check at all, so a named footway running the length of a
+    named road silently lost its own identity and adopted the road's
+    name/street_id."""
+    G = nx.MultiDiGraph(crs="EPSG:3857")
+    _add_edge(G, 0, 1, (0, 0), (200, 0), highway="primary", name="Avenue Kennedy", osmid=1)
+    _add_edge(G, 10, 11, (0, 5), (200, 5), highway="footway", name="Sentier des Fleurs", osmid=2)
+
+    _, edges_gdf, streets_df = street_ids.label_streets(G)
+
+    road_id = street_id_of(edges_gdf, 0, 1)
+    footway_id = street_id_of(edges_gdf, 10, 11)
+    assert road_id != footway_id
+    assert edges_gdf.loc[(10, 11, 0), "street_name"] == "Sentier des Fleurs"
+    assert len(streets_df) == 2
+
+
+def test_unnamed_non_drivable_edge_adopts_donated_road_name():
+    """Invariant #3: an unnamed non-drivable edge (a footway with no OSM
+    name) donated to a nearby named drivable street_id via the coverage
+    pass adopts that street's own name in the final output, not just its
+    street_id."""
+    G = nx.MultiDiGraph(crs="EPSG:3857")
+    _add_edge(G, 0, 1, (0, 0), (200, 0), highway="primary", name="Avenue Kennedy", osmid=1)
+    _add_edge(G, 10, 11, (0, 5), (200, 5), highway="footway", name=None, osmid=2)
+
+    _, edges_gdf, streets_df = street_ids.label_streets(G)
+
+    road_id = street_id_of(edges_gdf, 0, 1)
+    footway_id = street_id_of(edges_gdf, 10, 11)
+    assert road_id == footway_id
+    assert edges_gdf.loc[(10, 11, 0), "street_name"] == "Avenue Kennedy"
+    assert len(streets_df) == 1

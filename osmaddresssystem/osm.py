@@ -952,6 +952,57 @@ def libraries(bounds: gpd.GeoDataFrame | gpd.GeoSeries) -> gpd.GeoDataFrame:
     return pois.to_crs(bounds.crs)
 
 
+def chiefferies(bounds: gpd.GeoDataFrame | gpd.GeoSeries) -> gpd.GeoDataFrame:
+    """Fetch traditional chief's-palace ("chefferie") points/ways/relations
+    from OSM via Overpass.
+
+    There's no single standard OSM tag for a chefferie in Cameroon data,
+    so this queries every plausible candidate at once: ``amenity=townhall``
+    (the most common approximation for a local seat of traditional
+    authority), ``historic=chieftaincy``, ``building=palace``, and
+    ``office=government`` + ``government=palace``, plus a name match on
+    "chefferie"/"palais"/"lamido"/"Fon's" (French/English terms for a
+    chief's palace) as a fallback for anything tagged some other way
+    entirely. The name match requires "Fon's" (with the apostrophe), not
+    bare "Fon" - plenty of unrelated place names in this region (e.g.
+    "Fondjomekwet") start with those three letters.
+
+    Args:
+        bounds: Area to query and to reproject results back to.
+
+    Returns:
+        A GeoDataFrame of matching features, reprojected to ``bounds``'s CRS.
+    """
+    query = """
+        [out:json][timeout:60];
+        (
+            node["amenity"="townhall"]({{bbox}});
+            way["amenity"="townhall"]({{bbox}});
+            relation["amenity"="townhall"]({{bbox}});
+
+            node["historic"="chieftaincy"]({{bbox}});
+            way["historic"="chieftaincy"]({{bbox}});
+            relation["historic"="chieftaincy"]({{bbox}});
+
+            node["building"="palace"]({{bbox}});
+            way["building"="palace"]({{bbox}});
+            relation["building"="palace"]({{bbox}});
+
+            node["office"="government"]["government"="palace"]({{bbox}});
+            way["office"="government"]["government"="palace"]({{bbox}});
+            relation["office"="government"]["government"="palace"]({{bbox}});
+
+            node["name"~"[Cc]hefferie|[Pp]alais|[Ll]amido|[Ff]on's",i]({{bbox}});
+            way["name"~"[Cc]hefferie|[Pp]alais|[Ll]amido|[Ff]on's",i]({{bbox}});
+            relation["name"~"[Cc]hefferie|[Pp]alais|[Ll]amido|[Ff]on's",i]({{bbox}});
+        );
+        (._;>;);
+        out body;
+    """
+    pois = overpass_api_query(query, bounds)
+    return pois.to_crs(bounds.crs)
+
+
 def pharmacies(bounds: gpd.GeoDataFrame | gpd.GeoSeries) -> gpd.GeoDataFrame:
     """Fetch pharmacy points/ways/relations from OSM via Overpass.
 

@@ -40,6 +40,7 @@ from osmaddresssystem import (
     pipeline,
     street_direction,
     street_editor,
+    street_signs,
     subregions,
     utils,
 )
@@ -76,6 +77,7 @@ def process_subregion(
     edge_edits_csv_path = os.path.join(folder, "edge_edits.csv")
     editor_html_path = os.path.join(folder, "streets_editor.html")
     geocode_map_html_path = os.path.join(folder, "geocode_map.html")
+    street_signs_html_path = os.path.join(folder, "street_signs_map.html")
 
     already_generated = all(
         os.path.exists(p) for p in (nodes_path, edges_path, streets_gpkg_path, streets_csv_path)
@@ -118,6 +120,10 @@ def process_subregion(
             streets_gdf, geocode_map_html_path,
             numbering_mode=NUMBERING_MODE, direction_deg=direction_deg,
         )
+        intersections_gdf = street_signs.compute_intersections(nodes_gdf, edges_gdf, streets_gdf)
+        street_signs.build_street_signs_map(
+            streets_gdf, intersections_gdf, street_signs_html_path, edges_gdf=edges_gdf,
+        )
     else:
         print(f"{subregion_name!r} already generated, applying any pending edits")
         nodes_gdf = gpd.read_file(nodes_path).set_index("osmid")
@@ -139,6 +145,10 @@ def process_subregion(
         geocode_map.build_interactive_geocode_map(
             streets_gdf, geocode_map_html_path,
             numbering_mode=NUMBERING_MODE, direction_deg=direction_deg,
+        )
+        intersections_gdf = street_signs.compute_intersections(nodes_gdf, new_edges, streets_gdf)
+        street_signs.build_street_signs_map(
+            streets_gdf, intersections_gdf, street_signs_html_path, edges_gdf=new_edges,
         )
 
 

@@ -13,6 +13,7 @@ dependencies = [
     "rapidfuzz",
     "geopy",
     "folium>=0.20.0",
+    "python-igraph>=1.0.0",
 ]
 
 [build-system]

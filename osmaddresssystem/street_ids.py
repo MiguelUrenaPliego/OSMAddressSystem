@@ -13,6 +13,7 @@ import osmnx as ox
 import pandas as pd
 import shapely
 from shapely.geometry.base import BaseGeometry
+from shapely.ops import substring as _shapely_substring
 
 from . import name_matching
 from .default_values import (
@@ -34,7 +35,8 @@ from .default_values import (
     DEFAULT_PARKING_SERVICE_VALUES,
     DEFAULT_PRIVATE_ACCESS_VALUES,
     DEFAULT_RANK,
-    DEFAULT_TANGENT_FRACTION,
+    DEFAULT_TANGENT_CONTINUATION_FRACTION,
+    DEFAULT_TANGENT_CONTINUATION_WINDOW_M,
     OSM_FALSY_TAG_VALUES,
 )
 
@@ -43,7 +45,6 @@ from .default_values import (
 # these used before all defaults moved to default_values.py) keeps
 # working unchanged - the canonical values themselves now live in
 # default_values.py, this module just uses them under its own names.
-_TANGENT_FRACTION = DEFAULT_TANGENT_FRACTION
 _CENTER_TANGENT_FRACTIONS = DEFAULT_CENTER_TANGENT_FRACTIONS
 _OSM_FALSY_TAG_VALUES = OSM_FALSY_TAG_VALUES
 
@@ -295,9 +296,8 @@ def _vectorized_is_parking(service: pd.Series, parking_service_values: set) -> p
 def _endpoint_angle_deg(geom: BaseGeometry, at_start: bool) -> float:
     """Tangent direction (deg) of the line at one of its endpoints, as an
     undirected orientation folded into [0, 180). The tangent is measured
-    from the endpoint to the point _TANGENT_FRACTION of the way along
-    the edge (from that same end), not the immediately adjacent vertex -
-    see _TANGENT_FRACTION.
+    from the endpoint to the immediately adjacent vertex - i.e. exactly
+    at the edge end, not inset some fraction of the way along the edge.
 
     Args:
         geom: The edge's line geometry.
@@ -308,8 +308,7 @@ def _endpoint_angle_deg(geom: BaseGeometry, at_start: bool) -> float:
         The undirected tangent angle in degrees, folded into [0, 180).
     """
     p0 = geom.coords[0] if at_start else geom.coords[-1]
-    frac = _TANGENT_FRACTION if at_start else 1 - _TANGENT_FRACTION
-    p1 = geom.interpolate(frac, normalized=True).coords[0]
+    p1 = geom.coords[1] if at_start else geom.coords[-2]
     dx, dy = p1[0] - p0[0], p1[1] - p0[1]
     # Rounded to avoid the interpolation above nudging an otherwise-exact
     # angle (e.g. two segments meant to be exactly 20 deg apart) across a
@@ -348,13 +347,9 @@ def _vectorized_endpoint_angles(
         tangents' raw compass bearing in [0, 360).
     """
     p0_start = shapely.get_coordinates(shapely.get_point(geometries, 0))
-    p1_start = shapely.get_coordinates(
-        shapely.line_interpolate_point(geometries, _TANGENT_FRACTION, normalized=True)
-    )
+    p1_start = shapely.get_coordinates(shapely.get_point(geometries, 1))
     p0_end = shapely.get_coordinates(shapely.get_point(geometries, -1))
-    p1_end = shapely.get_coordinates(
-        shapely.line_interpolate_point(geometries, 1 - _TANGENT_FRACTION, normalized=True)
-    )
+    p1_end = shapely.get_coordinates(shapely.get_point(geometries, -2))
 
     # Rounded for the same reason as _endpoint_angle_deg: interpolation
     # can nudge an otherwise-exact angle across a comparison threshold by
@@ -506,6 +501,137 @@ def _point_to_line_distance(
     if length == 0:
         return math.hypot(x0 - x1, y0 - y1)
     return abs((x0 - x1) * dy - (y0 - y1) * dx) / length
+
+
+def _capped_far_point(
+    geom: BaseGeometry, at_start: bool, max_dist: float
+) -> tuple[float, float]:
+    """A point along ``geom``, measured from its ``at_start`` end, capped
+    to at most ``max_dist`` away - for the branch-drift point-to-line
+    check's own "far" point (see its callers).
+
+    That check is meant to catch two edges that meet at a shared point,
+    head the same way, and then IMMEDIATELY curve apart - a local
+    fork - not to demand that either edge run straight over its ENTIRE
+    length. Using the edge's own raw opposite endpoint as "the far point"
+    conflates the two: a real, gently curving road (e.g. a rural road
+    tracking terrain) can easily drift more than ``max_dist`` from its
+    own near-node tangent line over a long span even though it never
+    forks - failing this check for every long edge regardless of how well
+    its immediate tangent matches at the node, a real bug found via
+    real-data testing (two collinear, unnamed, same-rank edges meeting
+    cleanly at one node, differing by ~1 deg in tangent, refused merging
+    because one of them ran ~500m and gently curved along the way).
+    Capping both sides' own "far" point to the same local ``max_dist``
+    keeps the check about immediate local straightness; genuine multi-hop
+    drift across a whole branch is still caught afterward, over the final
+    settled composition, by the branching invariant
+    (``_split_branching_street_ids``), exactly as intended.
+
+    Args:
+        geom: The edge's line geometry.
+        at_start: True if the near (shared) endpoint is ``geom``'s first
+            coordinate, False if it's the last.
+        max_dist: The cap, in the same units as the geometry's own
+            coordinates (meters for a projected CRS).
+
+    Returns:
+        The capped point, as an (x, y) tuple.
+    """
+    length = geom.length
+    if length <= 0:
+        return geom.coords[0]
+    dist = min(length, max_dist)
+    pos = dist if at_start else length - dist
+    return geom.interpolate(pos, normalized=False).coords[0]
+
+
+def _tangent_continuation_fraction(
+    short_geom: BaseGeometry,
+    short_at_start: bool,
+    long_geom: BaseGeometry,
+    long_at_start: bool,
+    corridor_width: float,
+    window_m: float,
+) -> float:
+    """What fraction of ``long_geom``'s own length NEAR THE SHARED NODE
+    (only the first ``window_m`` of it, not its full length) stays close
+    to the straight (two-sided, INFINITE-in-effect) line through the
+    shared node along ``short_geom``'s own immediate tangent there - see
+    DEFAULT_TANGENT_CONTINUATION_FRACTION.
+
+    Distinguishes a genuine gentle curve (most of the longer edge's own
+    length, near the node, stays within ``corridor_width`` of that
+    straight tangent line, even though the two edges' own WHOLE-EDGE
+    bearings can end up quite different) from a real fork (the edge
+    heads somewhere else for good almost immediately). The shorter
+    edge's own tangent is used as the reference direction since it's the
+    more locally reliable one - a short edge has had less length over
+    which to drift from its own initial direction.
+
+    Two things this deliberately does NOT do, both found to matter on
+    real data (streets several hundred meters long, gently curving the
+    whole way): the reference line is TWO-sided (extends past the node
+    in both directions, not just outward along short_geom's own tangent)
+    since a genuine "straight through" continuation runs the OPPOSITE
+    compass direction from short_geom's own tangent, not the same one;
+    and long_geom's own coverage is measured only within ``window_m`` of
+    the node, not over its full length - demanding a long street stay
+    within a fixed corridor for its ENTIRE length fails it for perfectly
+    ordinary curvature that only matters over enough distance, exactly
+    the false-negative this whole mechanism exists to avoid.
+
+    Args:
+        short_geom: The shorter of the two edges being compared - its
+            own tangent (at the shared node) sets the reference line.
+        short_at_start: True if the shared node is ``short_geom``'s
+            first coordinate, False if it's the last.
+        long_geom: The longer edge, whose own near-node coverage is
+            measured.
+        long_at_start: True if the shared node is ``long_geom``'s first
+            coordinate, False if it's the last.
+        corridor_width: How far from the reference line still counts as
+            "close" (same units as the geometries' own coordinates -
+            meters for a projected CRS).
+        window_m: How far along ``long_geom``, from the shared node, to
+            measure coverage over - the rest of a long edge (past this
+            distance) is ignored entirely.
+
+    Returns:
+        The covered fraction, in [0, 1] (0 if ``long_geom`` has no
+        length, or if the shared endpoint's own adjacent segment is
+        degenerate).
+    """
+    if long_geom.length <= 0:
+        return 0.0
+    coords = list(short_geom.coords)
+    p0 = coords[0] if short_at_start else coords[-1]
+    p1 = coords[1] if short_at_start else coords[-2]
+    dx, dy = p1[0] - p0[0], p1[1] - p0[1]
+    seg_len = math.hypot(dx, dy)
+    if seg_len == 0:
+        return 0.0
+    ux, uy = dx / seg_len, dy / seg_len
+    # Extended past window_m in BOTH directions from the node - a real
+    # "straight through" continuation runs the opposite compass
+    # direction from short_geom's own tangent, so a one-sided ray
+    # outward along that tangent would miss it entirely.
+    extend = window_m + short_geom.length + 1.0
+    p_neg = (p0[0] - ux * extend, p0[1] - uy * extend)
+    p_pos = (p0[0] + ux * extend, p0[1] + uy * extend)
+    corridor = shapely.LineString([p_neg, p_pos]).buffer(corridor_width, cap_style="flat")
+
+    long_length = long_geom.length
+    window = min(long_length, window_m)
+    near_geom = (
+        _shapely_substring(long_geom, 0, window)
+        if long_at_start
+        else _shapely_substring(long_geom, long_length - window, long_length)
+    )
+    if near_geom.length <= 0:
+        return 0.0
+    covered = near_geom.intersection(corridor)
+    return covered.length / near_geom.length
 
 
 def _farthest_point_pair(
@@ -1011,17 +1137,23 @@ def _split_branching_street_ids(
                     if find(i0, parent) == find(ik, parent):
                         continue
                     near0 = geometries[i0].coords[0] if at_start0 else geometries[i0].coords[-1]
-                    far0 = geometries[i0].coords[-1] if at_start0 else geometries[i0].coords[0]
                     neark = geometries[ik].coords[0] if at_startk else geometries[ik].coords[-1]
-                    fark = geometries[ik].coords[-1] if at_startk else geometries[ik].coords[0]
                     # Asymmetric by length - see the identical reasoning
                     # in _assign_external_street_ids_for_pass's own phase
                     # 2: checking a long edge's far point (possibly far
-                    # away) against a short edge's line is ill-posed. A
-                    # value <= 0 disables the check entirely (matches
-                    # every other 0-disables-it convention in this
-                    # module) rather than rejecting every pair outright.
+                    # away) against a short edge's line is ill-posed. Both
+                    # "far" points are also each capped to at most
+                    # touching_dist_m from the shared node (see
+                    # ``_capped_far_point``) rather than using either
+                    # edge's own raw opposite endpoint - see that phase's
+                    # own docstring for why an uncapped far point spuriously
+                    # rejects a real, gently curving street. A value <= 0
+                    # disables the check entirely (matches every other
+                    # 0-disables-it convention in this module) rather than
+                    # rejecting every pair outright.
                     if touching_dist_m and touching_dist_m > 0:
+                        far0 = _capped_far_point(geometries[i0], at_start0, touching_dist_m)
+                        fark = _capped_far_point(geometries[ik], at_startk, touching_dist_m)
                         if geometries[i0].length <= geometries[ik].length:
                             if _point_to_line_distance(far0, neark, fark) > touching_dist_m:
                                 continue
@@ -2004,6 +2136,8 @@ def _assign_external_street_ids_for_pass(
     direction_tolerance_deg: float,
     name_similarity_threshold: float,
     num_node_directions: int,
+    tangent_continuation_fraction: float = DEFAULT_TANGENT_CONTINUATION_FRACTION,
+    tangent_continuation_window_m: float = DEFAULT_TANGENT_CONTINUATION_WINDOW_M,
 ) -> dict[int, int]:
     """Assign a street_id to every EXTERNAL edge (``cluster_u_arr[i] !=
     cluster_v_arr[i]``) in one pass (drivable or non-drivable), via one
@@ -2120,7 +2254,7 @@ def _assign_external_street_ids_for_pass(
             x = parent[x]
         return x
 
-    def union(a: int, b: int, tol: float) -> bool:
+    def union(a: int, b: int, tol: float, angle_a: float | None = None, angle_b: float | None = None) -> bool:
         ra, rb = find(a), find(b)
         if ra == rb:
             return False
@@ -2133,7 +2267,21 @@ def _assign_external_street_ids_for_pass(
         # happen is a single pair whose own two bearings are already too
         # far apart getting merged just because each of them separately
         # made it into a big group some other way.
-        if _angle_diff(bearing_arr[a], bearing_arr[b]) > tol:
+        #
+        # angle_a/angle_b let a caller substitute a different angle for
+        # this specific check than bearing_arr's own whole-edge value -
+        # used ONLY by phase 2 below, and only once its own
+        # _tangent_continuation_fraction check has separately confirmed
+        # the longer edge genuinely keeps hugging the shorter edge's own
+        # local tangent for most of its length (see that check's own
+        # docstring for why whole-edge bearing alone isn't enough to
+        # decide a real curve from a real fork). Every other caller
+        # (phase 1's parallel grouping, and phase 2 whenever that check
+        # doesn't pass) leaves these at their default and gets the
+        # original whole-edge-bearing behavior, unchanged.
+        bearing_a = bearing_arr[a] if angle_a is None else angle_a
+        bearing_b = bearing_arr[b] if angle_b is None else angle_b
+        if _angle_diff(bearing_a, bearing_b) > tol:
             return False
         na, nb = names[ra], names[rb]
         if na and nb and not any(
@@ -2203,6 +2351,12 @@ def _assign_external_street_ids_for_pass(
             continue
         best_rank = min(r for _i, _a, r, _at_start in members)
         members = sorted(members)  # deterministic order, by edge index first
+        # Each edge's own LOCAL tangent angle at THIS node (start_angle/
+        # end_angle, whichever endpoint touches this node_id) - used
+        # below only as the override union() falls back to once
+        # _tangent_continuation_fraction has confirmed a genuine curve,
+        # not a fork (see union()'s own angle_a/angle_b docstring).
+        angle_by_i = {i: angle for i, angle, _r, _at_start in members}
         offset = _direction_bin_offset(
             [angle for _i, angle, _r, _at_start in members], num_node_directions
         )
@@ -2288,9 +2442,7 @@ def _assign_external_street_ids_for_pass(
                 if r0 == rk:
                     continue
                 near0 = geometries[i0].coords[0] if at_start0 else geometries[i0].coords[-1]
-                far0 = geometries[i0].coords[-1] if at_start0 else geometries[i0].coords[0]
                 neark = geometries[ik].coords[0] if at_startk else geometries[ik].coords[-1]
-                fark = geometries[ik].coords[-1] if at_startk else geometries[ik].coords[0]
                 # Asymmetric by length, same principle as
                 # _edges_are_truly_parallel: only the SHORTER edge's own
                 # far point is checked, against the LONGER edge's line -
@@ -2302,17 +2454,60 @@ def _assign_external_street_ids_for_pass(
                 # real bug found via real-data testing (two collinear
                 # named edges of very different lengths failing to merge
                 # this way).
+                # Both "far" points are also each capped to at most
+                # touching_dist_m from the shared node (see
+                # ``_capped_far_point``) rather than using either edge's
+                # own raw opposite endpoint - this check is only meant to
+                # catch an IMMEDIATE fork right at the node, and using the
+                # true far endpoint of a long-ish edge means even a
+                # perfectly clean, gently curving real street (like a
+                # rural road tracking terrain) drifts more than
+                # touching_dist_m from its own near-node tangent line
+                # over its full length, failing this check regardless of
+                # how well its immediate tangent matches at the node - a
+                # real bug found via real-data testing (two collinear,
+                # unnamed, same-rank edges meeting cleanly at one node,
+                # tangents ~1 deg apart, refused merging solely because
+                # one of them ran ~500m and gently curved along the way).
                 # A value <= 0 disables the check entirely (matches every
                 # other 0-disables-it convention in this module) rather
                 # than rejecting every pair outright.
                 if touching_dist_m and touching_dist_m > 0:
+                    far0 = _capped_far_point(geometries[i0], at_start0, touching_dist_m)
+                    fark = _capped_far_point(geometries[ik], at_startk, touching_dist_m)
                     if geometries[i0].length <= geometries[ik].length:
                         if _point_to_line_distance(far0, neark, fark) > touching_dist_m:
                             continue
                     else:
                         if _point_to_line_distance(fark, near0, far0) > touching_dist_m:
                             continue
-                union(i0, ik, direction_tolerance_deg)
+                # Local tangents already agree (same direction bin) and
+                # the branch-drift check above already passed - normally
+                # enough to merge. But if the two edges' own WHOLE-EDGE
+                # bearings disagree by more than direction_tolerance_deg,
+                # union() would otherwise still reject them; only rescue
+                # that case when the longer edge genuinely keeps hugging
+                # the shorter one's local tangent for MOST of its own
+                # length (a real curve), not just right at the node
+                # before forking off somewhere else for good - see
+                # _tangent_continuation_fraction and
+                # DEFAULT_TANGENT_CONTINUATION_FRACTION's own docstrings.
+                if _angle_diff(bearing_arr[i0], bearing_arr[ik]) > direction_tolerance_deg:
+                    if geometries[i0].length <= geometries[ik].length:
+                        short_geom, short_at_start = geometries[i0], at_start0
+                        long_geom, long_at_start = geometries[ik], at_startk
+                    else:
+                        short_geom, short_at_start = geometries[ik], at_startk
+                        long_geom, long_at_start = geometries[i0], at_start0
+                    corridor_width = touching_dist_m or 0.0
+                    if corridor_width <= 0 or _tangent_continuation_fraction(
+                        short_geom, short_at_start, long_geom, long_at_start,
+                        corridor_width, tangent_continuation_window_m,
+                    ) < tangent_continuation_fraction:
+                        continue
+                    union(i0, ik, direction_tolerance_deg, angle_by_i[i0], angle_by_i[ik])
+                else:
+                    union(i0, ik, direction_tolerance_deg)
 
     return {i: find(i) for i in external_idx}
 
@@ -2406,10 +2601,12 @@ def _coverage_donate_non_drivable_edges(
     drivable_idx: np.ndarray,
     geometries: np.ndarray,
     bearing_arr: np.ndarray,
+    name_arr: np.ndarray,
     street_id_arr: np.ndarray,
     threshold: float,
     coverage_fraction: float,
     parallel_angle_threshold_deg: float,
+    name_similarity_threshold: float,
 ) -> set[int]:
     """Reassign a non-drivable edge the DRIVABLE street_id it most
     belongs to, when almost its entire own length already runs near the
@@ -2465,6 +2662,8 @@ def _coverage_donate_non_drivable_edges(
             (deg) between a non-drivable edge and a candidate drivable
             edge for that drivable edge's own street_id to even be
             considered a candidate at all.
+        name_similarity_threshold: Minimum ``name_matching.name_similarity``
+            score (0-100) for two names to be considered the same street.
 
     Returns:
         The set of non-drivable row indices that were reassigned - these
@@ -2483,6 +2682,27 @@ def _coverage_donate_non_drivable_edges(
     if not drivable_by_sid:
         return reassigned
 
+    # A named non-drivable edge (e.g. a footway with its own real OSM
+    # name) is never donated to a drivable street_id whose own known
+    # name(s) don't fuzzy-match it - proximity/coverage/bearing alone
+    # otherwise silently erases a genuinely different, explicitly named
+    # street's identity by folding it into a nearby road's street_id, a
+    # real gap found via real-data testing (invariant: two edges with two
+    # different non-empty names must never share a street_id).
+    drivable_sid_names: dict[int, set] = defaultdict(set)
+    for sid, members in drivable_by_sid.items():
+        for j in members:
+            if name_arr[j] is not None:
+                drivable_sid_names[sid].add(name_arr[j])
+
+    def name_compatible(own_name, sid: int) -> bool:
+        if own_name is None:
+            return True
+        known = drivable_sid_names.get(sid)
+        if not known:
+            return True
+        return any(name_matching.names_match(own_name, other, name_similarity_threshold) for other in known)
+
     # Each drivable street_id's own buffer is built ONCE here and reused
     # for every non-drivable edge below, instead of being rebuilt fresh
     # for every single one - a real performance bug found via real-data
@@ -2499,6 +2719,7 @@ def _coverage_donate_non_drivable_edges(
         geom = geometries[i]
         if geom.length <= 0:
             continue
+        own_name = name_arr[i]
         candidate_local = tree.query(geom, predicate="dwithin", distance=threshold)
         eligible_sids: set[int] = set()
         for local_j in candidate_local:
@@ -2506,7 +2727,7 @@ def _coverage_donate_non_drivable_edges(
             if _angle_diff(bearing_arr[i], bearing_arr[j]) > parallel_angle_threshold_deg:
                 continue
             sid = int(street_id_arr[j])
-            if sid != -1:
+            if sid != -1 and name_compatible(own_name, sid):
                 eligible_sids.add(sid)
         if not eligible_sids:
             continue
@@ -3548,6 +3769,8 @@ def label_streets(
     non_drivable_coverage_fraction: float = DEFAULT_NON_DRIVABLE_COVERAGE_FRACTION,
     num_node_directions: int = DEFAULT_NUM_NODE_DIRECTIONS,
     main_path_angle_threshold_deg: float = DEFAULT_MAIN_PATH_ANGLE_THRESHOLD_DEG,
+    tangent_continuation_fraction: float = DEFAULT_TANGENT_CONTINUATION_FRACTION,
+    tangent_continuation_window_m: float = DEFAULT_TANGENT_CONTINUATION_WINDOW_M,
 ) -> tuple[gpd.GeoDataFrame, gpd.GeoDataFrame, pd.DataFrame]:
     """Assign consistent street identities to a street network graph's edges.
 
@@ -3749,6 +3972,25 @@ def label_streets(
             already-identified main path should still be numbered as one
             continuous line through a real corner. Default 90 deg only
             splits at a turn sharper than a right angle.
+        tangent_continuation_fraction: Minimum fraction (0-1) of the
+            LONGER edge's own length, within ``tangent_continuation_window_m``
+            of the shared node, that must stay within
+            ``parallel_pass_touching_dist_m`` of the SHORTER edge's own
+            local tangent line (extended BOTH ways through the node) for
+            step 2b's per-node_id direction assignment to still merge two
+            edges whose whole-edge bearings disagree by more than
+            ``node_direction_tolerance_deg`` - see
+            ``_tangent_continuation_fraction``. Distinguishes a genuine
+            gentle curve (most of the edge, near the node, stays close to
+            the straight tangent) from a real fork (only a short stretch
+            near the node does) even though both can look identical by
+            local tangent alone.
+        tangent_continuation_window_m: How far along the longer edge,
+            from the shared node, ``tangent_continuation_fraction`` is
+            measured over - the rest of a long edge is ignored entirely,
+            so a real, long, gently curving street isn't penalized for
+            drifting past a fixed corridor width only once accumulated
+            over hundreds of meters.
 
     Returns:
         A tuple ``(nodes_gdf, edges_gdf, streets_df)``:
@@ -3922,7 +4164,7 @@ def label_streets(
             bearing_arr, all_geometries, center_segments, start_angle, end_angle,
             parallel_pass_touching_dist_m, parallel_pass_non_touching_dist_m,
             parallel_angle_threshold_deg, node_direction_tolerance_deg, name_similarity_threshold,
-            num_node_directions,
+            num_node_directions, tangent_continuation_fraction, tangent_continuation_window_m,
         )
         groups: dict[int, list[int]] = defaultdict(list)
         for i, root in roots.items():
@@ -3957,9 +4199,9 @@ def label_streets(
     never_main_eids.update(
         eids[i]
         for i in _coverage_donate_non_drivable_edges(
-            non_drivable_idx, drivable_idx, all_geometries, bearing_arr, street_id_arr,
+            non_drivable_idx, drivable_idx, all_geometries, bearing_arr, name_arr, street_id_arr,
             parallel_pass_touching_dist_m, non_drivable_coverage_fraction,
-            parallel_angle_threshold_deg,
+            parallel_angle_threshold_deg, name_similarity_threshold,
         )
     )
 
@@ -4071,22 +4313,24 @@ def label_streets(
         if sid not in rep_key or key < rep_key[sid][0]:
             rep_key[sid] = (key, i)
 
-    # Per-edge street_name: an edge's own original OSM name (name_arr[i],
-    # already stripped by _clean_name but otherwise untouched) always
-    # wins over the group's representative name - only an edge with no
-    # OSM name of its own falls back to the representative's name (e.g.
-    # an unnamed connector that got a name donated from a nearby named
-    # street via the parallel-grouping step; see "Naming an unnamed road
-    # from a nearby named one"). This is deliberately different from
-    # streets_df's own street_name (still the group representative's
-    # name, used for e.g. upload_street_names_OSM.md), which is
-    # unaffected.
+    # Per-edge street_name: every edge sharing a street_id gets that
+    # street_id's own single representative name (same value
+    # streets_df reports), never its own raw OSM name - an edge with no
+    # OSM name of its own is named this way too (e.g. an unnamed
+    # connector that got a name donated from a nearby named street via
+    # the parallel-grouping step; see "Naming an unnamed road from a
+    # nearby named one"). Two edges can share a street_id despite
+    # carrying different literal OSM name strings (fuzzy name matching -
+    # e.g. "Nationale 5" and "Douala-Bafoussam (N5)" - or rank-crossing
+    # name-match-overrides-rank) - keeping each edge's own literal string
+    # in that case would put two different ``street_name`` values under
+    # one ``street_id``, breaking the invariant that every edge sharing a
+    # street_id carries that street's own single name (a real gap found
+    # via real-data testing).
     edge_street_id = street_id_arr
     edge_street_name = [
-        own_name
-        if not pd.isna(own_name)
-        else (name_arr[rep_key[sid][1]] if sid in rep_key else None)
-        for own_name, sid in zip(name_arr, edge_street_id)
+        name_arr[rep_key[sid][1]] if sid in rep_key else None
+        for sid in edge_street_id
     ]
 
     eid_to_pos = {eid: i for i, eid in enumerate(eids)}
