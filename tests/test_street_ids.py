@@ -28,11 +28,13 @@ def make_graph(edges, crs="EPSG:3857"):
 
 
 def arm(angle_deg, length=100.0):
+    """Test helper: arm."""
     rad = math.radians(angle_deg)
     return (length * math.cos(rad), length * math.sin(rad))
 
 
 def street_id_of(edges_gdf, u, v):
+    """Test helper: street id of."""
     return edges_gdf.loc[(u, v, 0), "street_id"]
 
 
@@ -302,10 +304,12 @@ def test_idealized_grid_rows_and_columns(rows, cols):
     streets_by_id = streets_df.set_index("street_id")
 
     def id_of(u, v):
+        """Test helper: id of."""
         row = edges_reset.loc[(edges_reset["u"] == u) & (edges_reset["v"] == v)]
         return row["street_id"].iloc[0]
 
     def node(r, c):
+        """Test helper: node."""
         return r * cols + c
 
     for r in range(rows):
@@ -382,6 +386,7 @@ def test_irregular_grid_wiggle_tolerated_kink_splits():
     streets_by_id = streets_df.set_index("street_id")
 
     def row_ids(r):
+        """Test helper: row ids."""
         return edges_reset.loc[
             (edges_reset["u"] // cols == r) & (edges_reset["v"] // cols == r), "street_id"
         ]
@@ -399,6 +404,7 @@ def test_irregular_grid_wiggle_tolerated_kink_splits():
     assert kink_row_ids.nunique() == 2
 
     def id_of(c_from, c_to):
+        """Test helper: id of."""
         u, v = kink_row * cols + c_from, kink_row * cols + c_to
         row = edges_reset.loc[(edges_reset["u"] == u) & (edges_reset["v"] == v)]
         return row["street_id"].iloc[0]
@@ -489,6 +495,7 @@ def test_streets_df_osmids_collects_and_flattens_all_ways_in_a_street():
     G.add_node(2, x=200, y=0)
 
     def add_edge(u, v, osmid):
+        """Test helper: add edge."""
         ux, uy = G.nodes[u]["x"], G.nodes[u]["y"]
         vx, vy = G.nodes[v]["x"], G.nodes[v]["y"]
         fwd = LineString([(ux, uy), (vx, vy)])
@@ -510,6 +517,7 @@ def test_streets_df_osmids_collects_and_flattens_all_ways_in_a_street():
 
 
 def _add_edge(G, u, v, uxy, vxy, highway="residential", name=None, osmid=1, key=0, **attrs):
+    """Test helper: add edge."""
     G.add_node(u, x=uxy[0], y=uxy[1])
     G.add_node(v, x=vxy[0], y=vxy[1])
     fwd = LineString([uxy, vxy])
@@ -778,6 +786,7 @@ def test_dual_carriageway_group_merge_is_order_independent(order):
     _, edges_gdf, _ = street_ids.label_streets(G)
 
     def sid_of(u, v):
+        """Test helper: sid of."""
         row = edges_gdf.loc[(u, v, 0)]
         return row["street_id"]
 
@@ -1474,7 +1483,15 @@ def test_min_street_length_m_does_not_force_a_branching_merge():
     to the FINAL composition after every reassignment step, now splits
     any such forced merge back apart - the connector and the too-short
     street each end up on their own separate id instead, never forming
-    a branch with the long street or with each other."""
+    a branch with the long street or with each other.
+
+    Updated for the "minimum street length is absolute" rule (see
+    ``_force_reassign_remaining_short_streets``): whatever the earlier
+    steps do, a street_id whose main path is still under
+    ``min_street_length_m`` at the very end is force-merged into the
+    nearest valid street_id, overriding the branching/connectivity
+    invariants. The old expectation (short pieces stay separate) now only
+    holds with ``min_street_length_m=0``."""
     G = nx.MultiDiGraph(crs="EPSG:3857")
     _add_edge(G, 0, 1, (0, 0), (300, 0), highway="residential", osmid=1)  # 300m: valid
     _add_edge(G, 10, 11, (300, 25), (340, 25), highway="residential", osmid=2)  # 40m: too short, 25m away
@@ -1486,9 +1503,14 @@ def test_min_street_length_m_does_not_force_a_branching_merge():
     short_id = street_id_of(edges_gdf, 10, 11)
     connector_id = street_id_of(edges_gdf, 1, 10)
     assert pd.notna(long_id)
-    # None of the three end up sharing a street_id with either of the
-    # other two - no branch, anywhere.
-    assert len({long_id, short_id, connector_id}) == 3
+    # The 40 m and 25 m pieces are too short (default min_street_length_m) and are force-merged into
+    # the long street: one street_id remains.
+    assert len({long_id, short_id, connector_id}) == 1
+
+    # With the minimum disabled the branching invariant alone applies: none of the three share an id.
+    _, edges_free, _ = street_ids.label_streets(G, parallel_dist_m=30, min_street_length_m=0)
+    ids = {street_id_of(edges_free, 0, 1), street_id_of(edges_free, 10, 11), street_id_of(edges_free, 1, 10)}
+    assert len(ids) == 3
 
 
 def test_min_street_length_m_nearest_fallback_disabled_when_parallel_dist_m_is_disabled():
@@ -1498,17 +1520,26 @@ def test_min_street_length_m_nearest_fallback_disabled_when_parallel_dist_m_is_d
     invariant exactly. With the library default (parallel_dist_m=0,
     disabled), a too-short street with no touching candidate stays on
     its own separate street_id no matter how close a valid candidate
-    is - only a literal touching match can redistribute it."""
+    is - only a literal touching match can redistribute it.
+
+    Updated for the "minimum street length is absolute" rule (see
+    ``_force_reassign_remaining_short_streets``): a street_id still under
+    ``min_street_length_m`` at the very end is force-merged into the
+    nearest valid street_id, ignoring ``parallel_dist_m``. The gated
+    behaviour now only holds with ``min_street_length_m=0``."""
     G = nx.MultiDiGraph(crs="EPSG:3857")
     _add_edge(G, 0, 1, (0, 0), (300, 0), highway="residential", osmid=1)  # 300m: valid
     _add_edge(G, 10, 11, (300, 25), (340, 25), highway="residential", osmid=2)  # 40m: too short, 25m away
 
-    _, edges_gdf, streets_df = street_ids.label_streets(G)
+    # The distance-gated fallback alone (minimum disabled): the short street stays separate.
+    _, edges_free, streets_free = street_ids.label_streets(G, min_street_length_m=0)
+    assert street_id_of(edges_free, 10, 11) != street_id_of(edges_free, 0, 1)
+    assert len(streets_free) == 2
 
-    long_id = street_id_of(edges_gdf, 0, 1)
-    short_id = street_id_of(edges_gdf, 10, 11)
-    assert short_id != long_id
-    assert len(streets_df) == 2
+    # With the default minimum the final force-merge ignores parallel_dist_m: one street remains.
+    _, edges_gdf, streets_df = street_ids.label_streets(G)
+    assert street_id_of(edges_gdf, 10, 11) == street_id_of(edges_gdf, 0, 1)
+    assert len(streets_df) == 1
 
 
 def test_min_street_length_m_prefers_a_touching_valid_street_over_a_nearer_one():
@@ -1916,7 +1947,15 @@ def test_connectivity_invariant_splits_non_parallel_non_touching_fragments():
     literal touching) counts as "connected" for the connectivity
     invariant. Regression test: two real, unrelated tunnel/footway edges
     reported as sharing a street_id despite neither touching nor running
-    parallel to each other (or to whatever they were merged via)."""
+    parallel to each other (or to whatever they were merged via).
+
+    Updated for the "minimum street length is absolute" rule (see
+    ``_force_reassign_remaining_short_streets``): whatever the earlier
+    steps do, a street_id whose main path is still under
+    ``min_street_length_m`` at the very end is force-merged into the
+    nearest valid street_id, overriding the branching/connectivity
+    invariants. The old expectation (short pieces stay separate) now only
+    holds with ``min_street_length_m=0``."""
     G = nx.MultiDiGraph(crs="EPSG:3857")
     # Long valid target street.
     _add_edge(G, "M0", "M1", (0, 0), (0, 300), highway="residential", osmid=1)
@@ -1939,8 +1978,14 @@ def test_connectivity_invariant_splits_non_parallel_non_touching_fragments():
     a_id = street_id_of(edges_gdf, "A0", "A1")
     b_id = street_id_of(edges_gdf, "B0", "B1")
     assert a_id == target_id
-    assert b_id != target_id
-    assert b_id != a_id
+    # B (18 m) is under min_street_length_m=150: the final force-merge puts it back on the target.
+    assert b_id == target_id
+
+    # The connectivity invariant itself (minimum disabled): B is split off from both A and the target.
+    _, edges_free, _ = street_ids.label_streets(G, node_cluster_m=0, min_street_length_m=0, parallel_dist_m=10)
+    t_id, a2, b2 = (street_id_of(edges_free, "M0", "M1"), street_id_of(edges_free, "A0", "A1"),
+                    street_id_of(edges_free, "B0", "B1"))
+    assert b2 != t_id and b2 != a2
 
 
 def test_parallel_grouping_does_not_merge_collinear_edges_that_never_overlap():

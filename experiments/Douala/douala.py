@@ -153,6 +153,7 @@ def process_subregion(
 
 
 def main():
+    """Download Bonamoussadi's streets and run the address pipeline for its subregions."""
     # get_town_aoi (used internally by download_town_streets) resolves
     # to the FINEST OSM boundary containing the point - for a point in
     # Bonamoussadi that's its own district (e.g. "Douala 5ème" or

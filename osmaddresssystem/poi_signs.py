@@ -65,6 +65,20 @@ _SIGN_TYPE_MIN, _SIGN_TYPE_MAX = 1, 3
 
 @dataclass
 class PointOfInterest:
+    """A point of interest that can appear on direction signs.
+
+    Attributes:
+        name: Display name.
+        description: Optional description.
+        icon: Emoji or icon shown on the sign.
+        sign_type: Sign style (1 name+distance, 2 name, 3 icon only).
+        max_distance: Maximum routing distance in metres at which it is signed.
+        node_rank: Minimum intersection rank at which it is signed.
+        min_distance: Minimum distance in metres before it is signed.
+        detail_distance: Distance below which the detailed sign is used.
+        detail_node_rank: Intersection rank for the detailed sign.
+        geometry: Shapely geometry in EPSG:4326.
+    """
     name: str
     description: str | None
     icon: str
@@ -78,6 +92,7 @@ class PointOfInterest:
 
     @property
     def is_polygon(self) -> bool:
+        """Whether the POI geometry is a polygon or multipolygon."""
         return self.geometry.geom_type in ("Polygon", "MultiPolygon")
 
 
@@ -148,12 +163,26 @@ def merge_nearby_pois(pois: list[PointOfInterest], buffer_m: float = 100.0) -> l
     parent = list(range(len(points)))
 
     def find(a: int) -> int:
+        """Union-find lookup with path compression.
+
+        Args:
+            x: Element index.
+
+        Returns:
+            The representative (root) of ``x``'s set.
+        """
         while parent[a] != a:
             parent[a] = parent[parent[a]]
             a = parent[a]
         return a
 
     def union(a: int, b: int) -> None:
+        """Merge the sets of two elements.
+
+        Args:
+            a: First element index.
+            b: Second element index.
+        """
         ra, rb = find(a), find(b)
         if ra != rb:
             parent[ra] = rb

@@ -93,11 +93,21 @@ def _parse_gitignore(gitignore_path: Path):
 
 
 def main():
+    """Report files above the size limit that are not git-ignored."""
     # (base_dir, patterns) pairs, root-to-leaf order; each pattern list is
     # matched against paths relative to its own base_dir.
     stack = [(ROOT, _parse_gitignore(ROOT / ".gitignore"))]
 
     def is_ignored(path: Path, is_dir: bool) -> bool:
+        """Tell whether a path is git-ignored by the stacked ``.gitignore`` rules.
+
+        Args:
+            path: Path to test.
+            is_dir: Whether the path is a directory.
+
+        Returns:
+            True when ignored.
+        """
         ignored = False
         for base, patterns in stack:
             rel = path.relative_to(base).as_posix()

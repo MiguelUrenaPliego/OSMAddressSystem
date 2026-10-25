@@ -42,7 +42,7 @@ def _house_number_from_distance(
     number: even on the right, odd on the left, per "Left/right
     numbering" in report/street_numbering.md.
 
-    ``round(distance_m / number_divisor_m)`` picks a base number common
+    ``round(distance_m / number_divisor_m)`` (halves rounded up) picks a base number common
     to both sides, then that base is nudged to the nearest number of the
     required parity for ``side`` (never down past the minimum for that
     side - see below). This means each side's own numbers climb
@@ -65,12 +65,92 @@ def _house_number_from_distance(
     if side not in ("left", "right"):
         raise ValueError(f"side must be 'left' or 'right', got {side!r}")
 
-    base = int(round(distance_m / number_divisor_m))
+    # Half up (not Python's round-half-even) so this agrees exactly with the browser's Math.round
+    # used by the geocode map's JavaScript.
+    base = int(math.floor(distance_m / number_divisor_m + 0.5))
     wants_even = side == "right"
     if (base % 2 == 0) != wants_even:
         base += 1
     minimum = 2 if wants_even else 1
     return max(minimum, base)
+
+
+def number_letter(index: int) -> str:
+    """Letter suffix for the ``index``-th item (0-based) of a crowded number slot.
+
+    Args:
+        index: 0 for ``A``, 1 for ``B``, ... 25 for ``Z``, 26 for ``AA``.
+
+    Returns:
+        The letter(s).
+    """
+    letters = ""
+    index += 1
+    while index > 0:
+        index, rem = divmod(index - 1, 26)
+        letters = chr(ord("A") + rem) + letters
+    return letters
+
+
+def add_letters(numbers: list[int], slots: list, order: list) -> list[str]:
+    """Number labels with a letter where several items share a number slot.
+
+    Items with the same ``slots`` value (e.g. street, side and number) are
+    ordered by ``order`` (position along the street, ties by input order) and
+    labelled ``12A``, ``12B``, ...; an item alone in its slot keeps its plain
+    number (``12``).
+
+    Args:
+        numbers: House or road number of each item.
+        slots: Hashable slot key of each item; items with equal keys collide.
+        order: Sort key of each item within its slot (e.g. distance along the street).
+
+    Returns:
+        One label per item, in input order.
+    """
+    groups: dict = {}
+    for i, key in enumerate(slots):
+        groups.setdefault(key, []).append(i)
+    labels = [str(n) for n in numbers]
+    for members in groups.values():
+        if len(members) > 1:
+            for rank, i in enumerate(sorted(members, key=lambda k: (order[k], k))):
+                labels[i] = f"{numbers[i]}{number_letter(rank)}"
+    return labels
+
+
+def profile_position(profile, distance_along: float) -> float:
+    """Numbering position of a point from its distance along the street line.
+
+    In path mode the position along a street is not its length but the change of the shortest
+    network distance to the reference, known at each node: ``profile`` lists
+    ``[length along the street, position]`` per node and the position is interpolated linearly.
+
+    Args:
+        profile: ``[[along, position], ...]`` sorted by ``along`` (or a JSON string of it), or
+            None/empty to use ``distance_along`` unchanged.
+        distance_along: Distance along the street line from its start, in metres.
+
+    Returns:
+        The numbering position in metres.
+    """
+    import json
+
+    if profile is None or (isinstance(profile, float) and pd.isna(profile)) or profile == "":
+        return distance_along
+    pts = json.loads(profile) if isinstance(profile, str) else profile
+    if not pts:
+        return distance_along
+    xs = [p[0] for p in pts]
+    ys = [p[1] for p in pts]
+    if distance_along <= xs[0]:
+        return ys[0]
+    if distance_along >= xs[-1]:
+        return ys[-1]
+    for (x0, y0), (x1, y1) in zip(pts, pts[1:]):
+        if x0 <= distance_along <= x1:
+            return y0 if x1 == x0 else y0 + (y1 - y0) * (distance_along - x0) / (x1 - x0)
+    return distance_along
 
 
 def _side_of_line(point: Point, line) -> str:
@@ -159,6 +239,15 @@ def assign_house_numbers(
     edges_gdf = edges_gdf.copy()
 
     def _to_number(length_m, side):
+        """Convert a distance along the street to a house number.
+
+        Args:
+            length_m: Distance in metres from the street origin, or NaN.
+            side: Side of the street (left/right).
+
+        Returns:
+            The house number, or None when the distance is missing.
+        """
         if pd.isna(length_m):
             return None
         return _house_number_from_distance(length_m, number_divisor_m, side)
@@ -308,6 +397,7 @@ def geocode_points(
     streets_gdf: gpd.GeoDataFrame,
     points: Iterable[tuple[float, float]],
     number_divisor_m: float = DEFAULT_NUMBER_DIVISOR_M,
+    letter_duplicates: bool = True,
 ) -> list[str]:
     """Reverse-geocode points to formatted address strings.
 
@@ -331,6 +421,9 @@ def geocode_points(
             projected CRS, indexed however the caller likes.
         points: ``(x, y)`` points, in ``streets_gdf``'s own CRS.
         number_divisor_m: Meters of cumulative length per house number.
+        letter_duplicates: If True (default), points of this call that fall into the same
+            street, side and house number get a letter after the number (``12A``,
+            ``12B``), ordered by distance along the street.
 
     Returns:
         One formatted address string per input point, in order.
@@ -346,16 +439,20 @@ def geocode_points(
     ]
 
     sindex = streets_gdf.sindex
-    results = []
+    rows = []
 
     for x, y in points:
         point = Point(x, y)
         nearest_pos = sindex.nearest(point, return_all=False)[1][0]
         street_row = streets_gdf.iloc[nearest_pos]
 
-        _distance_along, _side, house_number = _project_point_onto_street(
+        distance_along, side, house_number = _project_point_onto_street(
             point, street_row.geometry, number_divisor_m
         )
+        profile = street_row.get("path_profile")
+        if profile is not None and not (isinstance(profile, float) and pd.isna(profile)) and profile != "":
+            distance_along = profile_position(profile, distance_along)
+            house_number = _house_number_from_distance(distance_along, number_divisor_m, side)
 
         street_name = street_row.get("street_name")
         if street_name is None or (isinstance(street_name, float) and pd.isna(street_name)) or street_name == "":
@@ -363,13 +460,19 @@ def geocode_points(
         else:
             label = street_name
 
-        parts = [str(house_number), label]
+        tail = [label]
         for column in admin_columns:
             value = street_row.get(column)
             if value is None or (isinstance(value, float) and pd.isna(value)) or value == "":
                 continue
-            parts.append(str(value))
+            tail.append(str(value))
 
-        results.append(", ".join(parts))
+        rows.append((house_number, (nearest_pos, side, house_number), distance_along, tail))
 
-    return results
+    numbers = [r[0] for r in rows]
+    labels = (
+        add_letters(numbers, [r[1] for r in rows], [r[2] for r in rows])
+        if letter_duplicates
+        else [str(n) for n in numbers]
+    )
+    return [", ".join([lab, *r[3]]) for lab, r in zip(labels, rows)]

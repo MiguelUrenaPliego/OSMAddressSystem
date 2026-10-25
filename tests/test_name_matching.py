@@ -4,15 +4,18 @@ from osmaddresssystem.name_matching import extract_route_number, name_similarity
 
 
 def test_identical_names_match():
+    """Check identical names match."""
     assert names_match("Elm Street", "Elm Street")
 
 
 def test_case_and_accent_insensitive():
+    """Check case and accent insensitive."""
     assert names_match("Boulevard de la Liberte", "Boulevard de la Liberté")
     assert names_match("RUE DE LA PAIX", "rue de la paix")
 
 
 def test_common_abbreviations_match():
+    """Check common abbreviations match."""
     assert names_match("Elm Street", "Elm St")
     assert names_match("Avenue Kennedy", "Av. Kennedy")
 
@@ -42,16 +45,19 @@ def test_route_number_only_recognized_next_to_a_route_marker():
 
 
 def test_unrelated_names_do_not_match():
+    """Check unrelated names do not match."""
     assert not names_match("Rue de la Paix", "Boulevard Central")
 
 
 def test_empty_or_none_names_never_match():
+    """Check empty or none names never match."""
     assert not names_match("", "Elm Street")
     assert not names_match("Elm Street", "")
     assert not names_match(None, "Elm Street")
 
 
 def test_threshold_is_configurable():
+    """Check threshold is configurable."""
     score = name_similarity("Elm Street", "Elm Streat")  # one-letter typo
     assert 0 < score < 100
     assert names_match("Elm Street", "Elm Streat", threshold=score - 1)

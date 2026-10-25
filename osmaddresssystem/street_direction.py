@@ -10,6 +10,7 @@ import pandas as pd
 from .default_values import (
     DEFAULT_DIRECTION_DEG,
     DEFAULT_NUMBERING_MODE,
+    DEFAULT_PATH_HIGH_RANK_MAX,
     DEFAULT_TRANSVERSAL_ROAD_PCT,
 )
 
@@ -109,6 +110,8 @@ def assign_street_directionality(
     transversal_road_pct: float = DEFAULT_TRANSVERSAL_ROAD_PCT,
     numbering_mode: str = DEFAULT_NUMBERING_MODE,
     direction_deg: float = DEFAULT_DIRECTION_DEG,
+    node_distances: dict | pd.Series | None = None,
+    path_high_rank_max: int = DEFAULT_PATH_HIGH_RANK_MAX,
 ) -> tuple[gpd.GeoDataFrame, pd.DataFrame]:
     """Classify each street and give every edge a position along its
     street's own canonical numbering, using one of two
@@ -117,6 +120,12 @@ def assign_street_directionality(
     - ``"radial"`` (default): classification/numbering relative to a
       center point, ``origin`` — see below. Suited to towns that grew
       outward from a center.
+    - ``"path"``: positions are shortest *network* distances to the reference point
+      ``origin`` (see ``path_numbering``): every node is positioned as its distance to the
+      reference minus the distance of the street's start node, the node of the street nearest
+      to the reference, so numbering starts at 0 at the beginning of every street id. Pass
+      ``node_distances`` from ``path_numbering.node_distances`` (computed here when omitted);
+      streets should already have been cut with ``path_numbering.split_streets``.
     - ``"grid"``: classification/numbering relative to a fixed compass
       direction, ``direction_deg`` (0 = north, clockwise, default
       north), and its perpendicular 90° clockwise from it (east, by
@@ -222,17 +231,32 @@ def assign_street_directionality(
             clockwise) that defines the "primary" axis; its perpendicular
             (``direction_deg + 90``) defines the "cross" axis. Ignored in
             radial mode.
+        node_distances: Path mode only: distance to the reference of every node (a mapping or a
+            Series indexed by node id). Computed with ``path_numbering.node_distances`` when
+            omitted.
+        path_high_rank_max: Path mode only: maximum street rank of the high-rank network (used when
+            ``node_distances`` is computed here).
 
     Returns:
         A tuple ``(edges_gdf, streets_df)`` — copies of the inputs with
-        the columns described above added.
+        the columns described above added. Besides ``street_start_length_m``/
+        ``street_end_length_m`` every edge gets ``street_pos_u_m``/``street_pos_v_m``, the position
+        of its own ``u`` and ``v`` node along the street's numbering (0 at the street's start), which
+        gives the numbering direction of an edge regardless of its u/v order. In path mode
+        ``streets_df`` also gets ``path_profile`` (JSON ``[[along-street length, position], ...]``,
+        used to turn a point's position along the street line into its numbering position).
 
     Raises:
-        ValueError: If ``numbering_mode`` is not ``"radial"`` or
-            ``"grid"``.
+        ValueError: If ``numbering_mode`` is not ``"radial"``, ``"grid"`` or ``"path"``.
     """
-    if numbering_mode not in ("radial", "grid"):
-        raise ValueError(f"numbering_mode must be 'radial' or 'grid', got {numbering_mode!r}")
+    if numbering_mode not in ("radial", "grid", "path"):
+        raise ValueError(f"numbering_mode must be 'radial', 'grid' or 'path', got {numbering_mode!r}")
+    if numbering_mode == "path" and node_distances is None:
+        from . import path_numbering
+
+        node_distances, _ref = path_numbering.node_distances(
+            nodes_gdf, edges_gdf, origin, high_rank_max=path_high_rank_max
+        )
 
     origin_x, origin_y = origin
     node_xy = dict(zip(nodes_gdf.index, zip(nodes_gdf["x"], nodes_gdf["y"])))
@@ -257,10 +281,17 @@ def assign_street_directionality(
     )
     undirected = edges_reset.drop_duplicates("_pair").set_index("_pair")
 
+    net_deg: dict = {}                                    # roads per node in the whole network: 1 = a dead end, which no other route can reach
+    for u_, v_, _k in undirected.index:
+        net_deg[u_] = net_deg.get(u_, 0) + 1
+        net_deg[v_] = net_deg.get(v_, 0) + 1
     start_length: dict = {}
     end_length: dict = {}
+    node_pos: dict = {}
     street_total_length: dict = {}
     street_road_type: dict = {}
+    street_profile: dict = {}
+    dist_of = dict(node_distances) if node_distances is not None else {}
 
     for street_id, group in undirected.groupby("street_id"):
         # Rule 4: only walk/number a street_id's own main-path edges
@@ -305,7 +336,18 @@ def assign_street_directionality(
 
             comp_length = sum(d["length"] for _, _, d in comp.edges(data=True))
 
-            if numbering_mode == "grid":
+            if numbering_mode == "path":
+                dvals = {n: dist_of.get(n, float("nan")) for n in comp.nodes}
+                if any(math.isnan(x) for x in dvals.values()):
+                    continue  # nodes the reference cannot reach: not numbered
+                ends = [node_a, node_b] if node_a != node_b and len(comp.nodes) > 1 and max(dict(comp.degree()).values()) <= 2 else None
+                if ends is not None:                           # a street starts at one of its ends: the one with the smaller distance,
+                    both_dead = all(net_deg.get(n, 0) == 1 for n in ends)      # but a dead end is only reached through the street itself
+                    start_node = min(ends, key=lambda n: ((net_deg.get(n, 0) == 1 and not both_dead), dvals[n], str(n)))
+                else:
+                    start_node = min(dvals, key=lambda n: (dvals[n], str(n)))
+                road_type = "path"
+            elif numbering_mode == "grid":
                 bearing_ab = _bearing_deg(
                     node_xy[node_b][0] - node_xy[node_a][0],
                     node_xy[node_b][1] - node_xy[node_a][1],
@@ -337,14 +379,25 @@ def assign_street_directionality(
             cumulative = nx.single_source_dijkstra_path_length(
                 comp, start_node, weight="length"
             )
+            if numbering_mode == "path":
+                # position of a node = its distance along the street from the start node (the end with the smaller distance to the
+                # reference): the numbers rise as one advances, whatever the distance to the reference does on the way
+                position = {n: float(cumulative[n]) for n in comp.nodes}
+                is_path = len(comp.nodes) > 1 and max(dict(comp.degree()).values()) <= 2 and comp.degree(start_node) == 1
+                street_profile[street_id] = (
+                    sorted((float(cumulative[n]), float(position[n])) for n in comp.nodes) if is_path else None
+                )
+            else:
+                position = cumulative
 
             for u, v, key, data in comp.edges(keys=True, data=True):
                 seg_len = data["length"]
-                cu, cv = cumulative[u], cumulative[v]
+                cu, cv = position[u], position[v]
                 s_len = min(cu, cv)
                 pair_key = data["pair"]
                 start_length[pair_key] = s_len
-                end_length[pair_key] = s_len + seg_len
+                end_length[pair_key] = max(cu, cv) if numbering_mode == "path" else s_len + seg_len
+                node_pos[pair_key] = {u: cu, v: cv}
 
             street_road_type[street_id] = road_type
 
@@ -363,20 +416,34 @@ def assign_street_directionality(
     # along with it like any other member.
     start_len_col = []
     end_len_col = []
+    pos_u_col = []
+    pos_v_col = []
     for u, v, key in zip(edges_reset["u"], edges_reset["v"], edges_reset["key"]):
         pair_key = (min(u, v), max(u, v), key)
         if pair_key not in start_length:
             start_len_col.append(None)
             end_len_col.append(None)
+            pos_u_col.append(None)
+            pos_v_col.append(None)
             continue
         start_len_col.append(start_length[pair_key])
         end_len_col.append(end_length[pair_key])
+        pos_u_col.append(node_pos[pair_key][u])
+        pos_v_col.append(node_pos[pair_key][v])
 
     edges_gdf["street_start_length_m"] = start_len_col
     edges_gdf["street_end_length_m"] = end_len_col
+    edges_gdf["street_pos_u_m"] = pos_u_col
+    edges_gdf["street_pos_v_m"] = pos_v_col
 
     streets_df = streets_df.copy()
     streets_df["road_type"] = streets_df["street_id"].map(street_road_type)
     streets_df["length_m"] = streets_df["street_id"].map(street_total_length)
+    if numbering_mode == "path":
+        import json
+
+        streets_df["path_profile"] = streets_df["street_id"].map(
+            lambda s: json.dumps(street_profile[s]) if street_profile.get(s) else None
+        )
 
     return edges_gdf, streets_df

@@ -299,9 +299,19 @@ DEFAULT_PARALLEL_NODE_THRESHOLD = 20_000
 # "transversal" (radial mode) rather than "radial".
 DEFAULT_TRANSVERSAL_ROAD_PCT = 10.0
 
-# "radial" (classify/number relative to an origin point) or "grid"
-# (classify/number relative to a fixed compass direction).
+# "radial" (classify/number relative to an origin point), "grid"
+# (classify/number relative to a fixed compass direction) or "path"
+# (number by the shortest road-network distance to a reference point; see
+# path_numbering.py).
 DEFAULT_NUMBERING_MODE = "radial"
+
+# --- path_numbering.py: numbering_mode="path" ---
+
+# Roads up to this street_rank (2 = secondary) form the "high rank" network whose
+# distances to the reference point are computed first; lower-rank roads only hang
+# off it. If the reference point itself sits on a lower-rank road, that road's rank
+# is used instead (the network must contain the reference).
+DEFAULT_PATH_HIGH_RANK_MAX = 2
 
 # Compass bearing (0 = north, clockwise) grid mode's "primary" axis runs
 # along.
@@ -310,16 +320,30 @@ DEFAULT_DIRECTION_DEG = 0.0
 
 # --- numbering.py: assign_house_numbers/add_admin_columns/geocode_points ---
 
-# Meters of cumulative street length assigned to each house number step,
-# per SIDE of the street (see "Left/right numbering" in
-# report/street_numbering.md) - even numbers on the right, odd on the
-# left, each side's own numbers a fixed number_divisor_m apart along the
-# street, looking in the direction of travel (the street's own numbering
-# direction - see street_direction.assign_street_directionality). Twice
-# DEFAULT_NUMBER_DIVISOR_M's old (single-sequence) value, since a real
-# address scheme's two interleaved sequences (evens/odds) reach the same
-# numbering density per side as one unified sequence used to.
-DEFAULT_NUMBER_DIVISOR_M = 20.0
+# Meters of cumulative street length per HOUSE number step: houses are
+# numbered every 2 m, roads that branch off a named road every 20 m
+# (DEFAULT_BRANCH_NUMBER_DIVISOR_M). Even numbers on the right, odd on the
+# left (see "Left/right numbering" in report/street_numbering.md), looking in
+# the direction of travel (the street's own numbering direction - see
+# street_direction.assign_street_directionality). When several houses (or
+# roads) fall into the same number slot on the same side they get a letter
+# after the number: 12A, 12B, ... (numbering.add_letters).
+DEFAULT_NUMBER_DIVISOR_M = 2.0
+
+# --- branches.py: assign_branch_names ---
+
+# Meters of cumulative length along a NAMED parent street per road-number
+# step (per side), used to number the unnamed roads that branch off it:
+# a road leaving the parent 40 m along on its left side is "3-<parent>"
+# (round(40 / 20) = 2, nudged to the odd number 3 for the left side - the
+# same rule as house numbers, but with a coarser divisor than the 2 m
+# of a house-number step). Several roads in one slot become 3A-xyz, 3B-xyz.
+DEFAULT_BRANCH_NUMBER_DIVISOR_M = 20.0
+
+# Maximum number of branch prefixes in a derived road name: with 2, a road
+# branching off "xyz" is "3-xyz" and a road branching off that one is
+# "4-3-xyz"; a third level stays unnamed.
+DEFAULT_MAX_BRANCH_LEVELS = 2
 
 # Administrative levels tracked by add_admin_columns/geocode_points, from
 # coarsest to finest. Each is filled from whichever polygon in the AOI ->

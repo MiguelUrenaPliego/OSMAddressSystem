@@ -42,6 +42,9 @@ of a naive street_id/name pass-through. ``apply_street_edits_gpkg``/
 There's no server involved. The map is a single static HTML file; edits
 live in the browser until exported, matching the offline workflow
 already documented in ``report/upload_street_names_OSM.md``.
+
+Possible future improvement (not done): rebuild this editor on MapLibre GL JS and use GeoLibre tools for the drawing, snapping and splitting
+functions; the community app (``osmaddresssystem/app``) could move to them too.
 """
 
 from __future__ import annotations
@@ -2359,6 +2362,12 @@ def apply_street_edits(
     transversal_road_pct: float = DEFAULT_TRANSVERSAL_ROAD_PCT,
     number_divisor_m: float = DEFAULT_NUMBER_DIVISOR_M,
     main_path_angle_threshold_deg: float = DEFAULT_MAIN_PATH_ANGLE_THRESHOLD_DEG,
+    name_branches: bool = False,
+    max_branch_levels: int = 2,
+    branch_number_divisor_m: float = 20.0,
+    path_high_rank_max: int = 2,
+    suffix_split_names: bool = True,
+    backbone_streets=None,
 ) -> tuple[gpd.GeoDataFrame, gpd.GeoDataFrame, pd.DataFrame]:
     """Re-apply manually edited street/edge csvs onto the labeled network.
 
@@ -2449,6 +2458,17 @@ def apply_street_edits(
             ``street_ids.recompute_main_paths`` - the turn-deviation (deg)
             beyond which a street_id's own recomputed main path is split
             into two. Default ``DEFAULT_MAIN_PATH_ANGLE_THRESHOLD_DEG``.
+        name_branches: If True, name unnamed roads branching off a named road after
+            the numbering is recomputed (see ``branches.assign_branch_names``).
+        max_branch_levels: Maximum number of branch prefixes in a derived name.
+        branch_number_divisor_m: Metres along the parent per branch-number step.
+        path_high_rank_max: Path mode (``numbering_mode="path"``): maximum street rank of the high-rank
+            network. In path mode the recomputed streets are cut so each begins at its end nearest to
+            the reference; ``street_id_original`` keeps the id before the cut.
+        backbone_streets: Path mode: street ids (named or to-be-named, as they are after the edits) the routes to
+            the reference are restricted to; see ``path_numbering.node_distances``.
+        suffix_split_names: Path mode: letter suffix in parentheses on the parts after the first of a cut,
+            named street (``Rue X (B)``); see ``path_numbering.split_streets``.
 
     Returns:
         A tuple ``(nodes_gdf, edges_gdf, streets_df)`` with edits
@@ -2475,6 +2495,14 @@ def apply_street_edits(
         return int(raw) if raw.lstrip("-").isdigit() else raw
 
     def _parse_new_id(raw) -> str | int | None:
+        """Parse the ``new_street_id`` cell of an edits table.
+
+        Args:
+            raw: Cell value (may be blank, NaN or ``"None"``).
+
+        Returns:
+            The coerced street id, or None for blanks.
+        """
         if pd.isna(raw) or str(raw).strip() in ("", "None"):
             return None
         return _coerce_id(str(raw))
@@ -2502,12 +2530,23 @@ def apply_street_edits(
                 drivable_map[str(new_id)] = str(drivable_raw).strip().lower() == "true"
 
     def _remap_id(street_id):
+        """Return the new street id for an old one (unchanged if not edited).
+
+        Args:
+            street_id: Original street id.
+        """
         key = str(street_id)
         if key not in id_map:
             return street_id
         return id_map[key]
 
     def _remap_name(street_id, current_name):
+        """Return the edited street name for a street id (unchanged if not edited).
+
+        Args:
+            street_id: Street id.
+            current_name: Name before the edit.
+        """
         key = str(street_id)
         if key not in name_map:
             return current_name
@@ -2546,6 +2585,13 @@ def apply_street_edits(
         edges_reset = edges_gdf.reset_index()
 
         def _match_key(u, v, key):
+            """Normalise an edge key ``(u, v, key)`` to strings for matching.
+
+            Args:
+                u: Start node.
+                v: End node.
+                key: Parallel-edge key.
+            """
             return (str(u), str(v), str(key))
 
         edge_index_by_key = {
@@ -2686,6 +2732,16 @@ def apply_street_edits(
             edges_gdf[edges_gdf["street_id"].notna()]
         )
 
+    node_distances = None
+    if numbering_mode == "path":
+        from . import path_numbering
+
+        node_distances, _reference = path_numbering.node_distances(
+            nodes_gdf, edges_gdf, origin, high_rank_max=path_high_rank_max,
+            backbone_streets=backbone_streets,
+        )
+        edges_gdf, streets_df, _mapping = path_numbering.split_streets(
+            edges_gdf, streets_df, node_distances, suffix_split_names=suffix_split_names)
     edges_gdf, streets_df = street_direction.assign_street_directionality(
         nodes_gdf,
         edges_gdf,
@@ -2694,6 +2750,8 @@ def apply_street_edits(
         transversal_road_pct=transversal_road_pct,
         numbering_mode=numbering_mode,
         direction_deg=direction_deg if direction_deg is not None else 0.0,
+        node_distances=node_distances,
+        path_high_rank_max=path_high_rank_max,
     )
     edges_gdf, streets_df = numbering.assign_house_numbers(
         edges_gdf, streets_df, number_divisor_m=number_divisor_m
@@ -2729,6 +2787,15 @@ def apply_street_edits(
     ]
     edges_gdf["geom_edited"] = [key in geom_edited_keys for key in edges_index_strs]
     edges_gdf["is_new"] = [key in new_keys for key in edges_index_strs]
+
+    # Last, so it sees the final street names, ranks and drivability.
+    if name_branches:
+        from . import branches
+
+        edges_gdf, streets_df = branches.assign_branch_names(
+            nodes_gdf, edges_gdf, streets_df,
+            number_divisor_m=branch_number_divisor_m, max_levels=max_branch_levels,
+        )
 
     return nodes_gdf.copy(), edges_gdf, streets_df
 
@@ -2796,6 +2863,14 @@ def load_edited_gpkg(gpkg_path: str) -> tuple[gpd.GeoDataFrame, gpd.GeoDataFrame
     edges_gdf = gpd.read_file(gpkg_path, layer="edges")
 
     def _restore(raw):
+        """Restore a street id read from a text field to int when possible.
+
+        Args:
+            raw: Stored value.
+
+        Returns:
+            ``int(raw)`` if it parses, otherwise ``raw`` unchanged.
+        """
         try:
             return int(raw)
         except (TypeError, ValueError):

@@ -5,13 +5,14 @@ import os
 import geopandas as gpd
 import pandas as pd
 import pytest
-from shapely.geometry import Point
+from shapely.geometry import LineString, Point
 
 from osmaddresssystem import geocode_map, numbering, pipeline, street_direction, street_ids
 from osmaddresssystem.synthetic_grid import build_idealized_grid
 
 
 def _addressed_streets_gdf(admin=True):
+    """Test helper: addressed streets gdf."""
     G = build_idealized_grid(rows=3, cols=3, spacing=100.0, named_row=1, named_row_name="Elm Street", primary_row=0)
     nodes_gdf, edges_gdf, streets_df = street_ids.label_streets(G, node_cluster_m=0)
     edges_gdf, streets_df = street_direction.assign_street_directionality(
@@ -28,6 +29,7 @@ def _addressed_streets_gdf(admin=True):
 
 
 def test_build_interactive_geocode_map_writes_html(tmp_path):
+    """Check build interactive geocode map writes html."""
     streets_gdf = _addressed_streets_gdf()
     out_path = str(tmp_path / "geocode.html")
     geocode_map.build_interactive_geocode_map(streets_gdf, out_path)
@@ -42,6 +44,7 @@ def test_build_interactive_geocode_map_writes_html(tmp_path):
 
 
 def test_build_interactive_geocode_map_uses_google_hybrid_only(tmp_path):
+    """Check build interactive geocode map uses google hybrid only."""
     streets_gdf = _addressed_streets_gdf()
     out_path = str(tmp_path / "geocode.html")
     fmap = geocode_map.build_interactive_geocode_map(streets_gdf, out_path)
@@ -55,6 +58,7 @@ def test_build_interactive_geocode_map_uses_google_hybrid_only(tmp_path):
 
 
 def test_build_interactive_geocode_map_raises_on_empty_streets():
+    """Check build interactive geocode map raises on empty streets."""
     empty = gpd.GeoDataFrame({"street_id": [], "street_name": []}, geometry=[], crs="EPSG:3857")
     with pytest.raises(ValueError):
         geocode_map.build_interactive_geocode_map(empty, "unused.html")
@@ -109,6 +113,7 @@ def test_js_geocode_matches_python_geocode_points(tmp_path):
 
 
 def test_clicking_the_map_shows_an_address_and_drops_a_marker(tmp_path):
+    """Check clicking the map shows an address and drops a marker."""
     playwright_sync_api = pytest.importorskip("playwright.sync_api")
 
     streets_gdf = _addressed_streets_gdf()
@@ -153,6 +158,7 @@ def test_clicking_the_map_shows_an_address_and_drops_a_marker(tmp_path):
 
 
 def test_admin_columns_skipped_when_missing(tmp_path):
+    """Check admin columns skipped when missing."""
     streets_gdf = _addressed_streets_gdf(admin=False)
     out_path = str(tmp_path / "geocode.html")
     geocode_map.build_interactive_geocode_map(streets_gdf, out_path)
@@ -162,6 +168,7 @@ def test_admin_columns_skipped_when_missing(tmp_path):
 
 
 def test_style_for_highway_uses_rank_tiers():
+    """Check style for highway uses rank tiers."""
     from osmaddresssystem.geocode_map import _style_for_highway
 
     motorway_style = _style_for_highway("motorway")
@@ -180,6 +187,7 @@ def test_style_for_highway_uses_rank_tiers():
 
 
 def test_map_includes_highway_styled_polylines_and_street_labels(tmp_path):
+    """Check map includes highway styled polylines and street labels."""
     streets_gdf = _addressed_streets_gdf()
     out_path = str(tmp_path / "geocode.html")
     fmap = geocode_map.build_interactive_geocode_map(streets_gdf, out_path)
@@ -199,6 +207,7 @@ def test_map_includes_highway_styled_polylines_and_street_labels(tmp_path):
 
 
 def test_red_projection_dot_appears_on_click(tmp_path):
+    """Check red projection dot appears on click."""
     playwright_sync_api = pytest.importorskip("playwright.sync_api")
 
     streets_gdf = _addressed_streets_gdf()
@@ -279,6 +288,7 @@ def test_js_house_number_never_zero_at_a_streets_own_start(tmp_path):
 
 
 def test_radial_mode_draws_a_red_origin_marker(tmp_path):
+    """Check radial mode draws a red origin marker."""
     streets_gdf = _addressed_streets_gdf()
     origin = (0.0, 0.0)
     out_path = str(tmp_path / "geocode.html")
@@ -294,6 +304,7 @@ def test_radial_mode_draws_a_red_origin_marker(tmp_path):
 
 
 def test_grid_mode_draws_two_red_direction_arrows(tmp_path):
+    """Check grid mode draws two red direction arrows."""
     streets_gdf = _addressed_streets_gdf()
     out_path = str(tmp_path / "geocode.html")
     fmap = geocode_map.build_interactive_geocode_map(
@@ -310,6 +321,7 @@ def test_grid_mode_draws_two_red_direction_arrows(tmp_path):
 
 
 def test_no_mode_given_draws_neither_marker(tmp_path):
+    """Check no mode given draws neither marker."""
     streets_gdf = _addressed_streets_gdf()
     out_path = str(tmp_path / "geocode.html")
     geocode_map.build_interactive_geocode_map(streets_gdf, out_path)
@@ -350,7 +362,9 @@ def test_js_left_right_parity_matches_python(tmp_path):
     example_geom = streets_gdf.geometry.iloc[3]
     if example_geom.geom_type == "MultiLineString":
         example_geom = next(iter(example_geom.geoms))
-    mid_point = example_geom.interpolate(0.25, normalized=True)
+    # 40.5 m along the street: with the 2 m house-number step neither point lands on a rounding tie
+    # (a tie would make the browser's and shapely's sub-metre differences decide the number).
+    mid_point = example_geom.interpolate(0.2025, normalized=True)
     point_a = (mid_point.x + 3, mid_point.y + 3)
     point_b = (mid_point.x - 3, mid_point.y - 3)
     py_a = numbering.geocode_points(streets_gdf, [point_a])[0]
@@ -383,3 +397,37 @@ def test_js_left_right_parity_matches_python(tmp_path):
     number_a = int(js_a.split(",")[0])
     number_b = int(js_b.split(",")[0])
     assert number_a % 2 != number_b % 2
+
+
+def test_js_geocode_follows_the_path_profile_like_python(tmp_path):
+    """In path mode the map's JavaScript turns the position along the line into the network-distance
+    position through the street's own profile, exactly like numbering.geocode_points."""
+    import json
+
+    playwright_sync_api = pytest.importorskip("playwright.sync_api")
+    profile = [[0.0, 0.0], [100.0, 40.0], [200.0, 160.0]]
+    x0, y0 = 635000.0, 577000.0                      # UTM 32N, near Fotouni
+    streets = gpd.GeoDataFrame(
+        {"street_id": [1], "street_name": ["xyz"], "highway": ["residential"], "path_profile": [json.dumps(profile)]},
+        geometry=[LineString([(x0, y0), (x0 + 200.0, y0)])], crs=32632)
+    out_path = str(tmp_path / "geocode.html")
+    geocode_map.build_interactive_geocode_map(streets, out_path, numbering_mode="path", origin=(x0, y0))
+    point = (x0 + 150.0, y0 - 2.0)                    # right of the eastward street, 150 m along
+    py = numbering.geocode_points(streets, [point])[0]
+    wgs = gpd.GeoSeries([Point(*point)], crs=32632).to_crs(4326).iloc[0]
+    try:
+        with playwright_sync_api.sync_playwright() as p:
+            browser = p.chromium.launch()
+            page = browser.new_page()
+            errors = []
+            page.on("pageerror", lambda exc: errors.append(str(exc)))
+            page.goto(f"file://{out_path}")
+            page.wait_for_timeout(300)
+            js = page.evaluate(f"osmGeocodePoint({wgs.y}, {wgs.x})")
+            browser.close()
+    except Exception as exc:  # pragma: no cover - environment without a browser installed
+        if "Executable doesn't exist" in str(exc) or "playwright install" in str(exc):
+            pytest.skip(f"Chromium not installed for Playwright: {exc}")
+        raise
+    assert errors == []
+    assert js == py and py.split(",")[0] == "50"       # position 40 + 120 * 0.5 = 100 m -> round(100 / 2)

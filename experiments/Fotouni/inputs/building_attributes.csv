@@ -1,0 +1,2128 @@
+building_id,use,residents,name,service,workers,review,azimuth
+dev01|TCH-A001-X001|2026-08-17T09:00:00.138866+00:00,commercial,,Produits pétrolier,drinks; fuel / petroleum products,,,75.59999999999997
+dev02|TCH-A001-X002|2026-08-17T09:03:58.342339+00:00,commercial,,Boutique,drinks,,,90.0
+dev05|FOT-A001-X001|2026-08-17T09:19:20.953482+00:00,commercial,,Boutique,agricultural inputs (phytosanitary products),,,
+dev04|BAB-C028-X002|2026-08-18T11:27:32.050449+00:00,unknown,,,,,,71.30000000000001
+dev04|BAB-C028-X003|2026-08-17T09:52:51.308368+00:00,residential,3,,,,,106.7
+dev04|BAB-C028-X004|2026-08-17T09:52:51.308956+00:00,public,,Babong,heritage: sacred forest; sacred site,,,67.39999999999998
+dev04|BAB-C028-X006|2026-08-17T09:57:16.567710+00:00,unknown,,,,,,65.69999999999999
+dev04|BAB-C028-X007|2026-08-17T10:01:52.336221+00:00,unknown,,,,,,61.19999999999999
+dev01|BAD-A010-X002|2026-08-17T10:07:08.582060+00:00,unknown,,,,,,
+dev01|BAD-A010-X001|2026-08-17T10:07:08.582686+00:00,unknown,,,,,,
+dev01|BAD-A030-X003|2026-08-17T10:07:08.583690+00:00,unknown,,,,,,
+dev01|BAD-A030-X004|2026-08-17T10:07:08.584150+00:00,unknown,,,,,,
+dev01|BAD-A030-X005|2026-08-17T10:07:08.584765+00:00,unknown,,,,,,
+dev01|BAD-A030-X006|2026-08-17T10:07:08.585417+00:00,unknown,,,,,,
+dev04|BAB-C028-X009|2026-08-17T10:18:19.269536+00:00,residential,3,,,,,92.8
+dev04|BAB-C028-X010|2026-08-17T10:18:19.270716+00:00,unknown,,,,,,103.39999999999998
+dev01|BAD-A030-X007|2026-08-17T10:18:49.117151+00:00,unknown,,,,,,
+dev06|BAB-C001-X005|2026-08-17T10:20:31.577779+00:00,unknown,,,,,,127.79999999999995
+dev06|BAD-C001-X008|2026-08-17T10:20:31.579001+00:00,unknown,,,,,,234.79999999999995
+dev06|BAB-C001-X011|2026-08-17T10:20:31.579937+00:00,unknown,,,,,,
+dev05|BAN-B029-X001|2026-08-17T10:31:37.099637+00:00,residential,7,,,,,
+dev05|BAM-B029-X003|2026-08-17T10:31:37.104091+00:00,residential,1,,,,,
+dev05|BAM-B029-X004|2026-08-17T10:31:37.104546+00:00,residential,5,,,,,
+dev05|BAM-B029-X005|2026-08-17T10:31:37.105018+00:00,residential,8,,,,,
+dev05|BAM-B029-X006|2026-08-17T10:31:37.105497+00:00,public,,École publique de Bamendjo-Fotouni,primary school,,,
+dev07|BAD-A030-X009|2026-08-17T10:26:41.417348+00:00,unknown,,,,,,
+dev01|BAD-A030-X008|2026-08-17T10:30:15.586684+00:00,unknown,,,,,,
+dev01|BAD-A030-X010|2026-08-17T10:30:15.592463+00:00,unknown,,,,,,
+dev04|BAB-C028-X011|2026-08-17T10:37:20.693610+00:00,unknown,,,,,,87.30000000000001
+dev04|BAB-C028-X013|2026-08-17T10:37:20.694931+00:00,commercial,,Restaurant bar,drinks; restaurant / prepared food; restaurant; bar,,,57.39999999999998
+dev04|BAB-C028-X015|2026-08-17T10:37:20.695678+00:00,commercial,,Boutique,general food store,,,99.89999999999998
+dev04|BAB-C028-X017|2026-08-17T10:37:20.696345+00:00,residential,2,,,,,81.30000000000001
+dev06|BAB-C001-X012|2026-08-17T10:37:42.310681+00:00,unknown,,,,,,119.10000000000002
+dev06|BAB-C001-X013|2026-08-17T10:37:42.312136+00:00,unknown,,,,,,71.30000000000001
+dev06|BAB-C001-X014|2026-08-17T10:37:42.313193+00:00,unknown,,,,,,
+dev06|BAB-C001-X016|2026-08-17T10:37:42.314053+00:00,unknown,,,,,,
+dev04|BAB-C028-X018|2026-08-17T10:39:58.191335+00:00,unknown,,,,,,106.5
+dev02|BAL-D2001-X002|2026-08-17T10:45:35.450223+00:00,unknown,,,,,,
+dev02|BAL-D3001-X003|2026-08-17T10:45:35.452335+00:00,unknown,,,,,,
+dev02|BAL-D5001-X005|2026-08-17T10:45:35.453089+00:00,unknown,,,,,,
+dev05|BAM-B029-X009|2026-08-17T11:17:04.838278+00:00,residential,1,,,,,
+dev05|BAM-B029-X008|2026-08-17T10:51:37.229151+00:00,residential,1,,,,,
+dev03|BAL-D1001-X001|2026-08-17T10:51:59.100494+00:00,public,,École publique balatchi,primary school,,,349.6
+dev03|BAL-D4001-X004|2026-08-17T10:51:59.101837+00:00,residential,5,,,,,224.6
+dev03|BAL-D8001-X008|2026-08-17T11:05:27.931920+00:00,unknown,,,,,,150.10000000000002
+dev06|BAB-C001-X020|2026-08-17T11:14:47.896214+00:00,unknown,,,,,,
+dev06|BAB-C001-X021|2026-08-17T11:14:48.007917+00:00,unknown,,,,,,
+dev06|BAB-C001-X024|2026-08-17T11:14:48.009064+00:00,unknown,,,,,,
+dev06|BAB-C001-X025|2026-08-17T11:14:48.009762+00:00,unknown,,,,,,
+dev06|BAD-C001-X028|2026-08-17T11:14:48.010359+00:00,unknown,,,,,,348.5
+dev06|BAB-C001-X030|2026-08-17T11:14:48.010951+00:00,unknown,,,,,,
+dev02|BAL-D7001-X007|2026-08-17T11:15:05.793173+00:00,unknown,,,,,,
+dev02|BAL-D6001-X006|2026-08-17T11:15:05.794532+00:00,unknown,,,,,,
+dev02|BAL-D9001-X009|2026-08-17T11:15:05.795259+00:00,unknown,,,,,,
+dev02|BAL-D001-X010|2026-08-17T11:15:05.795800+00:00,unknown,,,,,,
+dev04|BAB-C028-X019|2026-08-17T11:15:25.024768+00:00,unknown,,,,,,57.39999999999998
+dev04|BAB-C028-X021|2026-08-17T11:15:25.026016+00:00,unknown,,,,,,103.5
+dev04|BAB-C028-X022|2026-08-17T11:15:25.026666+00:00,unknown,,,,,,99.3
+dev04|BAB-C028-X023|2026-08-17T11:15:25.027263+00:00,unknown,,,,,,101.59999999999997
+dev04|BAB-C028-X026|2026-08-17T11:15:25.028064+00:00,commercial,,Bar,drinks; bar,,,110.39999999999998
+dev04|BAB-C028-X027|2026-08-17T11:15:25.028574+00:00,residential,2,,,,,107.7
+dev04|BAB-C028-X029|2026-08-17T11:15:25.029131+00:00,unknown,,,,,,80.59999999999997
+dev05|BAM-B029-X010|2026-08-17T11:17:04.839018+00:00,residential,1,,,,,
+dev03|BAL-D001-X011|2026-08-17T11:18:59.669734+00:00,commercial,,Alimentation,general food store,,,90.0
+dev07|BAD-A030-X024|2026-08-17T11:20:10.022034+00:00,unknown,,,,,,
+dev07|BAD-A030-X021|2026-08-17T12:21:06.295494+00:00,unknown,,,,,,
+dev07|BAD-A030-X017|2026-08-17T11:20:10.023093+00:00,unknown,,,,,,
+dev04|BAB-C028-X031|2026-08-17T11:25:15.662914+00:00,unknown,,,,,,76.69999999999999
+dev04|BAB-C028-X034|2026-08-17T11:25:15.664221+00:00,unknown,,,,,,78.0
+dev05|BAM-B029-X011|2026-08-17T11:28:05.389314+00:00,residential,1,,,,,
+dev05|BAM-B029-X012|2026-08-17T11:30:53.559974+00:00,residential,1,,,,,
+dev01|BAD-A030-X012|2026-08-17T11:31:18.942900+00:00,unknown,,,,,,
+dev01|BAD-A030-X013|2026-08-17T11:31:18.943996+00:00,unknown,,,,,,
+dev01|BAD-A030-X015|2026-08-17T11:31:18.944528+00:00,unknown,,,,,,
+dev01|BAD-A030-X016|2026-08-17T11:31:18.945024+00:00,unknown,,,,,,
+dev01|BAD-A030-X018|2026-08-17T11:31:18.945465+00:00,unknown,,,,,,
+dev01|BAD-A030-X019|2026-08-17T11:31:18.946064+00:00,commercial,,Boutique de Mr witba,drinks,,,
+dev01|BAN-A030-X020|2026-08-17T11:31:18.946508+00:00,unknown,,,,,,
+dev01|BAN-A030-X022|2026-08-17T11:31:18.946993+00:00,unknown,,,,,,
+dev01|BAD-A003-X023|2026-08-17T11:31:18.947557+00:00,unknown,,,,,,
+dev01|BAD-A030-X025|2026-08-17T11:31:18.948038+00:00,unknown,,,,,,
+dev01|BAD-A030-X026|2026-08-17T11:31:18.948502+00:00,unknown,,,,,,
+dev01|BAD-A030-X027|2026-08-17T11:31:18.949008+00:00,commercial,,Bar la référence,drinks; bar,,,
+dev01|BAD-A030-X028|2026-08-17T11:31:18.949503+00:00,unknown,,,,,,
+dev05|BAM-B029-X013|2026-08-17T11:40:01.576037+00:00,public,,Lieu sacré de bamendjo-Fotouni,sacred place,,,
+dev02|BAL-D001-X012|2026-08-17T11:40:59.257525+00:00,unknown,,,,,,
+dev02|BAL-D001-X016|2026-08-17T11:40:59.260352+00:00,unknown,,,,,,
+dev03|BAL-D001-X014|2026-08-17T11:41:31.215278+00:00,unknown,,,,,,355.79999999999995
+dev03|BAL-D001-X015|2026-08-17T11:41:31.216826+00:00,unknown,,,,,,229.4
+dev03|BAL-D002-X017|2026-08-17T11:41:31.217657+00:00,unknown,,,,,,332.4
+dev04|BAB-C028-X036|2026-08-17T11:43:10.686330+00:00,unknown,,,,,,66.69999999999999
+dev04|BAB-C028-X037|2026-08-17T11:43:10.687728+00:00,unknown,,,,,,73.5
+dev06|BAB-C001-X031|2026-08-17T11:47:48.184011+00:00,unknown,,,,,,
+dev06|BAB-C001-X033|2026-08-17T11:47:48.369895+00:00,unknown,,,,,,56.39999999999998
+dev06|BAB-C001-X035|2026-08-17T11:47:48.370945+00:00,unknown,,,,,,
+dev06|BAB-A001-X038|2026-08-17T11:47:48.371698+00:00,unknown,,,,,,
+dev02|BAL-D003-X018|2026-08-17T11:48:10.325432+00:00,unknown,,,,,,
+dev02|BAL-D003-X019|2026-08-17T11:48:10.326715+00:00,unknown,,,,,,
+dev02|BAL-D003-X020|2026-08-17T11:48:10.327418+00:00,unknown,,,,,,
+dev05|BAM-B029-X014|2026-08-17T11:48:12.550536+00:00,residential,1,,,,,
+dev03|BAL-D003-X021|2026-08-17T11:50:06.257617+00:00,unknown,,,,,,321.1
+dev02|BAL-D003-X022|2026-08-17T11:52:14.873736+00:00,unknown,,,,,,
+dev02|BAL-D003-X023|2026-08-17T11:52:14.874941+00:00,unknown,,,,,,
+dev06|BAB-C001-X040|2026-08-17T11:56:34.822540+00:00,unknown,,,,,,
+dev06|BAB-C001-X041|2026-08-17T11:56:34.823810+00:00,unknown,,,,,,
+dev03|BAL-D003-X025|2026-08-17T11:57:25.828249+00:00,unknown,,,,,,141.0
+dev04|BAB-C028-X039|2026-08-17T12:00:21.003593+00:00,unknown,,,,,,63.69999999999999
+dev01|BAN-A030-X029|2026-08-17T12:01:20.004535+00:00,unknown,,,,,,
+dev01|BAD-A030-X030|2026-08-17T12:01:20.005810+00:00,unknown,,,,,,
+dev01|BAD-A030-X032|2026-08-17T12:01:20.006487+00:00,unknown,,,,,,
+dev01|BAD-A030-X035|2026-08-17T12:01:20.007109+00:00,unknown,,,,,,
+dev02|BAL-D003-X024|2026-08-17T12:06:07.291122+00:00,unknown,,,,,,
+dev06|BAB-C001-X042|2026-08-17T12:06:48.529316+00:00,public,,Grand lieu sacré du quartier Babong,heritage: sacred forest; sacred and tourist site,,,
+dev06|BAB-C001-X046|2026-08-17T12:08:56.564063+00:00,unknown,,,,,,
+dev05|BAM-B029-X015|2026-08-17T12:13:17.112700+00:00,residential,2,,,,,
+dev04|BAB-C028-X042|2026-08-17T12:14:44.708177+00:00,unknown,,,,,,69.5
+dev04|BAB-C028-X044|2026-08-17T12:14:44.709395+00:00,unknown,,,,,,103.89999999999998
+dev04|BAB-C028-X045|2026-08-17T12:14:44.710185+00:00,unknown,,,,,,102.09999999999997
+dev04|BAB-C028-X047|2026-08-17T12:14:44.710775+00:00,unknown,,,,,,49.099999999999966
+dev04|BAB-C028-X048|2026-08-17T12:16:16.694117+00:00,unknown,,,,,,84.30000000000001
+dev01|BAD-A030-X037|2026-08-17T12:20:41.849411+00:00,unknown,,,,,,
+dev07|BAD-A030-X011|2026-08-17T12:21:06.292960+00:00,unknown,,,,,,
+dev07|BAD-A030-X012|2026-08-17T12:21:06.293680+00:00,unknown,,,,,,
+dev07|BAD-A030-X022|2026-08-17T12:21:06.294920+00:00,unknown,,,,,,
+dev07|BAD-A030-X031|2026-08-17T12:21:06.296023+00:00,unknown,,,,,,
+dev07|BAD-A030-X033|2026-08-17T12:21:06.296611+00:00,unknown,,,,,,
+dev07|BAD-A030-X034|2026-08-17T12:21:06.297149+00:00,unknown,,,,,,
+dev07|BAD-A030-X036|2026-08-17T12:21:06.297696+00:00,unknown,,,,,,
+dev05|BAM-B029-X016|2026-08-17T12:21:59.704282+00:00,residential,1,,,,,
+dev06|BAD-C001-X049|2026-08-17T12:22:28.998567+00:00,unknown,,,,,,
+dev06|BAB-C001-X050|2026-08-17T12:22:28.999774+00:00,unknown,,,,,,
+dev04|BAB-C028-X051|2026-08-17T12:22:46.265249+00:00,unknown,,,,,,99.09999999999997
+dev03|BAL-D003-X027|2026-08-17T12:23:32.011693+00:00,residential,4,,,,,29.899999999999977
+dev05|BAM-B029-X017|2026-08-17T12:29:54.673151+00:00,residential,1,,,,,
+dev01|BAD-A030-X038|2026-08-17T12:32:37.325503+00:00,unknown,,,,,,
+dev05|BAM-B029-X018|2026-08-17T12:33:39.061080+00:00,residential,3,,,,,
+dev03|BAL-D004-X032|2026-08-17T12:36:53.718016+00:00,unknown,,,,,,93.09999999999997
+dev05|BAM-B029-X019|2026-08-17T12:41:16.492139+00:00,commercial,,Alimentation bar,general food store; drinks; bakery; household products; bar,,,
+dev01|BAD-A030-X039|2026-08-17T12:43:55.641122+00:00,unknown,,,,,,
+dev01|BAD-A030-X041|2026-08-17T12:43:55.642470+00:00,unknown,,,,,,
+dev01|BAD-A030-X042|2026-08-17T12:43:55.643253+00:00,unknown,,,,,,
+dev03|BAL-D005-X035|2026-08-17T12:48:33.138972+00:00,residential,3,,,,,9.099999999999966
+dev01|BAD-A030-X043|2026-08-17T12:55:23.031603+00:00,unknown,,,,,,
+dev03|BAL-D006-X036|2026-08-17T12:58:20.490361+00:00,residential,2,,,,,195.29999999999995
+dev04|BAB-C028-X052|2026-08-17T13:14:14.761067+00:00,unknown,,,,,,77.89999999999998
+dev05|BAM-B029-X020|2026-08-17T13:14:45.287300+00:00,residential,1,,,,,
+dev05|BAN-B029-X021|2026-08-17T13:14:45.288735+00:00,residential,3,,,,,
+dev04|BAB-C028-X054|2026-08-17T13:17:38.323991+00:00,unknown,,,,,,72.09999999999997
+dev05|BAM-B029-X022|2026-08-17T13:23:23.744137+00:00,residential,7,,,,,
+dev02|BAL-D003-X026|2026-08-17T13:29:26.838131+00:00,unknown,,,,,,
+dev02|BAL-D003-X028|2026-08-17T13:29:26.839540+00:00,unknown,,,,,,
+dev02|BAL-D004-X029|2026-08-17T13:29:26.840441+00:00,unknown,,,,,,
+dev02|BAL-D004-X031|2026-08-17T13:29:26.843611+00:00,unknown,,,,,,
+dev02|BAL-D005-X033|2026-08-17T13:29:26.844373+00:00,unknown,,,,,,
+dev02|BAL-D005-X034|2026-08-17T13:29:26.845123+00:00,unknown,,,,,,
+dev02|BAL-D006-X037|2026-08-17T13:29:26.847616+00:00,unknown,,,,,,
+dev02|BAL-D005-X038|2026-08-17T13:29:26.848491+00:00,unknown,,,,,,
+dev05|BAM-B029-X023|2026-08-17T13:30:08.020989+00:00,residential,7,,,,,
+dev03|BAB-C003-X061|2026-08-17T13:30:21.044590+00:00,unknown,,,,,,3.7999999999999545
+dev04|BAB-C028-X056|2026-08-17T13:35:32.867268+00:00,unknown,,,,,,100.09999999999997
+dev04|BAB-C028-X058|2026-08-17T13:35:32.868627+00:00,unknown,,,,,,97.59999999999997
+dev06|BAB-C001-X053|2026-08-17T13:36:13.665391+00:00,unknown,,,,,,
+dev06|BAB-C001-X055|2026-08-17T13:36:13.666794+00:00,public,,CSI de Babong,health centre,,,
+dev06|BAB-C001-X057|2026-08-17T13:36:13.667659+00:00,unknown,,,,,,
+dev06|BAB-C001-X060|2026-08-17T13:36:13.668584+00:00,unknown,,,,,,
+dev03|BAB-C003-X063|2026-08-17T13:42:25.469358+00:00,residential,7,,,,,295.79999999999995
+dev03|BAB-C003-X067|2026-08-17T13:47:26.714220+00:00,unknown,,,,,,232.9
+dev04|BAB-C028-X059|2026-08-17T13:48:14.889473+00:00,unknown,,,,,,74.80000000000001
+dev06|BAB-C001-X068|2026-08-17T13:48:38.804298+00:00,unknown,,,,,,
+dev03|BAB-C003-X069|2026-08-17T13:50:01.789657+00:00,unknown,,,,,,213.79999999999995
+dev01|BAD-A030-X046|2026-08-17T13:51:44.730900+00:00,unknown,,,,,,
+dev07|BAD-A030-X040|2026-08-17T13:57:34.127334+00:00,unknown,,,,,,
+dev07|BAD-A030-X044|2026-08-17T13:57:34.134148+00:00,unknown,,,,,,
+dev07|BAD-A030-X046|2026-08-17T13:57:34.133421+00:00,unknown,,,,,,
+dev07|BAD-A030-X045|2026-08-17T13:57:34.134955+00:00,unknown,,,,,,
+dev07|BAD-A030-X047|2026-08-17T13:57:34.135738+00:00,unknown,,,,,,
+dev01|BAD-A030-X049|2026-08-17T14:02:22.469510+00:00,unknown,,,,,,
+dev02|BAB-C028-X062|2026-08-17T14:08:12.635908+00:00,commercial,,Produits alimentaires,general food store,,,
+dev02|BAB-C028-X064|2026-08-17T14:08:12.637022+00:00,unknown,,,,,,
+dev02|BAB-C028-X065|2026-08-17T14:08:12.638533+00:00,public,,Stade babong,stadium,10,,
+dev02|BAB-C028-X066|2026-08-17T14:08:12.639171+00:00,public,,Église catholique de babong,church,12,,
+dev02|BAB-C028-X071|2026-08-17T14:08:12.639791+00:00,unknown,,,,,,
+dev02|BAB-C028-X074|2026-08-17T14:08:12.640346+00:00,unknown,,,,,,
+dev03|BAB-C003-X071|2026-08-17T14:11:17.630802+00:00,unknown,,,,,,235.4
+dev07|BAD-A030-X050|2026-08-17T14:12:19.632013+00:00,unknown,,,,,,
+dev07|BAD-A030-X051|2026-08-17T14:12:19.633299+00:00,unknown,,,,,,
+dev04|BAB-C028-X076|2026-08-17T14:20:13.541738+00:00,unknown,,,,,,66.19999999999999
+dev05|BAM-B029-X024|2026-08-17T14:21:04.534821+00:00,residential,1,,,,,
+dev05|BAM-B029-X025|2026-08-17T14:21:04.536221+00:00,residential,1,,,,,
+dev05|BAM-B029-X026|2026-08-17T14:21:04.537107+00:00,residential,9,,,,,
+dev03|BAB-C028-X080|2026-08-17T14:21:38.401149+00:00,unknown,,,,,,216.9
+dev06|BAB-C028-X072|2026-08-17T14:24:05.814596+00:00,unknown,,,,,,
+dev06|BAB-C028-X073|2026-08-17T14:24:05.816065+00:00,unknown,,,,,,
+dev05|BAM-B029-X027|2026-08-17T14:34:00.850192+00:00,residential,1,,,,,
+dev02|BAB-C028-X075|2026-08-17T14:34:01.357954+00:00,public,,Point d'eau,water point,5,,
+dev02|BAB-C028-X077|2026-08-17T14:34:01.358911+00:00,unknown,,,,,,
+dev02|BAB-C028-X078|2026-08-17T14:34:01.359539+00:00,unknown,,,,,,
+dev02|BAB-C028-X079|2026-08-17T14:34:01.360201+00:00,unknown,,,,,,
+dev07|BAD-A030-X053|2026-08-17T14:49:21.855897+00:00,unknown,,,,,,
+dev07|BAD-A030-X054|2026-08-17T14:49:21.857314+00:00,unknown,,,,,,
+dev07|BAD-A030-X055|2026-08-17T14:49:21.859453+00:00,unknown,,,,,,
+dev05|BAM-B029-X028|2026-08-17T14:54:47.195551+00:00,residential,1,,,,,
+dev05|BAM-B029-X029|2026-08-17T14:54:47.196767+00:00,residential,3,,,,,
+dev07|BAB-C028-X090|2026-08-17T15:02:27.489050+00:00,unknown,,,,,,
+dev07|BAB-C028-X092|2026-08-17T15:02:27.490346+00:00,unknown,,,,,,
+dev11|BAB-C028-X089|2026-08-17T15:03:35.250735+00:00,residential,6,,,,,
+dev05|BAM-B029-X030|2026-08-17T15:08:23.239351+00:00,residential,6,,,,,
+dev06|BAB-C028-X082|2026-08-17T15:06:43.046640+00:00,unknown,,,,,,
+dev06|BAB-C028-X084|2026-08-17T15:06:43.047896+00:00,unknown,,,,,,
+dev02|BAB-C028-X086|2026-08-17T15:07:10.882440+00:00,unknown,,,,,,
+dev02|BAB-C028-X088|2026-08-17T15:07:10.883766+00:00,unknown,,,,,,
+dev03|BAB-C028-X081|2026-08-17T15:08:12.701259+00:00,unknown,,,,,,191.9
+dev03|BAB-C028-X083|2026-08-17T15:08:12.702248+00:00,residential,2,,,,,341.1
+dev03|BAB-C028-X085|2026-08-17T15:08:12.703021+00:00,unknown,,,,,,298.4
+dev03|BAB-C028-X087|2026-08-17T15:08:12.703763+00:00,unknown,,,,,,251.9
+dev03|BAB-C028-X093|2026-08-17T15:08:12.705431+00:00,unknown,,,,,,298.70000000000005
+dev03|BAB-C028-X095|2026-08-17T15:08:12.706253+00:00,unknown,,,,,,296.0
+dev03|BAB-C028-X098|2026-08-17T15:12:04.567834+00:00,unknown,,,,,,323.0
+dev03|BAB-X028-X099|2026-08-17T15:12:04.576363+00:00,unknown,,,,,,35.0
+dev07|BAB-C028-X094|2026-08-17T15:24:11.576142+00:00,unknown,,,,,,
+dev07|BAB-C028-X097|2026-08-17T15:24:11.577666+00:00,unknown,,,,,,
+dev07|BAB-C028-X096|2026-08-17T15:24:11.578349+00:00,unknown,,,,,,
+dev02|BAB-C028-X091|2026-08-17T15:25:26.471449+00:00,unknown,,,,,,
+dev05|BAM-B029-X031|2026-08-17T15:27:37.318791+00:00,residential,1,,,,,
+dev05|BAM-B029-X032|2026-08-17T15:27:37.320036+00:00,residential,1,,,,,
+dev04|BAB-C028-X001|2026-08-18T10:14:07.219019+00:00,residential,1,,,,,70.5
+dev06|BAB-C028-X001|2026-08-18T08:01:23.491168+00:00,residential,1,,,,,
+dev06|BAB-C028-X002|2026-08-18T08:01:23.492452+00:00,unknown,,,,,,
+dev02|BAB-C028-X001|2026-08-18T08:05:28.565929+00:00,residential,1,,,,,
+dev03|BAB-C028-X003|2026-08-18T08:10:14.465326+00:00,residential,3,,,,,23.799999999999955
+dev07|BAB-C020-X001|2026-08-18T08:10:31.574725+00:00,unknown,,,,,,
+dev03|BAB-C028-X004|2026-08-18T08:14:23.502037+00:00,public,,Babong,heritage: sacred forest; sacred site,,,286.9
+dev05|BAN-C028-X001|2026-08-18T08:18:14.137255+00:00,unknown,,,,,,
+dev05|BAB-C028-X002|2026-08-18T08:18:14.138784+00:00,unknown,,,,,,
+dev05|BAB-C028-X003|2026-08-18T08:18:14.139670+00:00,residential,3,,,,,
+dev05|BAB-C028-X004|2026-08-18T08:18:14.140595+00:00,public,,Babong,heritage: sacred forest; sacred site,,,
+dev05|BAB-C028-X005|2026-08-18T08:18:14.141402+00:00,public,,Babong,heritage: cave; sacred site; facilities: guide,,,
+dev07|BAB-C028-X002|2026-08-18T08:21:03.725512+00:00,unknown,,,,,,
+dev07|BAB-C028-X003|2026-08-18T08:21:03.727259+00:00,residential,3,,,,,
+dev07|BAB-C028-X004|2026-08-18T08:21:03.728287+00:00,public,,Babong,heritage: sacred forest; sacred site,,,
+dev07|BAB-C028-X006|2026-08-18T08:32:04.159401+00:00,unknown,,,,,,
+dev05|BAB-C028-X007|2026-08-18T08:35:15.243107+00:00,unknown,,,,,,
+dev05|BAB-C028-X008|2026-08-18T08:35:15.244502+00:00,unknown,,,,,,
+dev03|BAB-C028-X002|2026-08-18T08:36:21.855354+00:00,unknown,,,,,,288.79999999999995
+dev03|BAB-C028-X005|2026-08-18T08:36:21.856708+00:00,public,,Babong,heritage: cave; sacred site; facilities: guide,,,267.0
+dev03|BAB-C028-X006|2026-08-18T08:36:21.857574+00:00,unknown,,,,,,344.5
+dev03|BAB-C028-X007|2026-08-18T08:36:21.858256+00:00,unknown,,,,,,315.5
+dev03|BAB-C028-X008|2026-08-18T08:36:21.859026+00:00,unknown,,,,,,193.9
+dev07|BAB-C028-X007|2026-08-18T08:36:51.654077+00:00,unknown,,,,,,134.60000000000002
+dev03|BAB-C028-X009|2026-08-18T08:42:28.162349+00:00,residential,3,,,,,316.29999999999995
+dev07|BAB-C028-X008|2026-08-18T08:43:05.627299+00:00,unknown,,,,,,
+dev07|BAB-C028-X009|2026-08-18T08:47:08.162099+00:00,residential,3,,,,,
+dev07|BAB-C028-X010|2026-08-18T08:47:08.163420+00:00,unknown,,,,,,
+dev03|BAB-C028-X010|2026-08-18T08:48:25.144946+00:00,unknown,,,,,,252.5
+dev03|BAB-C028-X011|2026-08-18T08:48:25.146259+00:00,unknown,,,,,,151.7
+dev03|BAB-C028-X012|2026-08-18T08:58:32.780577+00:00,unknown,,,,,,296.1
+dev07|BAB-C028-X011|2026-08-18T08:54:11.283740+00:00,unknown,,,,,,
+dev15|FOT-A-001-777|2026-08-18T08:57:20.222639+00:00,unknown,,,,,,
+dev03|BAB-C028-X013|2026-08-18T09:02:49.239481+00:00,commercial,,Restaurant bar,drinks; restaurant / prepared food; restaurant; bar,,,103.3
+dev05|BAB-C028-X010|2026-08-18T09:01:03.445289+00:00,unknown,,,,,,
+dev03|BAB-C028-X014|2026-08-18T09:12:15.761164+00:00,residential,4,,,,,
+dev06|BAB-C028-X003|2026-08-18T09:20:13.608354+00:00,residential,3,,,,,
+dev03|BAB-C028-X015|2026-08-18T09:20:54.958836+00:00,commercial,,Boutique,general food store,,,191.6
+dev03|BAB-C028-X016|2026-08-18T09:20:54.960166+00:00,unknown,,,,,,202.5
+dev03|BAB-C028-X017|2026-08-18T09:24:03.119898+00:00,residential,2,,,,,96.5
+dev02|BAB-C028-X002|2026-08-18T09:36:28.656179+00:00,unknown,,,,,,92.89999999999998
+dev07|BAB-C028-X014|2026-08-18T09:39:51.979348+00:00,residential,4,,,,,
+dev07|BAB-C028-X015|2026-08-18T09:39:51.980643+00:00,commercial,,Boutique,general food store,,,
+dev03|BAB-C028-X018|2026-08-18T09:57:09.260794+00:00,unknown,,,,,,77.39999999999998
+dev12|BAB-C028-X001|2026-08-18T10:01:37.848888+00:00,residential,1,,,,,
+dev07|BAB-C028-X017|2026-08-18T10:13:28.580616+00:00,residential,2,,,,,
+dev07|BAB-C028-X018|2026-08-18T10:16:22.120525+00:00,unknown,,,,,,
+dev05|BAB-C028-X011|2026-08-18T10:17:45.572712+00:00,unknown,,,,,,
+dev03|BAB-C028-X019|2026-08-18T10:17:47.035014+00:00,unknown,,,,,,308.4
+dev03|BAB-C028-X020|2026-08-18T10:17:47.036338+00:00,unknown,,,,,,248.70000000000005
+dev03|BAN-C028-X020|2026-08-18T10:20:24.891639+00:00,unknown,,,,,,238.0
+dev03|BAB-C028-X021|2026-08-18T10:20:24.892988+00:00,unknown,,,,,,110.2
+dev05|BAB-C028-X013|2026-08-18T10:35:04.776378+00:00,commercial,,Restaurant bar,drinks; restaurant / prepared food; restaurant; bar,,,
+dev02|BAB-C028-X004|2026-08-18T10:24:38.188778+00:00,public,,Babong,heritage: sacred forest; sacred site,,,
+dev02|BAB-C028-X005|2026-08-18T10:24:38.190201+00:00,public,,Babong,heritage: cave; sacred site; facilities: guide,,,77.39999999999998
+dev02|BAB-C028-X003|2026-08-18T10:24:38.191160+00:00,residential,3,,,,,
+dev02|BAB-C028-X006|2026-08-18T10:24:38.191955+00:00,unknown,,,,,,
+dev02|BAB-C028-X007|2026-08-18T10:24:40.209832+00:00,unknown,,,,,,
+dev05|BAB-C028-X014|2026-08-18T10:53:43.455489+00:00,residential,4,,,,,
+dev02|BAB-C028-X008|2026-08-18T10:40:48.397209+00:00,unknown,,,,,,
+dev03|BAB-C028-X022|2026-08-18T10:46:21.602178+00:00,unknown,,,,,,302.20000000000005
+dev03|BAB-C028-X028|2026-08-18T12:18:58.288973+00:00,residential,4,,,,,111.60000000000002
+dev06|BAB-C028-X004|2026-08-18T11:01:18.698319+00:00,public,,Babong,heritage: sacred forest; sacred site,,,
+dev04|BAB-C028-X083|2026-08-18T11:24:10.974053+00:00,commercial,,Alimentation carrefour babong,general food store; bakery; drinks,,,
+dev03|BAB-C028-X023|2026-08-18T11:27:21.372042+00:00,unknown,,,,,,214.29999999999995
+dev01|BAB-C028-X001|2026-08-18T11:32:32.828127+00:00,residential,1,,,,,
+dev01|BAB-C028-X002|2026-08-18T11:32:32.829564+00:00,unknown,,,,,,
+dev01|BAB-C028-X003|2026-08-18T11:32:32.830464+00:00,residential,3,,,,,
+dev01|BAB-C028-X004|2026-08-18T11:32:32.831364+00:00,public,,Babong,heritage: sacred forest; sacred site,,,
+dev07|BAB-C028-X019|2026-08-18T11:37:40.169809+00:00,unknown,,,,,,96.7
+dev05|BAB-C028-X015|2026-08-18T11:38:03.075710+00:00,commercial,,Boutique,general food store,,,
+dev05|BAB-C028-X016|2026-08-18T11:38:03.077128+00:00,unknown,,,,,,
+dev07|BAB-C028-X020|2026-08-18T11:45:26.156954+00:00,unknown,,,,,,
+dev05|BAB-C028-X017|2026-08-18T11:49:00.509480+00:00,residential,2,,,,,
+dev01|BAB-C028-X005|2026-08-18T11:54:01.397314+00:00,public,,Babong,heritage: cave; sacred site; facilities: guide,,,
+dev01|BAB-C028-X006|2026-08-18T11:54:01.398691+00:00,unknown,,,,,,
+dev01|BAB-C028-X007|2026-08-18T11:54:01.399349+00:00,unknown,,,,,,
+dev01|BAB-C028-X008|2026-08-18T11:54:01.399910+00:00,unknown,,,,,,
+dev01|BAB-C028-X009|2026-08-18T11:54:44.189902+00:00,residential,3,,,,,
+dev01|BAB-C028-X010|2026-08-18T11:54:44.191215+00:00,unknown,,,,,,
+dev03|BAB-C028-X024|2026-08-18T11:53:35.094230+00:00,unknown,,,,,,345.29999999999995
+dev03|BAB-C028-X025|2026-08-18T11:53:35.095553+00:00,residential,5,,,,,304.5
+dev03|BAB-C028-X026|2026-08-18T11:53:35.096259+00:00,commercial,,Bar,drinks; bar,,,152.89999999999998
+dev07|BAB-C028-X021|2026-08-18T11:57:37.322369+00:00,unknown,,,,,,
+dev07|BAB-C028-X022|2026-08-18T12:19:06.012130+00:00,unknown,,,,,,
+dev04|TCH-E026-X001|2026-08-27T12:29:10.928512+00:00,public,,Centre Agro pastorale,agro-pastoral centre,,,90.0
+dev04|TCH-E026-X002|2026-08-27T12:36:18.810897+00:00,residential,2,,,,,90.0
+dev04|TCH-E026-X003|2026-08-27T12:36:18.812309+00:00,residential,1,,,,,90.0
+dev05|TCH-E026-X018|2026-08-19T10:21:57.136352+00:00,residential,1,,,,,69.69999999999999
+dev06|BAB-C028-X005|2026-08-18T12:18:46.169550+00:00,residential,7,,,,,116.10000000000002
+dev06|TCH-E026-X006|2026-08-27T12:36:57.691825+00:00,residential,3,,,,,88.5
+dev06|TCH-E026-X007|2026-08-27T12:45:56.669830+00:00,residential,5,,,,,174.29999999999995
+dev03|BAB-C028-X027|2026-08-18T12:18:58.286880+00:00,residential,2,,,,,231.9
+dev07|BAB-C028-X023|2026-08-18T12:19:06.013447+00:00,unknown,,,,,,
+dev03|TCH-E026-X029|2026-08-18T16:11:15.060849+00:00,residential,3,,,,,200.29999999999995
+dev04|TCH-E026-X004|2026-08-27T12:38:41.419386+00:00,residential,4,,,,,90.0
+dev04|TCH-E026-X005|2026-08-27T12:47:31.827019+00:00,public,,Maison des apiculteurs et des agriculteur biologique,beekeepers' and organic farmers' house,,,90.0
+dev04|TCH-E026-X006|2026-08-27T12:47:31.828317+00:00,residential,3,,,,,90.0
+dev04|TCH-E026-X007|2026-08-18T12:25:15.057096+00:00,residential,2,,,,,
+dev04|TCH-E026-X008|2026-08-27T12:59:05.257073+00:00,residential,1,,,,,90.0
+dev04|TCH-E026-X009|2026-08-27T13:13:40.600927+00:00,commercial,,NBF,printing,1,,90.0
+dev03|TCH-E026-X030|2026-08-18T12:33:23.604197+00:00,unknown,,,,,,357.4
+dev03|TCH-E026-X031|2026-08-18T12:33:23.605467+00:00,commercial,,Restaurant -bar Adjidja,general food store; restaurant / prepared food; fruit and vegetables; meat and fish; restaurant; bar,,,309.6
+dev03|TCH-E026-X032|2026-08-18T12:47:03.638803+00:00,residential,3,,,,,12.599999999999966
+dev07|TCH-E026-X025|2026-08-18T12:33:40.044845+00:00,residential,8,,,,,
+dev07|TCH-E026-X026|2026-08-18T12:37:26.512325+00:00,commercial,,Cédric mix DG,phones and accessories; electronics; spare parts,,,
+dev01|BAB-C028-X011|2026-08-18T12:33:40.789054+00:00,unknown,,,,,,
+dev01|TCH-E026-X001|2026-08-18T12:33:40.790560+00:00,public,,Centre Agro pastorale,agro-pastoral centre,,,
+dev01|TCH-E026-X002|2026-08-18T12:33:40.791298+00:00,residential,2,,,,,
+dev01|TCH-E026-X003|2026-08-18T12:33:40.791900+00:00,residential,1,,,,,
+dev01|TCH-E026-X004|2026-08-18T12:33:45.111482+00:00,residential,4,,,,,
+dev01|TCH-C029-X005|2026-08-18T12:33:45.112665+00:00,unknown,,,,,,
+dev01|TCH-E026-X006|2026-08-18T12:33:45.113321+00:00,residential,3,,,,,
+dev01|BAN-E026-X007|2026-08-18T12:33:45.113903+00:00,unknown,,,,,,
+dev01|TCH-E026-X008|2026-08-18T12:33:45.954824+00:00,residential,7,,,,,
+dev05|TCH-E026-X019|2026-08-19T11:45:43.876681+00:00,residential,1,,,,,96.8
+dev05|TCH-E026-X020|2026-08-18T12:57:29.280300+00:00,residential,3,,,,,
+dev07|TCH-E026-X027|2026-08-18T12:44:29.853713+00:00,residential,6,,,,,
+dev03|TCH-E026-X033|2026-08-18T12:47:03.640104+00:00,public,,Lieu sacré du stade de Tchisso,heritage: cave; sacred site,,,189.9
+dev03|TCH-E001-X034|2026-08-18T12:47:03.641514+00:00,unknown,,,,,,306.29999999999995
+dev03|TCH-E026-X035|2026-08-18T12:47:04.082832+00:00,unknown,,,,,,115.60000000000002
+dev07|TCH-E026-X028|2026-08-18T12:47:39.056561+00:00,commercial,,Chez Pauline,general food store; bakery; meat and fish; restaurant / prepared food; stationery and school supplies,,,
+dev04|TCH-E026-X010|2026-08-27T13:13:40.600182+00:00,commercial,,Restaurant,restaurant / prepared food; restaurant,2,,90.0
+dev01|TCH-E026-X009|2026-08-18T12:55:00.997175+00:00,commercial,,NBF,printing,1,,
+dev01|TCH-E026-X010|2026-08-18T12:55:00.998046+00:00,residential,5,,,,,
+dev01|TCH-E026-X012|2026-08-18T12:55:03.338045+00:00,residential,2,,,,,
+dev01|TCH-E026-X013|2026-08-18T12:55:03.339453+00:00,industrial,,Garage Barnabé,spare parts; vehicle repair garage,,,
+dev01|TCH-E026-X014|2026-08-18T12:55:03.340210+00:00,residential,7,,,,,
+dev07|TCH-E026-X029|2026-08-18T12:55:07.295884+00:00,residential,3,,,,,
+dev05|TCH-E026-X021|2026-08-18T12:57:29.281608+00:00,commercial,,Boutique chez dorette,general food store,,,
+dev04|TCH-E026-X011|2026-08-18T13:01:13.266531+00:00,residential,1,,,,,
+dev04|TCH-E026-X012|2026-08-18T13:01:13.267895+00:00,residential,2,,,,,
+dev07|TCH-E030-X026|2026-08-18T13:08:08.033213+00:00,residential,6,,,,,
+dev07|TCH-E026-X031|2026-08-18T13:11:11.444146+00:00,commercial,,Restaurant -bar Adjidja,general food store; restaurant / prepared food; fruit and vegetables; meat and fish; restaurant; bar,,,
+dev07|TCH-C026-X030|2026-08-18T13:08:08.035489+00:00,unknown,,,,,,
+dev05|TCH-E026-X022|2026-08-18T13:20:15.599576+00:00,residential,4,,,,,
+dev05|TCH-E026-X023|2026-08-18T13:20:15.600914+00:00,commercial,,Bar café,drinks; general food store; restaurant / prepared food; bar,,,
+dev05|BAN-TC026-X024|2026-08-18T13:20:15.601576+00:00,unknown,,,,,,
+dev05|TCH-E026-X025|2026-08-18T13:20:15.602175+00:00,residential,1,,,,,
+dev06|TCH-E026-X008|2026-08-18T13:19:37.135902+00:00,residential,7,,,,,124.10000000000002
+dev06|TCH-E009-X026|2026-08-18T13:19:37.137329+00:00,residential,15,,,,,1.099999999999966
+dev06|TCH-E026-X010|2026-08-18T13:19:37.138148+00:00,residential,5,,,,,
+dev06|TCH-E026-X011|2026-08-18T13:19:37.139028+00:00,residential,20,,,,20 residents: check (boarding house?),
+dev04|TCH-E026-X013|2026-08-18T13:20:35.307589+00:00,industrial,,Garage Barnabé,spare parts; vehicle repair garage,,,
+dev04|TCH-E026-X014|2026-08-18T13:20:35.308316+00:00,residential,7,,,,,
+dev02|TCH-E026-X001|2026-08-18T13:35:57.007523+00:00,public,,Centre Agro pastorale,agro-pastoral centre,,,116.79999999999995
+dev02|TCH-E026-X002|2026-08-18T13:35:57.009203+00:00,residential,2,,,,,71.19999999999999
+dev02|TCH-E026-X003|2026-08-18T13:35:58.612343+00:00,residential,1,,,,,104.29999999999995
+dev02|TCH-E026-X004|2026-08-18T13:35:58.613806+00:00,residential,4,,,,,103.2
+dev02|TCH-E026-X005|2026-08-18T13:35:58.614752+00:00,public,,Maison des apiculteurs et des agriculteur biologique,beekeepers' and organic farmers' house,,,101.5
+dev02|TCH-E026-X006|2026-08-18T13:35:58.615473+00:00,residential,3,,,,,99.59999999999997
+dev02|TCH-E026-X007|2026-08-18T13:36:00.521468+00:00,residential,5,,,,,88.69999999999999
+dev02|TCH-E026-X008|2026-08-18T13:36:01.905711+00:00,residential,7,,,,,75.69999999999999
+dev02|TCH-C026-X018|2026-08-18T13:36:01.907078+00:00,unknown,,,,,,97.7
+dev02|TCH-E026-X011|2026-08-18T13:36:01.907957+00:00,residential,1,,,,,71.89999999999998
+dev02|TCH-E026-X012|2026-08-18T13:36:01.908720+00:00,residential,2,,,,,100.09999999999997
+dev02|TCH-E026-X013|2026-08-18T13:41:32.174481+00:00,industrial,,Garage Barnabé,spare parts; vehicle repair garage,,,
+dev01|TCH-E026-X015|2026-08-18T13:36:24.464009+00:00,commercial,,Boutique et mini restaurant chez Caroline,general food store; drinks; restaurant / prepared food; restaurant,,,
+dev01|TCH-E026-X016|2026-08-18T13:36:24.465429+00:00,commercial,,Atelier de couture,fabrics and tailoring; tailoring,,,
+dev01|BAN-E026-X017|2026-08-18T13:36:24.466251+00:00,commercial,,Couture chez magni,fabrics and tailoring; tailoring,,,73.80000000000001
+dev01|TCH-E026-X018|2026-08-18T13:36:24.467061+00:00,public,,Lieu sacré du Carrefour Tchisso,heritage: cave; sacred site; facilities: food,,,
+dev01|TCH-E026-X019|2026-08-18T13:36:26.983522+00:00,residential,1,,,,,
+dev03|TCH-E026-X036|2026-08-18T13:38:04.253504+00:00,commercial,,Ngankam pierre,hardware store,,,97.59999999999997
+dev03|TCH-E026-X037|2026-08-18T13:38:04.254358+00:00,commercial,,Cheumdje cladisse,fabrics and tailoring,,,121.60000000000002
+dev03|TCH-E026-X038|2026-08-18T13:38:04.255115+00:00,industrial,,Provenderie moderne la différence,agricultural inputs (phytosanitary products); animal feed mill,,,111.60000000000002
+dev03|TCH-E026-X039|2026-08-18T13:38:05.098220+00:00,commercial,,Kamakem Dominique,drinks,,,181.4
+dev04|TCH-E026-X015|2026-08-18T13:40:36.643315+00:00,commercial,,Boutique et mini restaurant chez Caroline,general food store; drinks; restaurant / prepared food; restaurant,,,
+dev04|TCH-E026-X016|2026-08-18T13:40:36.644680+00:00,commercial,,Atelier de couture,fabrics and tailoring; tailoring,,,
+dev04|TCH-E026-X017|2026-08-18T13:40:36.645496+00:00,public,,École publique de groupe 2 Fotouni-centre,primary school,,,
+dev06|TCH-E026-X012|2026-08-18T13:43:05.074681+00:00,residential,2,,,,,306.4
+dev06|TCH-E026-X013|2026-08-18T13:43:05.076232+00:00,residential,8,,,,,148.29999999999995
+dev06|TCH-E026-X014|2026-08-18T13:43:05.077234+00:00,residential,7,,,,,122.29999999999995
+dev07|TCH-E026-X033|2026-08-18T13:44:51.913663+00:00,public,,Lieu sacré du stade de Tchisso,heritage: cave; sacred site,,,
+dev02|TCH-E026-X014|2026-08-18T13:47:16.495221+00:00,residential,7,,,,,79.0
+dev02|TCH-E026-X015|2026-08-18T14:23:04.662862+00:00,commercial,,Boutique et mini restaurant chez Caroline,general food store; drinks; restaurant / prepared food; restaurant,,,85.39999999999998
+dev07|TCH-E026-X034|2026-08-18T13:48:40.514646+00:00,commercial,,Mr Nguela,agricultural inputs (phytosanitary products),,,
+dev07|TCH-E026-X035|2026-08-18T13:51:20.997872+00:00,unknown,,,,,,
+dev03|TCH-E026-X040|2026-08-18T13:53:40.907731+00:00,industrial,,Martin,mechanics workshop,,,70.19999999999999
+dev07|TCH-E026-X036|2026-08-18T13:58:33.530913+00:00,commercial,,Ngankam pierre,hardware store,,,
+dev05|TCH-E026-X027|2026-08-18T14:03:52.090541+00:00,residential,6,,,,,
+dev03|TCH-E026-X010|2026-08-18T14:04:29.059093+00:00,residential,5,,,,,329.1
+dev03|TCH-E026-X011|2026-08-18T14:04:29.060513+00:00,residential,6,,,,,252.5
+dev05|TCH-E026-X028|2026-08-18T14:16:42.618387+00:00,commercial,,Chez Pauline,general food store; bakery; meat and fish; restaurant / prepared food; stationery and school supplies,,,
+dev01|TCH-E026-X020|2026-08-18T14:21:06.047916+00:00,public,,École publique groupe 1 de fotouni,primary school,,,
+dev01|TCH-E026-X021|2026-08-18T14:21:06.049395+00:00,commercial,,Boutique chez dorette,general food store,,,
+dev01|TCH-E026-X022|2026-08-18T14:21:06.050317+00:00,residential,1,,,,,
+dev01|TCH-E026-X023|2026-08-18T14:21:06.051038+00:00,commercial,,Bar café,drinks; general food store; restaurant / prepared food; bar,,,
+dev01|TCH-E026-X024|2026-08-18T14:21:07.804100+00:00,residential,3,,,,,
+dev01|TCH-E026-X025|2026-08-18T14:21:07.805487+00:00,residential,1,,,,,
+dev01|TCH-E026-X026|2026-08-18T14:21:07.806233+00:00,commercial,,Cédric mix DG,phones and accessories; electronics; spare parts,,,
+dev01|TCH-E026-X027|2026-08-18T14:21:07.806970+00:00,residential,6,,,,,
+dev01|TCH-E026-X028|2026-08-18T14:21:09.595840+00:00,commercial,,Chez Pauline,general food store; bakery; meat and fish; restaurant / prepared food; stationery and school supplies,,,
+dev01|TCH-E026-X029|2026-08-18T14:21:09.597198+00:00,residential,3,,,,,
+dev01|TCH-E026-X030|2026-08-18T14:21:09.597899+00:00,unknown,,,,,,
+dev02|TCH-E026-X016|2026-08-18T14:23:04.664203+00:00,commercial,,Atelier de couture,fabrics and tailoring; tailoring,,,95.39999999999998
+dev02|TCH-E026-X017|2026-08-18T14:23:04.665044+00:00,public,,École publique de groupe 2 Fotouni-centre,primary school,,,90.39999999999998
+dev02|TCH-E026-X018|2026-08-18T14:23:06.533628+00:00,residential,1,,,,,78.0
+dev02|TCH-E026-X019|2026-08-18T14:23:06.534979+00:00,residential,1,,,,,84.0
+dev04|TCH-E026-X018|2026-08-18T14:28:18.664017+00:00,residential,1,,,,,
+dev04|BAN-E026-X019|2026-08-18T14:28:18.665493+00:00,public,,Lieu sacré derrière le garage du lycée de fotouni,heritage: sacred forest; sacred site; facilities: lodging,,,
+dev03|TCH-E026-X012|2026-08-18T14:28:19.544587+00:00,residential,2,,,,,162.10000000000002
+dev07|TCH-E026-X037|2026-08-18T14:31:28.154997+00:00,commercial,,Cheumdje cladisse,fabrics and tailoring,,,
+dev03|TCH-E026-X014|2026-08-18T14:34:40.054104+00:00,residential,6,,,,,286.9
+dev04|TCH-E026-X020|2026-08-18T14:52:01.162026+00:00,residential,3,,,,,
+dev04|TCH-E026-X021|2026-08-18T14:52:01.163379+00:00,commercial,,Boutique chez dorette,general food store,,,
+dev04|TCH-E026-X022|2026-08-18T14:52:01.164864+00:00,public,,Lycée de Fotouni centre,secondary school,,,
+dev02|TCH-E026-X020|2026-08-18T14:53:47.947762+00:00,residential,1,,,,,
+dev02|TCH-E026-X021|2026-08-18T14:53:47.949121+00:00,commercial,,Boutique chez dorette,general food store,,,86.19999999999999
+dev02|TCH-E026-X022|2026-08-18T14:53:47.949841+00:00,public,,École maternelle de fotouni,nursery school,,,75.30000000000001
+dev03|TCH-E026-X018|2026-08-18T15:02:49.769888+00:00,residential,1,,,,,83.69999999999999
+dev03|TCH-E026-X020|2026-08-18T15:02:50.069652+00:00,residential,3,,,,,160.0
+dev03|TCH-E026-X022|2026-08-18T15:02:50.071028+00:00,residential,4,,,,,227.20000000000005
+dev06|TCH-E026-X015|2026-08-18T15:03:46.465762+00:00,residential,1,,,,,169.20000000000005
+dev06|TCH-E026-X016|2026-08-18T15:03:46.467174+00:00,commercial,,Atelier de couture,fabrics and tailoring; tailoring,,,143.2
+dev07|TCH-E026-X038|2026-08-18T15:04:19.177983+00:00,industrial,,Provenderie moderne la différence,agricultural inputs (phytosanitary products); animal feed mill,,,
+dev04|TCH-E029-X023|2026-08-18T15:26:30.697946+00:00,commercial,,Mich électronique,electronics; spare parts; stationery and school supplies,,,
+dev04|TCH-E026-X027|2026-08-18T15:46:40.127459+00:00,commercial,,Boutique d'alimentation de l'immeuble Foyet,general food store; drinks; bakery; restaurant / prepared food; stationery and school supplies,,,
+dev04|TCH-E026-X028|2026-08-18T15:46:40.128511+00:00,commercial,,Chez Pauline,general food store; bakery; meat and fish; restaurant / prepared food; stationery and school supplies,,,
+dev04|TCH-E026-X024|2026-08-18T15:48:56.153678+00:00,residential,3,,,,,
+dev01|TCH-C026-X031|2026-08-18T15:55:30.262595+00:00,residential,4,,,,,
+dev01|TCH-E026-X032|2026-08-18T15:55:30.264035+00:00,residential,3,,,,,
+dev01|TCH-E026-X033|2026-08-18T15:55:30.264979+00:00,public,,Lieu sacré du stade de Tchisso,heritage: cave; sacred site,,,
+dev01|TCH-E026-X034|2026-08-18T16:01:20.026756+00:00,commercial,,Mr Nguela,agricultural inputs (phytosanitary products),,,
+dev03|TCH-E026-X024|2026-08-18T16:03:11.599263+00:00,residential,3,,,,,211.4
+dev03|TCH-E026-X027|2026-08-18T16:03:11.600097+00:00,residential,6,,,,,245.29999999999995
+dev01|TCH-E026-X036|2026-08-18T16:04:10.407157+00:00,commercial,,Ngankam pierre,hardware store,,,98.0
+dev01|TCH-E026-X037|2026-08-18T16:07:09.404229+00:00,industrial,,Provenderie,agricultural inputs (phytosanitary products); animal feed mill,,,97.3
+dev03|TCH-E026-X028|2026-08-18T16:11:15.059422+00:00,commercial,,Chez Pauline,general food store; bakery; meat and fish; restaurant / prepared food; stationery and school supplies,,,228.0
+dev01|TCH-E026-X038|2026-08-18T16:11:55.957513+00:00,industrial,,Provenderie moderne la différence,agricultural inputs (phytosanitary products); animal feed mill,,,64.59999999999997
+dev06|TCH-E026-X017|2026-08-18T16:12:43.930177+00:00,commercial,,Boutique,general food store,,,222.1
+dev06|TCH-E026-X018|2026-08-18T16:12:43.931610+00:00,residential,8,,,,,276.20000000000005
+dev06|TCH-E026-X019|2026-08-18T16:12:43.932484+00:00,commercial,,Maison de couture,fabrics and tailoring; tailoring,,,229.4
+dev06|TCH-E026-X020|2026-08-18T16:12:43.933320+00:00,commercial,,Micro finance (caisse centrale),airtime and mobile money; microfinance / savings,,,229.79999999999995
+dev06|TCH-E026-X021|2026-08-18T16:12:45.825954+00:00,commercial,,Boutique chez dorette,general food store,,,226.1
+dev06|TCH-E026-X022|2026-08-18T16:12:45.827394+00:00,commercial,,,general food store,,,254.70000000000005
+dev06|TCH-E026-X023|2026-08-18T16:12:45.828262+00:00,commercial,,Bar café,drinks; general food store; restaurant / prepared food; bar,,,212.0
+dev02|TCH-E028-X022|2026-08-18T16:42:34.230600+00:00,unknown,,,,,,94.59999999999997
+dev02|TCH-E026-X023|2026-08-18T16:42:34.232218+00:00,commercial,,Bar café,drinks; general food store; restaurant / prepared food; bar,,,89.19999999999999
+dev03|TCH-C026-X029|2026-08-18T16:44:02.169793+00:00,unknown,,,,,,227.20000000000005
+dev04|TCH-E026-X025|2026-08-19T08:02:42.556171+00:00,residential,1,,,,,
+dev04|TCH-E026-X026|2026-08-19T08:02:42.558039+00:00,commercial,,Cédric mix DG,phones and accessories; electronics; spare parts,,,
+dev04|TCH-E026-X029|2026-08-19T08:02:42.558916+00:00,residential,3,,,,,
+dev04|TCH-E026-X031|2026-08-19T08:02:44.303781+00:00,commercial,,Restaurant -bar Adjidja,general food store; restaurant / prepared food; fruit and vegetables; meat and fish; restaurant; bar,,,
+dev03|TCH-E026-X045|2026-08-19T08:08:52.520270+00:00,residential,7,,,,,8.399999999999977
+dev05|TCH-E026-X001|2026-08-19T08:17:49.178140+00:00,public,,Centre Agro pastorale,agro-pastoral centre,,,76.0
+dev05|TCH-E026-X002|2026-08-19T08:17:49.182504+00:00,residential,2,,,,,86.39999999999998
+dev05|TCH-E026-X003|2026-08-19T08:17:49.183331+00:00,residential,1,,,,,77.09999999999997
+dev06|TCH-E026-X025|2026-08-19T08:25:36.835649+00:00,public,,CMA de fotouni,health centre,,,85.0
+dev06|TCH-E026-X027|2026-08-19T08:25:36.837093+00:00,commercial,,Hôtel,furniture; accommodation; accommodation (hotel),,,37.29999999999996
+dev05|TCH-E026-X004|2026-08-19T08:39:04.897514+00:00,residential,4,,,,,96.59999999999997
+dev05|TCH-E026-X005|2026-08-19T08:39:04.898969+00:00,public,,Maison des apiculteurs et des agriculteur biologique,beekeepers' and organic farmers' house,,,69.19999999999999
+dev04|DEM-G024-X001|2026-08-19T08:57:35.124160+00:00,unknown,,,,,,
+dev04|BAN-G024-X002|2026-08-19T08:57:35.355463+00:00,unknown,,,,,,
+dev04|DEM-G024-X003|2026-08-19T08:57:35.356645+00:00,residential,1,,,,,
+dev04|BAN-G024-X004|2026-08-19T08:57:35.358174+00:00,residential,1,,,,,
+dev07|TCH-E026-X039|2026-08-19T08:57:38.201197+00:00,residential,4,,,,,
+dev04|DEM-G024-X005|2026-08-19T08:57:38.408398+00:00,unknown,,,,,,
+dev04|DEM-G024-X006|2026-08-19T08:57:38.409796+00:00,residential,7,,,,,
+dev04|DEM-G024-X007|2026-08-19T08:57:38.410809+00:00,unknown,,,,,,
+dev04|DEM-G024-X008|2026-08-19T08:57:38.411647+00:00,residential,6,,,,,
+dev02|TCH-E026-X025|2026-08-19T08:57:42.393392+00:00,residential,1,,,,,
+dev02|TCH-E026-X026|2026-08-19T08:57:42.394838+00:00,commercial,,Cédric mix DG,phones and accessories; electronics; spare parts,,,
+dev02|TCH-E026-X027|2026-08-19T08:57:42.396623+00:00,residential,6,,,,,99.09999999999997
+dev01|DEM-G024-X001|2026-08-19T08:57:46.629077+00:00,unknown,,,,,,
+dev01|DEM-G024-X002|2026-08-19T08:57:46.630496+00:00,residential,4,,,,,
+dev01|DEM-G024-X003|2026-08-19T08:57:46.631490+00:00,residential,1,,,,,
+dev01|DEM-G024-X004|2026-08-19T08:57:46.632211+00:00,unknown,,,,,,
+dev01|DEM-G024-X005|2026-08-19T08:57:48.596211+00:00,unknown,,,,,,
+dev01|DEM-G024-X006|2026-08-19T08:57:48.597613+00:00,residential,7,,,,,
+dev01|DEM-G024-X007|2026-08-19T08:57:48.599298+00:00,unknown,,,,,,
+dev01|DEM-G024-X008|2026-08-19T08:57:49.597733+00:00,residential,6,,,,,
+dev01|DEM-G024-X009|2026-08-19T08:57:49.599125+00:00,residential,5,,,,,
+dev08|TCH-E026-X002|2026-08-19T09:03:36.799876+00:00,residential,7,,,,,
+dev08|TCH-E026-X003|2026-08-19T09:03:36.800753+00:00,residential,1,,,,,
+dev08|TCH-E026-X004|2026-08-19T09:03:38.092202+00:00,residential,4,,,,,
+dev08|TCH-E026-X005|2026-08-19T09:03:38.093559+00:00,residential,1,,,,,
+dev08|TCH-E026-X006|2026-08-19T09:03:38.094413+00:00,residential,2,,,,,
+dev08|TCH-E026-X007|2026-08-19T09:03:38.095277+00:00,residential,5,,,,,
+dev07|LAS-H023-X001|2026-08-19T09:04:52.964025+00:00,residential,5,,,,,
+dev05|TCH-E026-X007|2026-08-19T09:09:01.211437+00:00,residential,1,,,,,70.59999999999997
+dev05|TCH-E026-X006|2026-08-19T09:09:01.212950+00:00,residential,10,,,,,77.30000000000001
+dev05|TCH-E026-X008|2026-08-19T09:09:01.213988+00:00,residential,7,,,,,77.0
+dev03|TCH-E026-X046|2026-08-19T09:12:52.125729+00:00,unknown,,,,,,267.5
+dev06|TCH-E026-X028|2026-08-19T09:14:11.151195+00:00,residential,3,,,,,298.70000000000005
+dev06|TCH-E026-X029|2026-08-19T09:14:11.152744+00:00,residential,3,,,,,223.70000000000005
+dev06|TCH-E026-X030|2026-08-19T09:14:11.153802+00:00,unknown,,,,,,82.30000000000001
+dev06|TCH-E026-X031|2026-08-19T09:14:11.154653+00:00,residential,1,,,,,211.4
+dev06|TCH-E026-X032|2026-08-19T09:14:12.709460+00:00,residential,3,,,,,131.5
+dev06|TCH-E026-X033|2026-08-19T09:14:12.710922+00:00,public,,Lieu sacré du stade de Tchisso,heritage: cave; sacred site,,,139.79999999999995
+dev06|TCH-E026-X034|2026-08-19T09:14:12.711985+00:00,commercial,,Mr Nguela,agricultural inputs (phytosanitary products),,,317.29999999999995
+dev02|BAL-H023-X001|2026-08-19T09:15:09.249268+00:00,residential,5,,,,,
+dev04|DEM-G024-X009|2026-08-19T09:17:31.824234+00:00,residential,4,,,,,
+dev04|DEM-G024-X010|2026-08-19T09:17:31.825756+00:00,public,,Lieu sacré devant la villa de Séverin,heritage: sacred forest; sacred site; facilities: guide,,,
+dev02|LAS-H023-X002|2026-08-19T09:19:07.830812+00:00,unknown,,,,,,94.5
+dev07|LAS-H023-X002|2026-08-19T09:20:06.880160+00:00,unknown,,,,,,
+dev08|TCH-E026-X008|2026-08-19T09:21:51.107458+00:00,residential,7,,,,,
+dev08|TCH-E026-X009|2026-08-19T09:21:51.108903+00:00,residential,7,,,,,
+dev04|DEM-G024-X011|2026-08-19T09:21:59.682087+00:00,residential,4,,,,,
+dev04|DEM-G024-X012|2026-08-19T09:21:59.683663+00:00,residential,2,,,,,
+dev07|LAS-H023-X003|2026-08-19T09:33:26.917578+00:00,unknown,,,,,,
+dev02|LAS-H023-X003|2026-08-19T09:33:50.727210+00:00,unknown,,,,,,94.7
+dev06|TCH-E026-X035|2026-08-19T09:39:17.947485+00:00,unknown,,,,,,143.10000000000002
+dev07|LAS-H023-X004|2026-08-19T09:39:34.853379+00:00,residential,6,,,,,
+dev03|BAL-H023-X005|2026-08-19T09:40:26.859215+00:00,residential,4,,,,,239.79999999999995
+dev03|BAL-H023-X023|2026-08-19T09:40:26.860703+00:00,residential,5,,,,,274.20000000000005
+dev05|TCH-E026-X009|2026-08-19T09:40:28.108193+00:00,commercial,,NBF,printing,1,,97.89999999999998
+dev05|TCH-E026-X010|2026-08-19T09:40:28.109654+00:00,residential,5,,,,,89.39999999999998
+dev05|TCH-E026-X011|2026-08-19T09:40:28.110498+00:00,public,,Lieu sacré mbeum,heritage: sacred forest; sacred site; facilities: guide,,,81.09999999999997
+dev05|TCH-E026-X012|2026-08-19T09:40:28.724233+00:00,residential,1,,,,,81.89999999999998
+dev05|TCH-E026-X013|2026-08-19T09:40:28.725704+00:00,industrial,,Garage Barnabé,spare parts; vehicle repair garage,,,83.09999999999997
+dev08|TCH-E026-X011|2026-08-19T09:44:12.505455+00:00,residential,1,,,,,
+dev08|TCH-E026-X010|2026-08-19T09:44:12.506932+00:00,residential,5,,,,,
+dev03|BAL-H023-X009|2026-08-19T09:53:23.574704+00:00,unknown,,,,,,52.69999999999999
+dev07|LAS-H023-X005|2026-08-19T09:56:09.948273+00:00,residential,11,,,,,
+dev01|DEM-G024-X010|2026-08-19T09:56:35.168285+00:00,public,,Lieu sacré devant la villa de Séverin,heritage: sacred forest; sacred site; facilities: guide,,,
+dev01|DEM-G024-X011|2026-08-19T09:56:35.169834+00:00,residential,4,,,,,
+dev01|DEM-G024-X012|2026-08-19T10:24:51.147021+00:00,residential,2,,,,,
+dev04|DEM-G024-X013|2026-08-19T09:57:11.900188+00:00,residential,1,,,,,
+dev04|DEM-G024-X014|2026-08-19T09:57:11.902790+00:00,residential,6,,,,,
+dev07|LAS-H023-X006|2026-08-19T09:57:13.276348+00:00,residential,11,,,,,
+dev02|LAS-H023-X005|2026-08-19T10:11:53.910274+00:00,residential,1,,,,,
+dev02|LAS-H023-X004|2026-08-19T10:11:53.911811+00:00,residential,6,,,,,
+dev02|LAS-H023-X006|2026-08-19T10:11:53.912799+00:00,residential,11,,,,,
+dev04|DEM-G024-X015|2026-08-19T10:12:17.081948+00:00,residential,2,,,,,
+dev05|TCH-E026-X014|2026-08-19T10:12:40.798928+00:00,residential,4,,,,,91.59999999999997
+dev05|TCH-E026-X015|2026-08-19T10:12:40.800423+00:00,residential,5,,,,,84.09999999999997
+dev05|TCH-E026-X016|2026-08-19T10:15:15.309486+00:00,commercial,,Atelier de couture,fabrics and tailoring; tailoring,,,98.39999999999998
+dev03|LAS-H023-X012|2026-08-19T10:16:03.909208+00:00,unknown,,,,,,111.10000000000002
+dev05|TCH-R026-X017|2026-08-19T10:21:57.134521+00:00,unknown,,,,,,96.59999999999997
+dev01|DEM-G024-X013|2026-08-19T10:24:51.149354+00:00,residential,1,,,,,
+dev01|DEM-G024-X014|2026-08-19T10:24:51.151282+00:00,residential,6,,,,,
+dev02|LAS-H023-X008|2026-08-19T10:27:24.906337+00:00,residential,1,,,,,
+dev04|DEM-G024-X016|2026-08-19T10:29:32.029162+00:00,public,,Forêt sacré de demkwo,heritage: sacred forest; sacred site,,,
+dev06|TCH-E026-X037|2026-08-19T10:36:18.159224+00:00,residential,1,,,,,77.59999999999997
+dev07|LAS-H023-X007|2026-08-19T10:36:55.602329+00:00,residential,9,,,,,
+dev05|TCH-E016-X018|2026-08-19T10:40:07.114250+00:00,residential,5,,,,,98.39999999999998
+dev03|BAL-H023-X011|2026-08-19T10:57:15.466151+00:00,residential,3,,,,,93.2
+dev04|DEM-G024-X017|2026-08-19T10:58:12.126470+00:00,residential,1,,,,,
+dev04|DEM-G024-X018|2026-08-19T10:58:12.127938+00:00,residential,4,,,,,
+dev04|TCH-F025-X001|2026-08-19T10:58:12.128879+00:00,residential,1,,,,,
+dev04|TCH-F025-X002|2026-08-19T10:58:12.129868+00:00,residential,1,,,,,
+dev07|LAS-H023-X008|2026-08-19T10:58:15.356695+00:00,residential,8,,,,,
+dev07|LAS-H023-X009|2026-08-19T11:02:16.381590+00:00,unknown,,,,,,
+dev07|LAS-H023-X010|2026-08-19T11:09:39.166344+00:00,unknown,,,,,,
+dev02|BAL-H023-X009|2026-08-19T11:13:13.685154+00:00,unknown,,,,,,
+dev07|BAL-H023-X011|2026-08-19T11:13:14.856102+00:00,residential,3,,,,,
+dev03|BAL-H026-X014|2026-08-19T11:16:25.387525+00:00,unknown,,,,,,342.5
+dev03|BAL-H026-X018|2026-08-19T11:16:25.388964+00:00,residential,6,,,,,359.70000000000005
+dev06|TCH-E026-X038|2026-08-19T11:22:52.078112+00:00,industrial,,Provenderie moderne la différence,agricultural inputs (phytosanitary products); animal feed mill,,,140.0
+dev06|TCH-F025-X039|2026-08-19T11:22:52.079621+00:00,unknown,,,,,,114.10000000000002
+dev06|TCH-F025-X040|2026-08-19T11:22:52.080522+00:00,unknown,,,,,,73.19999999999999
+dev06|TCH-F025-X041|2026-08-19T11:22:52.081354+00:00,unknown,,,,,,271.1
+dev06|TCH-F025-X042|2026-08-19T11:23:33.214634+00:00,residential,30,,,,30 residents: check (boarding house?),9.5
+dev06|TCH-F025-X043|2026-08-19T11:38:30.834337+00:00,unknown,,,,,,23.69999999999999
+dev06|TCH-F025-X044|2026-08-19T11:44:10.602575+00:00,unknown,,,,,,182.29999999999995
+dev03|BAL-H023-X018|2026-08-19T11:41:19.693267+00:00,unknown,,,,,,12.599999999999966
+dev05|TCH-F025-X020|2026-08-19T11:45:43.878049+00:00,residential,9,,,,,92.5
+dev05|TCH-F025-X021|2026-08-19T11:45:46.023016+00:00,unknown,,,,,,92.3
+dev05|TCH-F025-X022|2026-08-19T11:45:46.023925+00:00,unknown,,,,,,95.09999999999997
+dev05|TCH-F026-X024|2026-08-19T11:45:47.537386+00:00,unknown,,,,,,71.09999999999997
+dev05|TCH-F016-X025|2026-08-19T11:45:47.538334+00:00,residential,5,,,,,98.5
+dev05|BAN-F022-X026|2026-08-19T11:45:47.539181+00:00,residential,5,,,,,98.8
+dev05|TCH-F026-X027|2026-08-19T11:45:48.622105+00:00,residential,1,,,,,93.89999999999998
+dev08|TCH-E026-X012|2026-08-19T11:54:32.933394+00:00,residential,2,,,,,
+dev08|TCH-E026-X013|2026-08-19T11:54:32.934846+00:00,residential,1,,,,,
+dev07|TCH-F025-X001|2026-08-19T12:00:54.754877+00:00,residential,1,,,,,
+dev01|DEM-G024-X015|2026-08-19T12:24:20.790172+00:00,residential,1,,,,,
+dev01|DEM-G024-X016|2026-08-19T12:24:20.791627+00:00,public,,Forêt sacré de demkwo,heritage: sacred forest; sacred site,,,
+dev01|DEM-G024-X017|2026-08-19T12:24:20.792401+00:00,residential,1,,,,,
+dev01|DEM-G024-X018|2026-08-19T12:24:20.793099+00:00,residential,4,,,,,
+dev01|TCH-F025-X001|2026-08-19T12:24:23.236735+00:00,residential,1,,,,,
+dev01|TCH-F025-X002|2026-08-19T12:24:23.238101+00:00,residential,4,,,,,
+dev01|TCH-F025-X003|2026-08-19T12:24:23.239004+00:00,residential,1,,,,,
+dev01|TCH-F025-X004|2026-08-19T12:24:23.239804+00:00,residential,4,,,,,
+dev07|TCH-F025-X002|2026-08-19T12:11:40.242521+00:00,residential,4,,,,,
+dev05|TCH-F026-X028|2026-08-19T12:18:35.107003+00:00,residential,1,,,,,80.59999999999997
+dev03|TCH-F025-X003|2026-08-19T12:17:19.154563+00:00,residential,1,,,,,354.20000000000005
+dev02|BAL-H023-X010|2026-08-19T12:18:46.836862+00:00,unknown,,,,,,
+dev02|BAL-H023-X007|2026-08-19T12:18:46.838432+00:00,unknown,,,,,,
+dev02|BAL-H023-X011|2026-08-19T12:18:46.839374+00:00,residential,3,,,,,
+dev02|BAL-H023-X012|2026-08-19T12:18:46.840130+00:00,unknown,,,,,,74.89999999999998
+dev02|BAL-H023-X013|2026-08-19T12:18:50.562101+00:00,residential,3,,,,,
+dev02|TCH-F025-X001|2026-08-19T12:18:50.563349+00:00,residential,7,,,,,
+dev02|TCH-G024-X002|2026-08-19T12:18:50.564381+00:00,unknown,,,,,,
+dev02|TCH-G024-X003|2026-08-19T14:17:04.487276+00:00,residential,9,,,,,
+dev07|TCH-F025-X003|2026-08-19T12:21:13.796959+00:00,residential,1,,,,,
+dev04|TCH-F025-X003|2026-08-19T12:21:31.349701+00:00,residential,1,,,,,
+dev04|TCH-F025-X004|2026-08-19T12:21:31.351370+00:00,residential,3,,,,,
+dev04|TCH-F025-X005|2026-08-19T12:21:31.352339+00:00,unknown,,,,,,
+dev04|TCH-F025-X006|2026-08-19T12:21:31.353414+00:00,residential,1,,,,,
+dev04|TCH-F025-X007|2026-08-19T12:21:32.938204+00:00,public,,Foyer communautaire Fotouni ( Maison du CODEFO ),community hall,,,
+dev04|TCH-F025-X008|2026-08-19T12:21:32.939756+00:00,unknown,,,,,,
+dev01|TCH-F025-X005|2026-08-19T12:24:26.030773+00:00,unknown,,,,,,
+dev01|TCH-F025-X006|2026-08-19T12:24:26.032433+00:00,residential,1,,,,,
+dev01|BAL-H023-X001|2026-08-19T12:24:26.033605+00:00,residential,7,,,,,
+dev07|TCH-F025-X004|2026-08-19T12:24:45.566653+00:00,residential,3,,,,,
+dev07|TCH-F025-X005|2026-08-19T12:24:45.568278+00:00,unknown,,,,,,
+dev03|TCH-F025-X018|2026-08-19T12:27:31.169461+00:00,residential,3,,,,,352.20000000000005
+dev03|TCH-H025-X021|2026-08-19T12:27:31.171052+00:00,unknown,,,,,,314.70000000000005
+dev03|TCH-F025-X023|2026-08-19T12:27:31.171945+00:00,unknown,,,,,,0.5
+dev07|TCH-F025-X006|2026-08-19T12:28:31.044338+00:00,residential,1,,,,,
+dev03|TCH-F025-X025|2026-08-19T12:29:43.237000+00:00,unknown,,,,,,13.299999999999956
+dev04|TCH-F025-X009|2026-08-19T12:33:26.047750+00:00,residential,5,,,,,
+dev04|TCH-F025-X010|2026-08-19T12:33:26.049429+00:00,residential,1,,,,,
+dev07|TCH-F025-X007|2026-08-19T12:34:16.139551+00:00,public,,Foyer communautaire Fotouni ( Maison du CODEFO ),community hall,,,
+dev08|TCH-F025-X014|2026-08-19T12:38:32.031548+00:00,residential,2,,,,,
+dev08|TCH-F025-X015|2026-08-19T12:38:32.033037+00:00,residential,1,,,,,
+dev08|TCH-F025-X016|2026-08-19T12:38:32.033885+00:00,residential,1,,,,,
+dev08|TCH-F025-X017|2026-08-19T12:38:32.034646+00:00,residential,4,,,,,
+dev08|TCH-F025-X019|2026-08-19T12:38:32.697689+00:00,residential,6,,,,,
+dev07|TCH-F025-X008|2026-08-19T12:38:34.180587+00:00,unknown,,,,,,
+dev03|TCH-F025-X027|2026-08-19T12:46:03.692448+00:00,residential,2,,,,,354.6
+dev03|TCH-F025-X031|2026-08-19T12:46:03.694126+00:00,commercial,,Alimentation,general food store,,,278.1
+dev05|TCH-F025-X029|2026-08-19T12:46:09.807044+00:00,unknown,,,,,,75.80000000000001
+dev05|TCH-F022-X030|2026-08-19T12:46:09.808703+00:00,unknown,,,,,,83.5
+dev08|TCH-F025-X018|2026-08-19T12:46:41.678002+00:00,residential,3,,,,,
+dev01|BAL-H023-X002|2026-08-19T12:47:18.195923+00:00,unknown,,,,,,
+dev01|TCH-G025-X007|2026-08-19T12:54:33.854438+00:00,unknown,,,,,,
+dev01|TCH-G025-X008|2026-08-19T12:54:34.291243+00:00,unknown,,,,,,
+dev01|TCH-G025-X010|2026-08-19T12:54:34.292815+00:00,unknown,,,,,,
+dev01|TCH-G025-X009|2026-08-19T12:54:34.293692+00:00,unknown,,,,,,
+dev07|TCH-F025-X009|2026-08-19T12:55:55.255705+00:00,residential,5,,,,,
+dev04|TCH-F025-X011|2026-08-19T12:58:00.628882+00:00,residential,1,,,,,
+dev04|TCH-F025-X012|2026-08-19T12:58:00.630431+00:00,residential,3,,,,,
+dev04|F-F025-X013|2026-08-19T12:58:00.631449+00:00,residential,1,,,,,
+dev06|TCH-F025-X045|2026-08-19T13:04:52.980544+00:00,unknown,,,,,,198.5
+dev06|TCH-F025-X046|2026-08-19T13:04:52.982142+00:00,residential,1,,,,,143.89999999999998
+dev06|TCH-F025-X047|2026-08-19T13:04:52.982985+00:00,residential,5,,,,,132.2
+dev06|TCH-F025-X048|2026-08-19T13:04:52.983818+00:00,residential,7,,,,,108.7
+dev08|TCH-F025-X020|2026-08-19T13:06:09.224075+00:00,residential,9,,,,,
+dev07|TCH-F025-X010|2026-08-19T13:06:26.883467+00:00,residential,1,,,,,
+dev07|TCH-F025-X011|2026-08-19T13:10:02.865425+00:00,residential,1,,,,,
+dev07|TCH-F025-X012|2026-08-19T13:45:50.776754+00:00,residential,3,,,,,
+dev08|TCH-F025-X021|2026-08-26T16:10:29.989947+00:00,unknown,,,,,,92.3
+dev03|TCH-F025-X034|2026-08-19T13:13:40.745868+00:00,unknown,,,,,,
+dev03|TCH-F025-X037|2026-08-19T13:13:40.747443+00:00,unknown,,,,,,247.20000000000005
+dev03|TCH-F025-X038|2026-08-19T13:13:40.748427+00:00,unknown,,,,,,191.5
+dev03|TCH-F025-X039|2026-08-19T13:13:40.749386+00:00,unknown,,,,,,281.9
+dev03|TCH-F025-X041|2026-08-19T13:13:42.145400+00:00,unknown,,,,,,0.0
+dev03|TCH-F025-X048|2026-08-19T13:13:42.147032+00:00,residential,7,,,,,256.29999999999995
+dev03|TCH-F025-X042|2026-08-19T13:13:42.147939+00:00,residential,30,,,,30 residents: check (boarding house?),349.5
+dev05|HIE-I022-X031|2026-08-19T13:40:00.150346+00:00,unknown,,,,,,89.09999999999997
+dev06|HIE-I 022-X049|2026-08-19T13:42:19.218074+00:00,residential,15,,,,,135.0
+dev06|HIE-I022-X050|2026-08-24T15:24:31.805458+00:00,residential,11,,,,,350.1
+dev04|TCH-F025-X014|2026-08-19T13:45:12.907791+00:00,residential,2,,,,,
+dev07|TCH-F025-X013|2026-08-19T13:50:51.920617+00:00,unknown,,,,,,
+dev05|HIE-I022-X032|2026-08-19T13:47:28.281071+00:00,residential,1,,,,,98.89999999999998
+dev08|HIE-I022-X022|2026-08-19T13:47:32.878722+00:00,residential,1,,,,,
+dev08|HIE-I022-X023|2026-08-19T13:47:32.880265+00:00,residential,6,,,,,
+dev04|TCH-F025-X015|2026-08-19T13:54:27.138939+00:00,residential,1,,,,,
+dev04|TCH-F025-X016|2026-08-19T13:54:27.140504+00:00,residential,3,,,,,
+dev03|TCH-F022-X052|2026-08-19T14:15:44.711490+00:00,unknown,,,,,,160.79999999999995
+dev03|TCH-F025-X058|2026-08-19T14:15:45.171777+00:00,residential,3,,,,,232.29999999999995
+dev03|TCH-F025-X050|2026-08-19T14:15:45.173168+00:00,residential,11,,,,,167.10000000000002
+dev01|TCH-G025-X011|2026-08-19T14:16:30.967043+00:00,public,,École maternelle bilingue de Fotouni,nursery school,,,
+dev01|TCH-G025-X012|2026-08-19T14:16:30.968668+00:00,residential,1,,,,,
+dev01|TCH-G025-X013|2026-08-19T14:16:30.969748+00:00,commercial,,Boutique chez ma'a Hé,general food store; drinks,,,
+dev01|TCH-G025-X014|2026-08-19T14:16:30.970697+00:00,commercial,,Atelier de couture chez Mimi,fabrics and tailoring; tailoring,,,
+dev01|TCH-G025-X015|2026-08-19T14:16:37.492374+00:00,unknown,,,,,,
+dev01|TCH-G025-X016|2026-08-19T14:16:37.493967+00:00,unknown,,,,,,
+dev01|TCH-G025-X017|2026-08-19T14:16:37.495864+00:00,unknown,,,,,,
+dev01|TCH-G025-X018|2026-08-19T14:16:38.778088+00:00,residential,5,,,,,
+dev01|TCH-G025-X019|2026-08-19T14:16:38.779628+00:00,unknown,,,,,,
+dev01|TCH-G025-X020|2026-08-19T14:16:38.780508+00:00,unknown,,,,,,
+dev02|TCH-G024-X005|2026-08-19T14:17:04.489708+00:00,residential,1,,,,,
+dev02|TCH-F025-X007|2026-08-19T14:17:04.490604+00:00,public,,Foyer communautaire Fotouni ( Maison du CODEFO ),community hall,,,
+dev02|TCH-F024-X009|2026-08-19T14:17:07.264956+00:00,residential,4,,,,,
+dev02|TCH-F024-X010|2026-08-19T14:17:07.265841+00:00,residential,7,,,,,
+dev02|TCH-G024-X013|2026-08-19T14:17:09.521557+00:00,unknown,,,,,,
+dev02|TCH-G024-X011|2026-08-19T14:17:09.523308+00:00,unknown,,,,,,
+dev02|TCH-G024-X012|2026-08-19T14:17:09.524217+00:00,residential,1,,,,,
+dev02|TCH-G024-X015|2026-08-19T14:17:12.171337+00:00,unknown,,,,,,
+dev02|TCH-G024-X016|2026-08-19T14:17:12.172298+00:00,residential,1,,,,,91.5
+dev02|TCH-G024-X019|2026-08-19T14:17:12.173249+00:00,unknown,,,,,,
+dev02|TCH-G024-X020|2026-08-19T14:17:13.919037+00:00,unknown,,,,,,
+dev02|TCH-G024-X021|2026-08-19T14:17:13.920627+00:00,unknown,,,,,,
+dev05|HIE-I022-X033|2026-08-19T14:18:32.282532+00:00,unknown,,,,,,89.30000000000001
+dev05|HIE-I022-X034|2026-08-19T14:18:32.283411+00:00,residential,4,,,,,89.19999999999999
+dev08|KAM-I022-X024|2026-08-19T14:19:44.935358+00:00,residential,5,,,,,
+dev08|HIE-I022-X025|2026-08-19T14:19:44.937168+00:00,residential,4,,,,,
+dev02|TCH-G024-X017|2026-08-19T14:20:55.220815+00:00,unknown,,,,,,
+dev06|HIE-I022-X051|2026-08-19T14:25:06.571675+00:00,commercial,,Bar et boutique,general food store; drinks; airtime and mobile money; bar,,,97.5
+dev06|HIE-I022-X052|2026-08-19T14:25:06.573397+00:00,public,,Megni ta'a,heritage: sacred forest; sacred and tourist site; facilities: guide,,,198.4
+dev04|TCH-F025-X017|2026-08-19T14:31:48.010329+00:00,residential,9,,,,,
+dev05|HIE-I022-X036|2026-08-19T14:32:24.865064+00:00,residential,7,,,,,75.69999999999999
+dev07|TCH-F025-X014|2026-08-19T14:34:43.253420+00:00,residential,9,,,,,
+dev02|TCH-G024-X018|2026-08-19T14:36:42.614946+00:00,residential,3,,,,,
+dev08|HIE-I022-X026|2026-08-19T14:38:52.995417+00:00,residential,1,,,,,
+dev07|TCH-F025-X015|2026-08-19T16:07:35.993010+00:00,residential,11,,,,,
+dev05|HIE-I022-X035|2026-08-19T14:40:45.733101+00:00,residential,6,,,,,89.0
+dev07|TCH-F025-X016|2026-08-19T14:42:32.039636+00:00,residential,11,,,,,
+dev06|HIE-I022-X053|2026-08-19T14:46:10.989444+00:00,unknown,,,,,,31.899999999999977
+dev08|HIE-I022-X027|2026-08-19T14:46:19.171018+00:00,residential,2,,,,,
+dev08|HIE-I022-X028|2026-08-19T15:01:10.377053+00:00,unknown,,,,,,
+dev04|BAN-F025-X018|2026-08-19T14:58:28.313674+00:00,residential,2,,,,,
+dev04|TCH-F025-X019|2026-08-19T14:58:28.790420+00:00,public,,Chefferie supérieure de Fotouni,chiefdom,,,
+dev03|TCH-F025-X061|2026-08-19T14:58:54.607822+00:00,unknown,,,,,,155.60000000000002
+dev03|TCH-F025-X063|2026-08-19T14:58:54.609710+00:00,unknown,,,,,,43.29999999999996
+dev08|HIE-I022-X029|2026-08-19T15:01:10.378618+00:00,unknown,,,,,,
+dev08|HIE-I022-X030|2026-08-19T15:01:10.379689+00:00,unknown,,,,,,
+dev08|HIE-I022-X031|2026-08-19T15:01:10.380531+00:00,unknown,,,,,,
+dev08|HIE-I022-X032|2026-08-19T15:01:11.360122+00:00,residential,1,,,,,
+dev03|HIE-I022-X012|2026-08-19T15:01:17.203447+00:00,residential,3,,,,,291.0
+dev02|TCH-G024-X022|2026-08-19T16:01:06.983095+00:00,residential,4,,,,,
+dev02|TCH-G024-X024|2026-08-19T15:06:07.392544+00:00,residential,1,,,,,
+dev02|TCH-G024-X025|2026-08-19T15:06:07.393433+00:00,unknown,,,,,,
+dev02|TCH-G025-X026|2026-08-19T16:01:07.681982+00:00,unknown,,,,,,
+dev05|HIE-I022-X037|2026-08-19T15:06:53.766310+00:00,unknown,,,,,,83.89999999999998
+dev05|HIE-I022-X038|2026-08-19T15:06:53.769304+00:00,unknown,,,,,,96.89999999999998
+dev05|HIE-I022-X039|2026-08-19T15:06:53.770325+00:00,residential,7,,,,,78.80000000000001
+dev05|HIE-I022-X040|2026-08-19T15:06:54.452587+00:00,industrial,,Fokou William,welding workshop,,,97.2
+dev05|HIE-I022-X041|2026-08-19T15:06:54.454257+00:00,commercial,,Etoile bar,snack bar; bar,,,96.09999999999997
+dev07|TCH-F025-X018|2026-08-19T15:15:52.093142+00:00,residential,7,,,,,
+dev06|HIE-I022-X054|2026-08-19T15:19:10.216348+00:00,unknown,,,,,,42.89999999999998
+dev06|HIE-I022-X055|2026-08-19T15:19:10.218271+00:00,unknown,,,,,,5.899999999999977
+dev06|HIE-I022-X056|2026-08-19T15:19:10.219435+00:00,unknown,,,,,,190.1
+dev02|TCH-G024-X023|2026-08-19T16:01:06.983962+00:00,unknown,,,,,,
+dev02|HIE-I022-X001|2026-08-24T13:58:21.647622+00:00,industrial,,,welding workshop,3,,79.80000000000001
+dev01|TCH-G025-X021|2026-08-19T16:05:42.909662+00:00,unknown,,,,,,
+dev01|TCH-G025-X022|2026-08-19T16:05:42.911236+00:00,unknown,,,,,,
+dev01|TCH-G025-X023|2026-08-19T16:05:42.912114+00:00,unknown,,,,,,
+dev01|TCH-G025-X024|2026-08-19T16:05:42.912964+00:00,unknown,,,,,,
+dev01|HIE-I022-X001|2026-08-24T13:43:07.195611+00:00,industrial,,,welding workshop,3,,72.89999999999998
+dev02|HIE-I022-X002|2026-08-24T13:58:21.649350+00:00,unknown,,,,,,143.5
+dev02|HIE-I022-X003|2026-08-24T13:58:21.650271+00:00,unknown,,,,,,99.0
+dev01|HIE-I022-X002|2026-08-19T16:18:41.496902+00:00,unknown,,,,,,
+dev03|HIE-I022-X004|2026-08-19T16:21:51.562245+00:00,residential,2,,,,,288.4
+dev01|HIE-I022-X003|2026-08-19T16:23:29.284243+00:00,unknown,,,,,,
+dev07|HIE-I022-X002|2026-08-19T17:10:48.113848+00:00,unknown,,,,,,
+dev08|HIE-I022-X033|2026-08-19T16:25:45.311031+00:00,unknown,,,,,,
+dev08|HIE-I022-X034|2026-08-19T17:06:00.691844+00:00,residential,1,,,,,
+dev01|HIE-I022-X004|2026-08-19T16:26:22.042956+00:00,residential,2,,,,,
+dev02|HIE-I022-X004|2026-08-24T13:58:21.651072+00:00,residential,2,,,,,89.80000000000001
+dev01|HIE-I022-X005|2026-08-19T16:31:09.237480+00:00,commercial,,Papa Etienne alimentation,general food store; bakery; drinks,,,
+dev06|HIE-I022-X057|2026-08-19T16:33:03.577972+00:00,unknown,,,,,,238.9
+dev07|HIE-I022-X003|2026-08-19T16:35:07.009893+00:00,unknown,,,,,,
+dev06|HIE-I022-X058|2026-08-19T16:37:47.397097+00:00,residential,3,,,,,185.0
+dev02|HIE-I022-X005|2026-08-24T13:58:22.330633+00:00,commercial,,Papa Etienne alimentation,general food store; bakery; drinks,,,89.09999999999997
+dev02|HIE-I022-X006|2026-08-24T14:25:58.851697+00:00,residential,1,,,,,85.39999999999998
+dev08|HIE-I022-X035|2026-08-19T16:39:40.797107+00:00,residential,6,,,,,
+dev01|HIE-I022-X006|2026-08-19T16:41:05.719852+00:00,residential,1,,,,,
+dev04|HIE-I022-X001|2026-08-19T17:00:49.506963+00:00,industrial,,,welding workshop,3,,
+dev04|HIE-I022-X002|2026-08-19T17:00:49.507968+00:00,unknown,,,,,,
+dev04|HIE-I022-X003|2026-08-19T17:00:49.508851+00:00,unknown,,,,,,
+dev03|HIE-I022-X027|2026-08-19T17:01:10.923871+00:00,residential,2,,,,,353.1
+dev06|HIE-I022-X059|2026-08-19T17:02:48.290100+00:00,unknown,,,,,,45.39999999999998
+dev06|HIE-I022-X060|2026-08-19T17:02:48.291738+00:00,unknown,,,,,,36.39999999999998
+dev03|HIE-I022-X028|2026-08-19T17:02:51.078016+00:00,unknown,,,,,,8.099999999999966
+dev07|HIE-I022-X004|2026-08-19T17:03:35.272252+00:00,residential,2,,,,,
+dev08|HIE-I022-X037|2026-08-19T17:09:07.851927+00:00,unknown,,,,,,
+dev02|HIE-I022-X007|2026-08-19T17:10:18.159091+00:00,unknown,,,,,,
+dev02|HIE-I022-X008|2026-08-24T14:25:58.853253+00:00,residential,5,,,,,88.89999999999998
+dev07|HIE-I022-X005|2026-08-19T17:10:48.115426+00:00,commercial,,Papa Etienne alimentation,general food store; bakery; drinks,,,
+dev04|HIE-I022-X004|2026-08-19T17:15:28.949140+00:00,residential,1,,,,,
+dev04|HIE-I022-X005|2026-08-19T17:15:28.950742+00:00,commercial,,Papa Etienne alimentation,general food store; bakery; drinks,,,
+dev01|HIE-I022-X008|2026-08-19T17:22:14.359271+00:00,residential,5,,,,,
+dev01|HIE-I022-X007|2026-08-19T17:22:14.360949+00:00,unknown,,,,,,
+dev01|HIE-I022-X009|2026-08-19T17:22:14.362026+00:00,commercial,,Salon de coiffure jacquy l'or,hairdressing,,,
+dev02|HIE-I022-X009|2026-08-24T14:25:58.854116+00:00,commercial,,Salon de coiffure jacquy l'or,hairdressing,,,80.89999999999998
+dev02|HIE-I022-X010|2026-08-24T14:25:58.855026+00:00,unknown,,,,,,92.0
+dev05|HIE-I022-X042|2026-08-19T17:24:33.970692+00:00,residential,5,,,,,91.2
+dev05|HIE-I022-X043|2026-08-19T17:24:33.972457+00:00,industrial,,Atelier de soudure,welding workshop,,,84.5
+dev05|HIE-I026-X044|2026-08-19T17:24:33.973543+00:00,commercial,,Salon de coiffure,hairdressing,,,78.69999999999999
+dev08|HIE-I022-X038|2026-08-19T17:25:16.826256+00:00,unknown,,,,,,
+dev08|HIE-I022-X039|2026-08-19T17:25:16.827939+00:00,residential,7,,,,,
+dev04|HIE-I022-X006|2026-08-19T17:27:58.895645+00:00,residential,1,,,,,
+dev03|BAV-J021-X001|2026-08-20T08:55:30.892349+00:00,residential,1,,,,,44.599999999999966
+dev01|BAV-J021-X001|2026-08-20T09:12:12.133402+00:00,residential,1,,,,,
+dev06|MVI-J021-X061|2026-08-20T08:59:38.975743+00:00,unknown,,,,,,349.5
+dev06|MVI-J021-X062|2026-08-20T09:04:43.181915+00:00,unknown,,,,,,59.69999999999999
+dev03|BAV-J021-X002|2026-08-20T09:06:00.072785+00:00,residential,7,,,,,97.09999999999997
+dev07|BAV-J021-X006|2026-08-21T11:48:24.218766+00:00,residential,4,,,,,90.3
+dev07|BAV-J021-X008|2026-08-20T09:07:03.619920+00:00,residential,1,,,,,
+dev07|BAV-J021-X009|2026-08-20T09:07:03.620956+00:00,unknown,,,,,,
+dev05|MVI-J021-X001|2026-08-20T09:07:07.341911+00:00,residential,8,,,,,
+dev03|BAN-J021-X003|2026-08-20T09:12:22.842352+00:00,unknown,,,,,,25.69999999999999
+dev07|BAV-J021-X010|2026-08-20T09:15:00.399561+00:00,residential,7,,,,,
+dev07|BAV-J021-X011|2026-08-20T09:14:55.432395+00:00,residential,11,,,,,
+dev02|BAV-J021-X001|2026-08-20T12:55:40.372193+00:00,residential,1,,,,,
+dev07|BAV-J021-X012|2026-08-20T09:22:49.816615+00:00,residential,12,,,,,
+dev07|BAV-J021-X013|2026-08-20T09:22:49.818256+00:00,residential,1,,,,,
+dev07|BAV-J021-X014|2026-08-20T09:22:49.819290+00:00,residential,7,,,,,
+dev07|BAV-J021-X015|2026-08-20T09:25:48.726231+00:00,unknown,,,,,,
+dev01|BAV-J021-X002|2026-08-20T09:36:19.589735+00:00,residential,7,,,,,
+dev07|BAV-J021-X016|2026-08-20T09:36:38.882382+00:00,residential,1,,,,,
+dev02|BAV-J021-X002|2026-08-20T09:31:19.006753+00:00,residential,7,,,,,
+dev03|BAV-J021-X004|2026-08-20T09:32:15.165163+00:00,residential,1,,,,,48.79999999999996
+dev03|BAV-J021-X005|2026-08-20T09:32:15.166820+00:00,residential,1,,,,,54.39999999999998
+dev03|BAV-J021-X006|2026-08-20T09:32:15.167850+00:00,residential,1,,,,,108.89999999999998
+dev03|BAV-J021-X007|2026-08-20T09:32:15.168803+00:00,residential,8,,,,,136.29999999999995
+dev03|BAV-J021-X008|2026-08-20T09:32:25.391590+00:00,residential,1,,,,,278.6
+dev06|MVI-J021-X063|2026-08-20T09:32:39.570099+00:00,residential,6,,,,,228.4
+dev01|BAV-J021-X003|2026-08-20T09:36:19.591424+00:00,residential,5,,,,,
+dev05|BAN-J022-X002|2026-08-20T09:43:23.698038+00:00,unknown,,,,,,
+dev07|BAV-J021-X017|2026-08-20T09:44:46.437141+00:00,residential,1,,,,,
+dev01|BAV-J021-X004|2026-08-20T09:46:44.936661+00:00,residential,1,,,,,
+dev02|BAV-J021-X003|2026-08-20T09:49:02.836531+00:00,residential,5,,,,,
+dev03|BAV-J021-X009|2026-08-20T09:50:58.245672+00:00,unknown,,,,,,113.10000000000002
+dev03|BAV-J021-X010|2026-08-20T09:50:58.247376+00:00,residential,7,,,,,128.79999999999995
+dev02|BAV-J021-X004|2026-08-20T09:51:30.435555+00:00,residential,1,,,,,
+dev01|BAV-J021-X005|2026-08-20T09:51:58.682877+00:00,residential,1,,,,,
+dev03|BAV-J021-X011|2026-08-20T09:53:33.048461+00:00,residential,11,,,,,24.5
+dev07|BAV-J021-X018|2026-08-20T09:57:34.179651+00:00,unknown,,,,,,
+dev05|BAN-J021-X003|2026-08-20T09:57:37.723783+00:00,unknown,,,,,,
+dev06|MVI-J021-X064|2026-08-20T09:59:30.203919+00:00,unknown,,,,,,208.29999999999995
+dev06|MVI-J021-X065|2026-08-20T09:59:30.205675+00:00,commercial,,Boutique d'alimentation,general food store,2,,287.6
+dev05|BAN-J021-X004|2026-08-20T10:01:21.762643+00:00,unknown,,,,,,
+dev07|BAV-J021-X019|2026-08-20T10:01:27.953596+00:00,residential,2,,,,,
+dev05|BAN-J021-X005|2026-08-20T10:08:08.060985+00:00,unknown,,,,,,
+dev06|MVI-J021-X066|2026-08-20T10:12:59.176360+00:00,commercial,,Boutique et Bar,general food store; drinks; bar,,,299.29999999999995
+dev05|MVI-J021-X006|2026-08-20T10:15:56.956185+00:00,residential,6,,,,,
+dev01|BAV-J021-X006|2026-08-20T10:16:51.542814+00:00,residential,1,,,,,
+dev07|BAV-J021-X020|2026-08-20T10:19:50.915718+00:00,unknown,,,,,,
+dev07|BAV-J021-X021|2026-08-20T10:19:50.917487+00:00,commercial,,Boutique de Jean,general food store; drinks,1,,
+dev06|MVI-J021-X067|2026-08-20T10:27:42.277883+00:00,residential,15,,,,,295.4
+dev06|MVI-J021-X068|2026-08-20T10:27:42.279628+00:00,unknown,,,,,,224.29999999999995
+dev07|BAV-J021-X022|2026-08-20T10:28:54.423894+00:00,residential,6,,,,,
+dev06|MVI-J021-X069|2026-08-20T10:30:25.913783+00:00,residential,5,,,,,188.20000000000005
+dev03|BAV-J021-X012|2026-08-20T11:04:32.508089+00:00,residential,12,,,,,72.69999999999999
+dev04|BAV-J021-X001|2026-08-24T10:27:53.960300+00:00,residential,1,,,,,95.3
+dev01|BAV-J021-X007|2026-08-20T10:35:47.162545+00:00,residential,8,,,,,
+dev01|BAV-J021-X008|2026-08-20T10:35:47.164387+00:00,residential,1,,,,,
+dev05|MVI-J021-X007|2026-08-20T10:36:52.228287+00:00,unknown,,,,,,
+dev06|MVI-J021-X070|2026-08-20T10:39:37.758520+00:00,unknown,,,,,,24.59999999999997
+dev04|BAV-J021-X002|2026-08-24T09:39:43.073861+00:00,residential,7,,,,,81.89999999999998
+dev05|MVI-J021-X009|2026-08-20T10:43:30.100573+00:00,residential,4,,,,,
+dev01|BAV-J021-X010|2026-08-20T11:03:50.466500+00:00,residential,7,,,,,
+dev01|BAN-J 021-X011|2026-08-20T11:03:50.468111+00:00,unknown,,,,,,
+dev04|BAV-J021-X003|2026-08-20T11:02:16.754417+00:00,residential,4,,,,,
+dev04|BAV-J021-X004|2026-08-20T11:03:02.948544+00:00,residential,1,,,,,
+dev03|BAV-J021-X013|2026-08-20T11:04:32.509700+00:00,residential,1,,,,,340.1
+dev01|BAV-J021-X013|2026-08-20T11:03:50.469799+00:00,residential,1,,,,,
+dev02|BAV-J021-X005|2026-08-20T11:11:21.869754+00:00,residential,1,,,,,
+dev02|BAV-J021-X006|2026-08-20T11:11:21.871360+00:00,residential,1,,,,,
+dev02|BAV-J021-X007|2026-08-20T11:11:21.872550+00:00,residential,8,,,,,
+dev02|BAV-J021-X008|2026-08-20T11:11:21.873427+00:00,residential,1,,,,,
+dev02|BAN-J021-X009|2026-08-20T11:11:22.860815+00:00,unknown,,,,,,
+dev01|BAV-J021-X012|2026-08-20T11:13:30.235514+00:00,residential,12,,,,,
+dev05|MVI-J021-X010|2026-08-20T11:08:42.982766+00:00,residential,5,,,,,
+dev05|MVI-J021-X011|2026-08-20T11:13:37.602151+00:00,unknown,,,,,,
+dev03|BAV-J021-X014|2026-08-20T11:30:34.230090+00:00,residential,7,,,,,356.79999999999995
+dev05|MVI-J021-X012|2026-08-20T14:58:17.123762+00:00,residential,3,,,,,
+dev07|BAV-J021-X023|2026-08-20T11:18:46.447077+00:00,residential,2,,,,,
+dev02|BAV-J021-X010|2026-08-20T11:19:22.551477+00:00,residential,7,,,,,
+dev02|BAV-J021-X011|2026-08-20T11:19:22.553294+00:00,residential,11,,,,,
+dev01|BAN-J021-X014|2026-08-20T11:23:55.716676+00:00,unknown,,,,,,
+dev03|BAV-J021-X015|2026-08-20T11:30:34.231845+00:00,unknown,,,,,,34.599999999999966
+dev03|BAV-J021-X016|2026-08-20T11:30:34.233001+00:00,residential,1,,,,,149.7
+dev03|BAV-J021-X017|2026-08-20T12:07:12.220858+00:00,residential,9,,,,,13.899999999999975
+dev02|BAV-J021-X012|2026-08-20T12:12:34.814451+00:00,residential,12,,,,,
+dev06|MVI-J021-X071|2026-08-20T11:52:44.142858+00:00,residential,7,,,,,309.5
+dev06|MVI-J021-X072|2026-08-20T11:52:44.589468+00:00,commercial,,Boutique,general food store; drinks,,,345.20000000000005
+dev06|MVI-J021-X073|2026-08-20T11:52:44.590871+00:00,public,,Foyer social Nsoh-Mving,community hall,,,335.9
+dev06|MVI-J021-X074|2026-08-20T11:52:44.591863+00:00,unknown,,,,,,157.79999999999995
+dev06|MVI-J021-X075|2026-08-20T11:52:45.225662+00:00,unknown,,,,,,
+dev06|MVI-J021-X076|2026-08-20T12:07:37.096277+00:00,unknown,,,,,,154.29999999999995
+dev06|MVI-J021-X077|2026-08-20T12:07:37.097935+00:00,unknown,,,,,,250.9
+dev06|MVI-J021-X078|2026-08-20T12:07:37.098859+00:00,residential,7,,,,,260.20000000000005
+dev02|BAV-J021-X013|2026-08-20T12:12:34.816068+00:00,residential,1,,,,,
+dev02|BAV-J021-X014|2026-08-20T12:12:34.816996+00:00,residential,7,,,,,
+dev02|BAV-J021-X015|2026-08-20T12:12:34.817891+00:00,unknown,,,,,,
+dev02|BAV-J021-X016|2026-08-20T12:12:35.960528+00:00,residential,1,,,,,
+dev01|BAV-J021-X015|2026-08-20T12:12:37.319592+00:00,unknown,,,,,,
+dev01|BAV-J021-X016|2026-08-20T12:12:37.321218+00:00,residential,1,,,,,
+dev01|BAV-J021-X017|2026-08-20T12:12:37.322152+00:00,residential,1,,,,,
+dev03|BAV-J021-X018|2026-08-20T12:19:29.143449+00:00,unknown,,,,,,347.29999999999995
+dev04|BAV-J021-X005|2026-08-20T12:19:51.842084+00:00,residential,1,,,,,
+dev04|BAV-J021-X006|2026-08-20T12:19:51.843791+00:00,residential,1,,,,,
+dev04|BAV-J021-X007|2026-08-20T12:19:51.846262+00:00,residential,8,,,,,
+dev04|BAV-J021-X008|2026-08-20T12:19:55.728411+00:00,residential,1,,,,,75.19999999999999
+dev02|BAV-J021-X017|2026-08-20T13:08:17.893813+00:00,residential,1,,,,,
+dev07|BAV-J021-X024|2026-08-20T14:45:12.486391+00:00,public,,Maison sacré familial,heritage: place of worship; sacred site; facilities: toilets,,,
+dev07|BAV-J021-X025|2026-08-20T14:45:12.488021+00:00,residential,2,,,,,
+dev07|BAV-J021-X026|2026-08-20T14:45:12.489060+00:00,residential,1,,,,,
+dev04|BVO-J021-X009|2026-08-20T13:25:13.910161+00:00,public,,Centre de santé intégré de Baving,health centre,,,
+dev01|BAV-J021-X018|2026-08-20T13:26:05.453069+00:00,unknown,,,,,,
+dev02|BAV-J021-X019|2026-08-20T13:28:29.474604+00:00,residential,2,,,,,
+dev02|BAV-J021-X018|2026-08-20T13:28:29.476420+00:00,unknown,,,,,,
+dev02|BAV-J021-X020|2026-08-20T13:28:29.477679+00:00,unknown,,,,,,
+dev04|BAV-J021-X018|2026-08-20T14:44:08.077254+00:00,unknown,,,,,,
+dev06|MVI-J021-X079|2026-08-20T13:29:14.046055+00:00,unknown,,,,,,258.70000000000005
+dev06|MVI-J021-X080|2026-08-20T13:29:14.047754+00:00,residential,8,,,,,319.20000000000005
+dev02|BAV-J021-X021|2026-08-20T13:29:56.313409+00:00,commercial,,Boutique de Jean,general food store; drinks,1,,
+dev06|MVI-J021-X081|2026-08-20T13:32:08.069998+00:00,residential,8,,,,,126.2
+dev04|BAV-J021-X010|2026-08-20T13:35:14.667001+00:00,residential,7,,,,,
+dev04|BAV-J021-X011|2026-08-20T13:35:14.668715+00:00,public,,École publique de Bagueka,primary school,,,
+dev03|BAV-J021-X019|2026-08-20T13:39:08.862657+00:00,residential,2,,,,,306.9
+dev03|MVI-J021-X020|2026-08-20T13:39:08.864492+00:00,residential,1,,,,,
+dev03|BAV-J021-X021|2026-08-20T13:39:08.865658+00:00,commercial,,Boutique de Jean,general food store; drinks,1,,242.29999999999995
+dev03|BAV-J021-X022|2026-08-20T13:39:08.866604+00:00,residential,6,,,,,146.29999999999995
+dev04|BAV-J021-X012|2026-08-20T14:31:25.295224+00:00,residential,12,,,,,
+dev03|BAV-J021-X023|2026-08-20T14:01:45.824890+00:00,residential,2,,,,,190.0
+dev03|BAV-J021-X024|2026-08-20T14:01:45.826583+00:00,public,,Maison sacré familial,heritage: place of worship; sacred site; facilities: toilets,,,38.099999999999966
+dev03|BAV-J021-X025|2026-08-20T14:01:45.827548+00:00,residential,2,,,,,170.20000000000005
+dev03|BAV-J021-X026|2026-08-20T14:01:45.828452+00:00,residential,1,,,,,253.4
+dev02|BAV-J021-X025|2026-08-20T14:01:50.110852+00:00,residential,2,,,,,
+dev03|BAV-J021-X027|2026-08-20T14:01:47.064590+00:00,residential,1,,,,,359.20000000000005
+dev04|BAV-J021-X013|2026-08-20T14:38:07.143736+00:00,residential,1,,,,,
+dev04|J-J021-X014|2026-08-20T14:38:07.151352+00:00,unknown,,,,,,
+dev04|BAV-J021-X015|2026-08-20T14:38:07.152483+00:00,unknown,,,,,,
+dev04|BAV-J021-X016|2026-08-20T14:38:07.153419+00:00,residential,1,,,,,
+dev04|BAV-J021-X017|2026-08-20T14:44:08.075487+00:00,residential,1,,,,,
+dev07|BAV-J021-X027|2026-08-20T14:45:12.489919+00:00,residential,1,,,,,
+dev01|BAV-J021-X019|2026-08-20T14:57:55.919697+00:00,residential,2,,,,,
+dev01|BAV-J021-X020|2026-08-20T14:57:55.922897+00:00,unknown,,,,,,
+dev01|BAV-J021-X021|2026-08-20T14:57:55.923841+00:00,commercial,,Boutique de Jean,general food store; drinks,1,,
+dev01|BAV-J021-X022|2026-08-20T14:57:57.855734+00:00,residential,6,,,,,
+dev01|BAV-J 021-X023|2026-08-20T14:57:57.857599+00:00,unknown,,,,,,
+dev05|MVI-J021-X013|2026-08-20T15:20:47.416732+00:00,commercial,,Boutique alimentaire,general food store,,,
+dev05|MVI-J021-X014|2026-08-20T15:20:47.421301+00:00,residential,3,,,,,
+dev01|BAV-J021-X025|2026-08-20T15:21:50.247558+00:00,residential,2,,,,,
+dev05|MVI-J021-X016|2026-08-20T15:27:58.980026+00:00,unknown,,,,,,
+dev05|BAN-J021-X017|2026-08-20T15:27:58.981498+00:00,unknown,,,,,,
+dev07|BAV-J021-X028|2026-08-20T15:50:04.775515+00:00,residential,2,,,,,
+dev07|BAV-J021-X001|2026-08-21T10:46:37.440443+00:00,residential,1,,,,,108.79999999999995
+dev03|BAV-J021-X028|2026-08-21T10:48:07.473956+00:00,residential,2,,,,,306.6
+dev03|BAV-J021-X029|2026-08-21T10:48:07.475594+00:00,residential,1,,,,,203.4
+dev03|BAV-J021-X030|2026-08-21T10:48:07.476622+00:00,residential,2,,,,,65.09999999999997
+dev07|BAV-J021-X002|2026-08-21T11:00:04.727002+00:00,residential,7,,,,,84.39999999999998
+dev08|MVI-J021-X001|2026-08-24T09:21:20.008257+00:00,residential,8,,,,,98.89999999999998
+dev08|MVI-J021-X002|2026-08-24T09:23:17.182733+00:00,residential,2,,,,,129.89999999999998
+dev07|BAV-J021-X003|2026-08-21T11:08:31.631402+00:00,residential,5,,,,,89.69999999999999
+dev06|MVI-J021-X001|2026-08-21T11:13:38.842678+00:00,residential,6,,,,,261.29999999999995
+dev07|BAV-J021-X004|2026-08-21T11:17:33.986058+00:00,residential,2,,,,,88.19999999999999
+dev07|BAV-J021-X005|2026-08-21T11:17:33.987911+00:00,residential,1,,,,,102.8
+dev08|MVI-J021-X003|2026-08-24T09:37:38.062518+00:00,residential,1,,,,,192.5
+dev03|MVI-J021-X004|2026-08-21T11:31:45.003219+00:00,residential,3,,,,,155.10000000000002
+dev03|MVI-J021-X005|2026-08-21T11:35:03.116979+00:00,residential,3,,,,,48.69999999999999
+dev08|MVI-J021-X004|2026-08-24T09:40:28.655049+00:00,residential,4,,,,,58.39999999999998
+dev08|BAV-J001-X001|2026-08-21T11:46:39.347292+00:00,residential,2,,,,,70.39999999999998
+dev03|MVI-J021-X006|2026-08-21T11:59:32.565428+00:00,residential,6,,,,,250.79999999999995
+dev06|MVI-J021-X002|2026-08-21T12:04:46.357238+00:00,residential,2,,,,,65.80000000000001
+dev06|MVI-J021-X003|2026-08-21T12:04:46.359029+00:00,residential,1,,,,,67.5
+dev06|MVI-J021-X004|2026-08-21T12:04:46.360238+00:00,residential,3,,,,,337.5
+dev06|MVI-J021-X005|2026-08-21T12:04:46.361299+00:00,residential,3,,,,,84.80000000000001
+dev01|MVI-J021-X002|2026-08-21T12:10:33.969136+00:00,residential,2,,,,,84.39999999999998
+dev01|MVI-J021-X003|2026-08-21T12:10:33.973589+00:00,residential,1,,,,,80.19999999999999
+dev03|MVI-J021-X008|2026-08-21T12:12:15.859755+00:00,residential,3,,,,,83.5
+dev03|MVI-J021-X009|2026-08-21T12:12:15.861580+00:00,residential,4,,,,,156.29999999999995
+dev06|MVI-J021-X006|2026-08-21T12:12:35.654531+00:00,residential,6,,,,,28.69999999999999
+dev06|MVI-J021-X008|2026-08-21T12:12:35.656291+00:00,residential,3,,,,,166.39999999999998
+dev05|BAV-J021-X006|2026-08-21T12:13:25.063464+00:00,residential,1,,,,,82.19999999999999
+dev02|BAV-J021-X029|2026-08-21T12:17:58.800325+00:00,residential,1,,,,,89.0
+dev02|BAV-J021-X030|2026-08-21T12:26:26.565237+00:00,residential,2,,,,,90.0
+dev03|MVI-J021-X012|2026-08-21T12:18:56.889186+00:00,residential,1,,,,,270.29999999999995
+dev03|MVI-J021-X015|2026-08-21T12:18:56.890897+00:00,unknown,,,,,,247.20000000000005
+dev01|MVI-J021-X004|2026-08-21T12:22:04.285657+00:00,residential,3,,,,,96.0
+dev01|MVI-J021-X005|2026-08-21T12:22:04.287473+00:00,residential,3,,,,,89.09999999999997
+dev01|MVI-J021-X066|2026-08-21T12:22:04.288612+00:00,commercial,,Boutique et Bar,general food store; drinks; bar,,,86.80000000000001
+dev05|BAV-J021-X007|2026-08-21T12:23:25.337085+00:00,residential,8,,,,,94.5
+dev03|MVI-J021-X017|2026-08-21T12:26:12.259756+00:00,unknown,,,,,,229.4
+dev03|MVI-J021-X016|2026-08-21T12:26:12.261566+00:00,unknown,,,,,,343.0
+dev03|MVI-J021-X021|2026-08-21T12:42:33.977158+00:00,unknown,,,,,,39.0
+dev05|BAV-J021-X008|2026-08-21T12:28:00.576795+00:00,residential,1,,,,,98.2
+dev05|BAV-J021-X009|2026-08-21T12:28:00.578657+00:00,unknown,,,,,,80.80000000000001
+dev05|BAV-J021-X010|2026-08-21T12:31:42.515414+00:00,residential,2,,,,,96.5
+dev02|BAV-J021-X031|2026-08-21T12:33:58.376853+00:00,unknown,,,,,,78.80000000000001
+dev06|MVI-J021-X007|2026-08-21T12:34:14.386679+00:00,unknown,,,,,,61.19999999999999
+dev02|BAI-J021-X032|2026-08-21T12:45:22.002951+00:00,unknown,,,,,,85.0
+dev03|MVI-J021-X025|2026-08-21T12:44:55.044050+00:00,unknown,,,,,,74.59999999999997
+dev03|MVI-J021-X028|2026-08-21T12:50:13.749375+00:00,unknown,,,,,,24.59999999999997
+dev06|BAN-J021-X009|2026-08-21T12:55:40.193988+00:00,unknown,,,,,,34.89999999999998
+dev06|MVI-J021-X010|2026-08-21T12:55:40.195798+00:00,residential,5,,,,,35.799999999999955
+dev06|MVI-J021-X011|2026-08-21T12:55:40.196894+00:00,unknown,,,,,,311.1
+dev06|MVI-J021-X012|2026-08-21T13:08:14.486394+00:00,residential,3,,,,,38.79999999999996
+dev05|BAV-J021-X011|2026-08-21T13:01:33.981074+00:00,residential,2,,,,,78.30000000000001
+dev05|BAV-J021-X012|2026-08-21T13:05:00.487581+00:00,residential,12,,,,,98.3
+dev05|BAV-J021-X013|2026-08-21T13:10:35.362405+00:00,residential,1,,,,,95.3
+dev06|MVI-J021-X013|2026-08-21T13:08:14.488167+00:00,commercial,,Boutique alimentaire,general food store,,,37.69999999999999
+dev06|MVI-J021-X014|2026-08-21T13:10:39.738213+00:00,residential,3,,,,,102.09999999999997
+dev05|BAV-J021-X014|2026-08-21T13:26:55.974554+00:00,industrial,,Garage,mechanics workshop; vehicle repair garage,2,,96.59999999999997
+dev08|MVI-J021-X006|2026-08-24T10:03:19.400149+00:00,residential,6,,,,,104.10000000000002
+dev08|MVI-J021-X007|2026-08-24T10:44:23.131745+00:00,unknown,,,,,,13.0
+dev08|MVI-J021-X009|2026-08-24T11:34:05.639406+00:00,residential,4,,,,,158.39999999999998
+dev02|BAV-J021-X033|2026-08-21T13:27:52.132321+00:00,unknown,,,,,,71.19999999999999
+dev02|BAV-J021-X034|2026-08-21T13:27:52.134066+00:00,unknown,,,,,,79.69999999999999
+dev02|BAV-J021-X035|2026-08-21T13:27:52.135117+00:00,unknown,,,,,,80.0
+dev02|BAV-J021-X036|2026-08-21T13:27:52.136098+00:00,unknown,,,,,,82.5
+dev02|BAV-J021-X037|2026-08-21T13:27:54.959393+00:00,unknown,,,,,,85.0
+dev01|BAV-J021-X070|2026-08-21T13:30:29.143381+00:00,unknown,,,,,,75.80000000000001
+dev01|BAV-J021-X072|2026-08-21T13:30:29.147247+00:00,unknown,,,,,,76.80000000000001
+dev06|MVI-J021-X015|2026-08-21T13:35:51.148907+00:00,unknown,,,,,,71.80000000000001
+dev06|MVI-J021-X016|2026-08-21T13:35:51.150713+00:00,unknown,,,,,,41.0
+dev06|MVI-J021-X017|2026-08-21T13:35:51.151805+00:00,unknown,,,,,,183.5
+dev06|MVI-J021-X018|2026-08-21T13:35:51.152844+00:00,unknown,,,,,,240.70000000000005
+dev01|BAV-J021-X073|2026-08-21T13:36:29.862488+00:00,unknown,,,,,,74.69999999999999
+dev05|BAV-J021-X015|2026-08-21T13:53:00.719971+00:00,unknown,,,,,,90.89999999999998
+dev05|BAV-J021-X016|2026-08-21T13:53:00.721828+00:00,residential,1,,,,,97.7
+dev05|BAV-J021-X017|2026-08-21T13:53:00.722971+00:00,residential,4,,,,,80.30000000000001
+dev03|MVI-J021-X065|2026-08-21T13:53:47.143281+00:00,commercial,,Boutique d'alimentation,general food store,2,,308.6
+dev03|MVI-J021-X063|2026-08-21T13:53:47.145096+00:00,residential,1,,,,,329.70000000000005
+dev08|MVI-J021-X011|2026-08-21T13:54:30.535981+00:00,unknown,,,,,,71.09999999999997
+dev04|BAV-J021-X019|2026-08-24T09:30:53.572772+00:00,residential,2,,,,,
+dev04|BAV-J021-X020|2026-08-24T09:30:53.575179+00:00,unknown,,,,,,
+dev03|MVI-J021-X056|2026-08-24T09:32:31.703605+00:00,unknown,,,,,,8.699999999999989
+dev02|BAV-J021-X022|2026-08-24T09:32:43.991081+00:00,residential,6,,,,,80.80000000000001
+dev02|BAV-J021-X038|2026-08-24T09:35:51.156975+00:00,unknown,,,,,,94.89999999999998
+dev02|BAV-J021-X039|2026-08-24T09:45:05.871697+00:00,unknown,,,,,,110.39999999999998
+dev07|BAV-J021-X029|2026-08-24T09:45:22.712002+00:00,residential,1,,,,,0.0
+dev02|BAV-J021-X040|2026-08-24T09:46:21.073980+00:00,unknown,,,,,,82.30000000000001
+dev03|BAV-J021-X063|2026-08-24T09:46:06.605811+00:00,residential,1,,,,,13.599999999999966
+dev01|BAV-J021-X074|2026-08-24T09:46:25.772883+00:00,residential,1,,,,,58.69999999999999
+dev03|BAV-J021-X099|2026-08-24T09:49:03.021145+00:00,unknown,,,,,,57.19999999999999
+dev02|BAV-J021-X041|2026-08-24T09:50:36.570599+00:00,unknown,,,,,,94.2
+dev02|BAV-J021-X042|2026-08-24T09:50:36.572502+00:00,unknown,,,,,,84.5
+dev08|MVI-J021-X005|2026-08-24T09:53:02.460553+00:00,residential,3,,,,,78.39999999999998
+dev02|BAV-J021-X043|2026-08-24T10:00:19.215636+00:00,unknown,,,,,,92.09999999999997
+dev07|BAV-J021-X030|2026-08-24T10:01:44.441347+00:00,residential,2,,,,,0.0
+dev05|BAV-J021-X018|2026-08-24T10:05:22.622222+00:00,unknown,,,,,,90.0
+dev05|BAV-J021-X019|2026-08-24T10:05:22.624251+00:00,residential,2,,,,,90.0
+dev05|BAV-J021-X020|2026-08-24T10:05:22.625644+00:00,unknown,,,,,,90.0
+dev05|BAV-J021-X021|2026-08-24T10:05:22.627066+00:00,commercial,,Boutique de Jean,general food store; drinks,1,,90.0
+dev02|BAV-J021-X044|2026-08-24T10:05:37.628767+00:00,commercial,,Snack bar,drinks; bar,1,,83.30000000000001
+dev06|MVI-J021-X019|2026-08-24T10:06:46.551391+00:00,unknown,,,,,,14.199999999999989
+dev05|BAV-J021-X022|2026-08-24T10:07:19.061448+00:00,residential,6,,,,,90.0
+dev03|BAV-J021-X105|2026-08-24T10:08:14.243754+00:00,residential,1,,,,,59.30000000000001
+dev05|BAV-J021-X023|2026-08-24T10:08:54.921798+00:00,residential,2,,,,,90.0
+dev02|BAV-J021-X047|2026-08-24T10:12:08.546682+00:00,unknown,,,,,,94.2
+dev02|BAV-J021-X045|2026-08-24T10:12:08.548618+00:00,unknown,,,,,,81.30000000000001
+dev05|BAV-J021-X027|2026-08-24T10:52:27.853181+00:00,residential,1,,,,,76.30000000000001
+dev01|BAV-J021-X075|2026-08-24T10:14:52.998701+00:00,residential,5,,,,,72.39999999999998
+dev03|BAV-J021-X075|2026-08-24T10:16:02.083231+00:00,residential,5,,,,,272.9
+dev05|BAV-J021-X024|2026-08-24T10:17:25.306243+00:00,public,,Maison sacré familial,heritage: place of worship; sacred site; facilities: toilets,,,90.0
+dev06|MVI-J021-X020|2026-08-24T10:29:24.191279+00:00,residential,1,,,,,320.1
+dev06|MVI-J021-X021|2026-08-24T10:29:24.195477+00:00,unknown,,,,,,2.1999999999999886
+dev06|MVI-J021-X022|2026-08-24T10:29:24.197584+00:00,unknown,,,,,,10.699999999999989
+dev01|BAV-J021-X076|2026-08-24T10:30:13.315855+00:00,unknown,,,,,,85.30000000000001
+dev05|BAV-J021-X025|2026-08-24T10:49:58.463977+00:00,residential,2,,,,,90.0
+dev01|BAV-J021-X077|2026-08-24T10:31:30.511207+00:00,unknown,,,,,,69.89999999999998
+dev01|BAV-J021-X078|2026-08-24T10:34:04.536833+00:00,unknown,,,,,,70.80000000000001
+dev02|BAV-J021-X046|2026-08-24T10:34:41.855938+00:00,unknown,,,,,,81.19999999999999
+dev02|BAV-J021-X049|2026-08-24T10:34:41.857733+00:00,unknown,,,,,,83.19999999999999
+dev02|BAN-J021-X048|2026-08-24T10:34:41.858992+00:00,unknown,,,,,,98.09999999999997
+dev02|BAN-J021-X049|2026-08-24T10:34:43.282648+00:00,unknown,,,,,,99.7
+dev02|BAV-J021-X051|2026-08-24T10:34:43.284373+00:00,unknown,,,,,,89.0
+dev01|XXX-J021-X079|2026-08-24T10:36:37.235400+00:00,unknown,,,,,,85.39999999999998
+dev02|BAV-J021-X052|2026-08-24T10:41:17.820213+00:00,unknown,,,,,,86.30000000000001
+dev04|BAV-J021-X021|2026-08-24T10:42:07.597502+00:00,commercial,,Boutique de Jean,general food store; drinks,1,,225.0
+dev08|MVI-J021-X008|2026-08-24T10:44:23.133534+00:00,residential,2,,,,,92.2
+dev01|BAV-J021-X080|2026-08-24T10:44:43.566653+00:00,unknown,,,,,,65.89999999999998
+dev02|BAV-J001-X053|2026-08-24T10:49:31.870976+00:00,unknown,,,,,,105.10000000000002
+dev02|BAN-J021-X055|2026-08-24T10:49:31.872425+00:00,unknown,,,,,,91.59999999999997
+dev01|BAV-J021-X081|2026-08-24T10:47:59.647487+00:00,unknown,,,,,,81.09999999999997
+dev05|BAV-J021-X026|2026-08-24T10:49:58.467043+00:00,residential,2,,,,,65.0
+dev05|BAV-J021-X028|2026-08-24T10:49:58.468164+00:00,residential,2,,,,,86.69999999999999
+dev02|BAV-J021-X057|2026-08-24T10:51:16.981376+00:00,unknown,,,,,,92.0
+dev01|BAV-J021-X082|2026-08-24T10:51:17.352264+00:00,residential,1,,,,,69.5
+dev01|BAV-J021-X083|2026-08-24T10:51:17.354143+00:00,residential,1,,,,,81.80000000000001
+dev04|BVI-J021-X022|2026-08-24T10:52:50.775309+00:00,residential,1,,,,,225.0
+dev02|BAV-J021-X054|2026-08-24T10:54:22.815893+00:00,unknown,,,,,,102.09999999999997
+dev02|BAN-J021-X056|2026-08-24T11:24:25.247013+00:00,unknown,,,,,,88.59999999999997
+dev02|BAV-J021-X059|2026-08-24T11:24:25.251385+00:00,unknown,,,,,,81.80000000000001
+dev02|BAV-J021-X058|2026-08-24T11:24:25.252481+00:00,unknown,,,,,,92.39999999999998
+dev02|BAV-J021-X060|2026-08-24T11:24:25.253544+00:00,unknown,,,,,,90.39999999999998
+dev02|BAN-J021-X061|2026-08-24T11:24:26.567722+00:00,unknown,,,,,,75.5
+dev02|BAV-J021-X062|2026-08-24T11:24:26.569576+00:00,unknown,,,,,,82.30000000000001
+dev02|BAV-J021-X063|2026-08-24T11:24:26.570636+00:00,residential,1,,,,,88.39999999999998
+dev02|BAV-J021-X064|2026-08-24T11:24:26.571575+00:00,unknown,,,,,,83.89999999999998
+dev02|BAV-J021-X066|2026-08-24T11:24:28.109685+00:00,unknown,,,,,,96.8
+dev01|BAN-J021-X084|2026-08-24T11:24:47.924759+00:00,unknown,,,,,,67.89999999999998
+dev01|BAV-J021-X085|2026-08-24T11:24:47.926572+00:00,unknown,,,,,,70.80000000000001
+dev01|BAV-J021-X086|2026-08-24T11:24:47.927667+00:00,unknown,,,,,,69.89999999999998
+dev01|BAV-J021-X087|2026-08-24T11:24:47.928629+00:00,unknown,,,,,,83.30000000000001
+dev01|BAN-J021-X088|2026-08-24T11:25:03.768697+00:00,unknown,,,,,,64.19999999999999
+dev01|BAN-J021-X089|2026-08-24T11:25:03.770520+00:00,unknown,,,,,,72.19999999999999
+dev01|BAN-J021-X090|2026-08-24T11:25:03.771697+00:00,unknown,,,,,,77.30000000000001
+dev01|BAV-J021-X091|2026-08-24T11:25:03.772710+00:00,unknown,,,,,,68.19999999999999
+dev01|BAV-J021-X092|2026-08-24T11:25:05.127428+00:00,unknown,,,,,,67.30000000000001
+dev01|BAV-J021-X093|2026-08-24T11:25:05.129243+00:00,unknown,,,,,,82.39999999999998
+dev04|BAV-J021-X023|2026-08-24T11:26:47.099922+00:00,residential,2,,,,,225.0
+dev04|BAV-J021-X024|2026-08-24T11:26:47.101167+00:00,residential,1,,,,,90.0
+dev04|BAV-J021-X025|2026-08-24T11:26:47.102217+00:00,residential,2,,,,,90.0
+dev04|BAV-J021-X026|2026-08-24T11:26:48.954483+00:00,public,,"Église catholique, paroisse de Kwogue",church,1,,225.0
+dev03|BAV-J021-X089|2026-08-24T11:29:16.767770+00:00,residential,2,,,,,81.80000000000001
+dev03|BAV-J021-X103|2026-08-24T11:29:16.769583+00:00,residential,2,,,,,344.70000000000005
+dev08|MVI-J021-X010|2026-08-24T11:34:05.640373+00:00,residential,4,,,,,89.39999999999998
+dev08|NGA-K020-X011|2026-08-24T11:37:28.578188+00:00,unknown,,,,,,26.5
+dev01|BAV-J021-X094|2026-08-24T11:39:24.771768+00:00,residential,3,,,,,61.599999999999966
+dev08|NGU-K020-X012|2026-08-24T11:45:12.175489+00:00,unknown,,,,,,101.0
+dev07|NGU-K020-X032|2026-08-24T11:41:01.571424+00:00,unknown,,,,,,134.7
+dev03|NGU-K020-X005|2026-08-24T11:43:39.628690+00:00,residential,1,,,,,6.0
+dev05|BAV-J021-X030|2026-08-24T11:48:12.216069+00:00,residential,2,,,,,90.0
+dev05|BAV-J021-X031|2026-08-24T11:48:12.217399+00:00,unknown,,,,,,90.0
+dev05|BAV-J021-X032|2026-08-24T11:48:24.938526+00:00,unknown,,,,,,68.59999999999997
+dev08|NGU-K020-X013|2026-08-24T11:50:06.872179+00:00,unknown,,,,,,97.3
+dev04|BAV-J021-X028|2026-08-24T12:01:15.848412+00:00,residential,5,,,,,225.0
+dev04|BAV-J021-X027|2026-08-24T12:01:16.504390+00:00,residential,1,,,,,225.0
+dev02|NGU-K020-X001|2026-08-24T12:02:09.241637+00:00,unknown,,,,,,75.09999999999997
+dev02|NGU-K020-X002|2026-08-24T12:02:09.243490+00:00,residential,2,,,,,101.2
+dev02|NGU-K020-X003|2026-08-24T12:02:09.244578+00:00,unknown,,,,,,104.89999999999998
+dev02|NGU-K020-X004|2026-08-24T12:02:09.245619+00:00,unknown,,,,,,83.30000000000001
+dev02|BAV-K028-X006|2026-08-24T12:02:10.512248+00:00,unknown,,,,,,107.29999999999995
+dev02|NGU-K028-X005|2026-08-24T12:02:10.514105+00:00,unknown,,,,,,84.89999999999998
+dev02|NGU-K020-X007|2026-08-24T12:02:10.516216+00:00,unknown,,,,,,83.80000000000001
+dev02|NGU-K020-X009|2026-08-24T12:02:12.232775+00:00,unknown,,,,,,78.5
+dev01|BAN-J021-X095|2026-08-24T12:02:19.791518+00:00,unknown,,,,,,76.39999999999998
+dev01|BAV-J021-X096|2026-08-24T12:02:19.793486+00:00,unknown,,,,,,59.30000000000001
+dev01|BAN-J021-X097|2026-08-24T12:02:19.794546+00:00,unknown,,,,,,84.59999999999997
+dev01|BAV-J021-X098|2026-08-24T12:02:19.795657+00:00,unknown,,,,,,87.19999999999999
+dev01|BAV-K021-X099|2026-08-24T12:02:26.426936+00:00,unknown,,,,,,74.5
+dev08|NGU-K021-X014|2026-08-24T12:15:14.426284+00:00,commercial,,Boutique d'alimentation,general food store,3,,56.80000000000001
+dev08|NGU-K020-X014|2026-08-24T12:20:53.757953+00:00,unknown,,,,,,346.9
+dev08|NGU-K020-X015|2026-08-24T12:22:59.345312+00:00,residential,1,,,,,200.70000000000005
+dev03|NGU-K002-X109|2026-08-24T12:27:02.048940+00:00,residential,1,,,,,296.29999999999995
+dev03|NGU-K020-X119|2026-08-24T12:27:02.050738+00:00,residential,2,,,,,254.29999999999995
+dev03|NGU-K021-X112|2026-08-24T12:27:02.051766+00:00,unknown,,,,,,52.79999999999996
+dev08|NGU-K020-X016|2026-08-24T12:29:49.586659+00:00,unknown,,,,,,86.59999999999997
+dev08|NGU-K020-X017|2026-08-24T12:29:49.588546+00:00,unknown,,,,,,132.29999999999995
+dev02|NGU-K020-X008|2026-08-24T12:32:06.888282+00:00,unknown,,,,,,99.09999999999997
+dev02|NGU-K020-X010|2026-08-24T12:32:06.890165+00:00,unknown,,,,,,85.19999999999999
+dev02|NGU-K020-X011|2026-08-24T12:32:06.891244+00:00,unknown,,,,,,82.89999999999998
+dev02|NGU-K020-X012|2026-08-24T12:32:06.892295+00:00,unknown,,,,,,97.39999999999998
+dev02|NGU-K020-X013|2026-08-24T12:32:07.960394+00:00,unknown,,,,,,98.3
+dev02|NGU-K020-X014|2026-08-24T12:32:07.961461+00:00,unknown,,,,,,91.7
+dev02|NGU-K020-X015|2026-08-24T12:32:07.962540+00:00,residential,1,,,,,86.5
+dev07|NGU-K020-X033|2026-08-24T12:46:02.665601+00:00,unknown,,,,,,105.2
+dev07|NGU-K020-X034|2026-08-24T12:46:02.667402+00:00,unknown,,,,,,121.10000000000002
+dev07|NGU-K020-X035|2026-08-24T12:46:04.987584+00:00,unknown,,,,,,115.89999999999998
+dev07|NGU-K020-X036|2026-08-24T12:46:04.989397+00:00,unknown,,,,,,94.5
+dev07|NGU-K020-X037|2026-08-24T12:51:14.394142+00:00,unknown,,,,,,104.0
+dev07|NGU-K020-X038|2026-08-24T12:51:14.395963+00:00,unknown,,,,,,122.2
+dev04|BAV-J021-X029|2026-08-24T12:58:04.291939+00:00,residential,1,,,,,91.2
+dev02|NGU-K020-X016|2026-08-24T12:58:54.112715+00:00,unknown,,,,,,85.30000000000001
+dev06|NGU-K020-X023|2026-08-24T13:00:57.134126+00:00,unknown,,,,,,29.299999999999955
+dev06|NGA-K020-X024|2026-08-24T13:00:57.136049+00:00,residential,4,,,,,213.9
+dev06|NGU-K021-X025|2026-08-24T13:00:57.137240+00:00,unknown,,,,,,169.29999999999995
+dev06|NGU-K021-X026|2026-08-24T13:00:57.138390+00:00,unknown,,,,,,31.899999999999977
+dev06|NGU-K021-X027|2026-08-24T13:00:58.450606+00:00,unknown,,,,,,326.4
+dev06|NGU-K021-X028|2026-08-24T13:00:58.452540+00:00,unknown,,,,,,355.29999999999995
+dev06|NGU-K021-X029|2026-08-24T13:00:58.453667+00:00,commercial,,Boutique,general food store; drinks,2,,82.89999999999998
+dev06|NGU-K021-X030|2026-08-24T13:00:58.454755+00:00,residential,6,,,,,36.5
+dev06|NGU-K021-X031|2026-08-24T13:00:59.618528+00:00,unknown,,,,,,187.9
+dev06|NGU-K021-X032|2026-08-24T13:00:59.620485+00:00,unknown,,,,,,310.0
+dev06|NGU-K021-X033|2026-08-24T13:00:59.621792+00:00,residential,6,,,,,39.79999999999996
+dev06|NGU-K021-X034|2026-08-24T13:00:59.623233+00:00,unknown,,,,,,124.7
+dev06|NGU-K021-X035|2026-08-24T13:01:00.778850+00:00,unknown,,,,,,130.89999999999998
+dev06|NGU-K021-X036|2026-08-24T13:01:00.780689+00:00,unknown,,,,,,352.1
+dev06|NGU-K021-X037|2026-08-24T13:01:00.781727+00:00,residential,4,,,,,65.09999999999997
+dev06|NGU-K021-X038|2026-08-24T13:01:00.782778+00:00,residential,5,,,,,11.299999999999956
+dev06|NGU-K021-X039|2026-08-24T13:01:02.071198+00:00,unknown,,,,,,20.899999999999977
+dev06|NGU-K021-X040|2026-08-24T13:01:02.073065+00:00,unknown,,,,,,99.5
+dev06|NGU-K021-X042|2026-08-24T13:01:02.074259+00:00,unknown,,,,,,132.0
+dev06|NGU-K021-X041|2026-08-24T13:01:02.075259+00:00,unknown,,,,,,215.9
+dev03|NGU-K020-X125|2026-08-24T13:01:13.814725+00:00,unknown,,,,,,134.29999999999995
+dev03|NGU-K020-X129|2026-08-24T13:01:13.816678+00:00,unknown,,,,,,9.0
+dev03|NGU-K020-X111|2026-08-24T13:01:13.817789+00:00,unknown,,,,,,69.80000000000001
+dev03|NGU-K020-X175|2026-08-24T13:01:13.819018+00:00,unknown,,,,,,249.6
+dev07|NGU-K020-X039|2026-08-24T13:03:03.859508+00:00,unknown,,,,,,104.39999999999998
+dev07|NGU-K020-X040|2026-08-24T13:03:03.861410+00:00,unknown,,,,,,114.5
+dev07|NGU-K020-X041|2026-08-24T13:03:03.862650+00:00,unknown,,,,,,125.39999999999998
+dev03|NGU-K020-X071|2026-08-24T13:06:41.705186+00:00,unknown,,,,,,305.0
+dev07|NGU-K020-X042|2026-08-24T13:09:15.039917+00:00,unknown,,,,,,102.8
+dev01|HIE-I022-X100|2026-08-24T13:43:07.193681+00:00,industrial,,Menuiserie chez Valérie,furniture; carpentry workshop,2,,81.09999999999997
+dev09|NGU-K020-X115|2026-08-24T13:12:31.695445+00:00,unknown,,,,,,162.94039916992188
+dev03|NGU-K020-X095|2026-08-24T13:19:27.106915+00:00,unknown,,,,,,213.70000000000005
+dev03|NGU-K020-X096|2026-08-24T13:19:27.108779+00:00,unknown,,,,,,226.9
+dev03|NGU-K020-X097|2026-08-24T13:19:27.109997+00:00,unknown,,,,,,174.5
+dev06|NGU-K021-X043|2026-08-24T13:20:22.560161+00:00,unknown,,,,,,28.69999999999999
+dev06|NGU-K021-X044|2026-08-24T13:20:22.562186+00:00,unknown,,,,,,150.5
+dev06|NGU-K021-X045|2026-08-24T13:20:22.563499+00:00,unknown,,,,,,26.5
+dev06|NGU-K021-X046|2026-08-24T13:20:22.564944+00:00,unknown,,,,,,333.20000000000005
+dev06|NGU-K021-X047|2026-08-24T13:20:24.334100+00:00,unknown,,,,,,170.5
+dev04|BAN-I022-X008|2026-08-24T13:24:26.688644+00:00,unknown,,,,,,101.3
+dev09|NGU-K020-X131|2026-08-24T13:24:34.568858+00:00,unknown,,,,,,225.9893798828125
+dev05|NGU-K020-X002|2026-08-24T13:29:17.772560+00:00,residential,2,,,,,76.0
+dev05|HIE-I022-X001|2026-08-24T13:29:17.774491+00:00,industrial,,,welding workshop,3,,93.5
+dev07|NGU-K020-X043|2026-08-24T13:31:13.288936+00:00,unknown,,,,,,110.89999999999998
+dev07|NGU-K020-X044|2026-08-24T13:31:13.290976+00:00,unknown,,,,,,127.0
+dev07|NGU-K020-X045|2026-08-24T13:31:13.292414+00:00,unknown,,,,,,120.79999999999995
+dev02|NGU-K020-X020|2026-08-24T13:39:08.718535+00:00,residential,1,,,,,95.5
+dev02|NGU-K020-X017|2026-08-24T13:39:08.720530+00:00,unknown,,,,,,94.7
+dev02|NGU-K020-X018|2026-08-24T13:39:08.721733+00:00,residential,1,,,,,100.3
+dev02|NGU-K020-X019|2026-08-24T13:39:08.722784+00:00,unknown,,,,,,97.5
+dev02|NGU-K020-X021|2026-08-24T13:39:09.693120+00:00,unknown,,,,,,93.59999999999997
+dev02|NGU-K020-X022|2026-08-24T13:39:09.695042+00:00,unknown,,,,,,98.59999999999997
+dev02|NGU-K020-X023|2026-08-24T13:39:09.696214+00:00,unknown,,,,,,78.69999999999999
+dev02|NGU-K020-X024|2026-08-24T13:39:10.392098+00:00,unknown,,,,,,92.5
+dev08|NGU-K020-X018|2026-08-24T13:40:15.197503+00:00,residential,1,,,,,209.29999999999995
+dev08|HIE-I022-X019|2026-08-24T13:40:15.199504+00:00,residential,5,,,,,264.5
+dev01|HIE-I022-X101|2026-08-24T13:43:07.196630+00:00,unknown,,,,,,72.80000000000001
+dev01|HIE-I022-X102|2026-08-24T13:43:07.197786+00:00,unknown,,,,,,75.30000000000001
+dev01|HIE-I022-X104|2026-08-24T13:43:08.347207+00:00,unknown,,,,,,93.8
+dev05|HIE-I022-X002|2026-08-24T13:45:38.485238+00:00,unknown,,,,,,81.89999999999998
+dev05|HIE-I022-X003|2026-08-24T14:07:07.202835+00:00,unknown,,,,,,86.59999999999997
+dev03|NGU-K020-X099|2026-08-24T13:46:58.897411+00:00,unknown,,,,,,119.29999999999995
+dev03|NGU-K020-X100|2026-08-24T13:46:58.899360+00:00,unknown,,,,,,335.79999999999995
+dev03|NGU-K020-X101|2026-08-24T13:46:58.900632+00:00,unknown,,,,,,4.5
+dev03|NGU-K020-X102|2026-08-24T13:46:58.901718+00:00,unknown,,,,,,291.1
+dev03|NGU-K020-X103|2026-08-24T13:46:59.606804+00:00,unknown,,,,,,49.89999999999998
+dev03|NGU-K020-X104|2026-08-24T13:46:59.608870+00:00,unknown,,,,,,42.5
+dev03|NGU-K020-X105|2026-08-24T13:46:59.610361+00:00,unknown,,,,,,235.70000000000005
+dev07|NGU-K020-X046|2026-08-24T13:47:19.501256+00:00,unknown,,,,,,135.79999999999995
+dev01|HIE-I022-X103|2026-08-24T13:50:07.415021+00:00,unknown,,,,,,90.59999999999997
+dev01|HIE-I022-X105|2026-08-24T14:05:30.549871+00:00,residential,2,,,,,87.80000000000001
+dev01|HIE-I022-X106|2026-08-24T14:05:30.551775+00:00,unknown,,,,,,71.39999999999998
+dev05|HIE-I022-X005|2026-08-24T13:56:48.128869+00:00,commercial,,Papa Etienne alimentation,general food store; bakery; drinks,,,66.09999999999997
+dev03|NGU-K020-X106|2026-08-24T14:03:50.802925+00:00,unknown,,,,,,314.79999999999995
+dev08|HIE-I021-X020|2026-08-24T14:04:10.524151+00:00,unknown,,,,,,98.39999999999998
+dev08|HIE-I021-X021|2026-08-24T14:04:10.526213+00:00,unknown,,,,,,104.89999999999998
+dev08|HIE-I021-X022|2026-08-24T14:04:10.527635+00:00,unknown,,,,,,112.60000000000002
+dev08|HIE-I021-X023|2026-08-24T14:04:10.528788+00:00,unknown,,,,,,92.3
+dev08|HIE-I021-X024|2026-08-24T14:04:10.908397+00:00,commercial,,Alimentation générale,general food store,2,,120.29999999999995
+dev08|HIE-I021-X025|2026-08-24T14:04:10.909812+00:00,residential,3,,,,,245.79999999999995
+dev05|HIE-I022-X004|2026-08-24T14:07:07.204776+00:00,residential,2,,,,,90.0
+dev05|HIE-I022-X006|2026-08-24T14:07:07.206029+00:00,residential,1,,,,,90.0
+dev08|HIE-I021-X026|2026-08-24T14:49:18.702876+00:00,unknown,,,,,,144.7
+dev07|NGU-K020-X047|2026-08-24T14:20:06.392058+00:00,unknown,,,,,,123.39999999999998
+dev02|HIE-I022-X012|2026-08-24T14:25:59.453609+00:00,residential,3,,,,,95.09999999999997
+dev06|HIE-I022-X048|2026-08-24T14:27:00.673734+00:00,unknown,,,,,,316.0
+dev06|HIE-I022-X049|2026-08-24T14:27:00.675696+00:00,residential,1,,,,,59.19999999999999
+dev03|NGU-K020-X112|2026-08-24T14:27:13.821248+00:00,unknown,,,,,,86.0
+dev07|HIE-K022-X048|2026-08-24T14:29:13.387305+00:00,unknown,,,,,,95.7
+dev01|HIE-I022-X107|2026-08-24T14:33:44.415139+00:00,unknown,,,,,,92.0
+dev01|HIE-I022-X108|2026-08-24T14:33:44.417267+00:00,unknown,,,,,,71.89999999999998
+dev01|HIE-I022-X109|2026-08-24T14:33:44.418551+00:00,unknown,,,,,,81.09999999999997
+dev04|HIE-I022-X009|2026-08-24T14:35:55.281655+00:00,commercial,,Salon de coiffure jacquy l'or,hairdressing,,,135.0
+dev04|HIE-I022-X010|2026-08-24T14:35:55.283742+00:00,unknown,,,,,,90.0
+dev03|HIE-I022-X200|2026-08-24T14:42:02.209493+00:00,unknown,,,,,,228.1
+dev03|HIE-I022-X201|2026-08-24T14:42:02.961769+00:00,unknown,,,,,,340.5
+dev01|HIE-I022-X110|2026-08-24T14:47:08.531319+00:00,residential,1,,,,,73.59999999999997
+dev05|HIE-I022-X007|2026-08-24T14:47:20.987914+00:00,unknown,,,,,,92.0
+dev05|HIE-I022-X008|2026-08-24T14:47:20.989094+00:00,residential,5,,,,,90.3
+dev05|HIE-I022-X009|2026-08-24T14:47:20.990158+00:00,commercial,,Salon de coiffure jacquy l'or,hairdressing,,,90.0
+dev05|HIE-I022-X010|2026-08-24T14:47:23.004823+00:00,unknown,,,,,,90.0
+dev05|HIE-I022-X011|2026-08-24T14:47:23.006753+00:00,residential,3,,,,,90.0
+dev05|HIE-I022-X012|2026-08-24T15:33:25.550942+00:00,residential,3,,,,,89.80000000000001
+dev08|HIE-I021-X028|2026-08-24T14:49:18.704865+00:00,unknown,,,,,,112.29999999999995
+dev08|HIE-I021-X029|2026-08-24T14:49:18.705981+00:00,residential,2,,,,,102.3
+dev03|HIE-I022-X127|2026-08-24T14:50:25.452813+00:00,residential,1,,,,,74.59999999999997
+dev03|HIE-I022-X125|2026-08-24T14:50:25.454926+00:00,unknown,,,,,,190.29999999999995
+dev02|HIE-I022-X013|2026-08-24T15:03:55.553449+00:00,residential,1,,,,,100.59999999999997
+dev02|HIE-I022-X019|2026-08-24T15:03:55.555381+00:00,residential,1,,,,,80.09999999999997
+dev02|HIE-I022-X022|2026-08-24T15:03:55.556486+00:00,residential,1,,,,,74.30000000000001
+dev02|HIE-I022-X023|2026-08-24T15:03:55.557475+00:00,residential,6,,,,,103.09999999999997
+dev03|HIE-I022-X139|2026-08-24T15:04:10.417142+00:00,residential,2,,,,,297.9
+dev01|HIE-I022-X111|2026-08-24T15:06:51.658309+00:00,unknown,,,,,,79.59999999999997
+dev01|HIE-I022-X112|2026-08-24T15:06:51.660299+00:00,unknown,,,,,,92.2
+dev04|HIE-I022-X011|2026-08-24T15:08:30.524907+00:00,residential,3,,,,,110.39999999999998
+dev01|HIE-I022-X113|2026-08-24T15:08:32.232931+00:00,unknown,,,,,,75.39999999999998
+dev03|HIE-I022-X050|2026-08-24T15:13:43.946981+00:00,residential,11,,,,,19.69999999999999
+dev04|HIE-I022-X012|2026-08-24T15:20:47.256884+00:00,residential,3,,,,,225.0
+dev07|HIE-I022-X049|2026-08-24T15:24:19.954401+00:00,residential,1,,,,,113.39999999999998
+dev07|HIE-I022-X050|2026-08-24T15:24:19.956465+00:00,residential,11,,,,,105.7
+dev07|HIE-I022-X208|2026-08-24T15:24:19.957918+00:00,unknown,,,,,,104.7
+dev07|HEI-I022-X284|2026-08-24T15:24:19.959204+00:00,unknown,,,,,,96.7
+dev07|HIE-I022-X128|2026-08-24T15:24:21.180459+00:00,unknown,,,,,,107.39999999999998
+dev07|HIE-I022-X158|2026-08-24T15:24:21.185199+00:00,unknown,,,,,,92.09999999999997
+dev07|HIE-I022-X145|2026-08-24T15:24:21.183958+00:00,unknown,,,,,,100.5
+dev07|HIE-I 022-X056|2026-08-24T15:24:22.296046+00:00,unknown,,,,,,130.0
+dev07|HIE-I022-X057|2026-08-24T15:24:22.297267+00:00,unknown,,,,,,107.39999999999998
+dev05|HIE-I022-X013|2026-08-24T15:33:25.552885+00:00,residential,1,,,,,90.0
+dev05|HIE-I022-X014|2026-08-24T15:33:25.555660+00:00,commercial,,Soptchom Flavie,general food store,1,,90.0
+dev05|HIE-I022-X015|2026-08-24T15:33:27.881128+00:00,commercial,,Nga line,,1,unclear: 'Bentaria'; no activity given,90.0
+dev05|HIE-I022-X016|2026-08-24T15:33:27.883061+00:00,industrial,,Siakem Herman,carpentry workshop,2,,90.0
+dev05|HIE-I022-X017|2026-08-24T16:06:43.385233+00:00,residential,2,,,,,90.0
+dev08|HIE-I021-X030|2026-08-24T15:36:34.412507+00:00,residential,3,,,,,102.09999999999997
+dev01|HIE-A022-X114|2026-08-24T15:39:25.735182+00:00,unknown,,,,,,77.59999999999997
+dev01|HIE-I022-X115|2026-08-24T15:39:25.737297+00:00,unknown,,,,,,69.69999999999999
+dev03|HIE-I022-X024|2026-08-24T15:41:48.049518+00:00,residential,1,,,,,14.5
+dev03|HIE-I022-X203|2026-08-24T15:41:48.051489+00:00,public,,Lycée technique de fotouni,technical high school,20,,32.099999999999966
+dev04|HIE-I022-X013|2026-08-24T15:46:11.702430+00:00,public,,Radio Fotouni,radio station,3,,135.0
+dev04|HIE-I022-X014|2026-08-24T15:46:11.704550+00:00,commercial,,Soptchom Flavie,general food store,1,,90.0
+dev04|HIE-I022-X015|2026-08-24T15:46:11.706288+00:00,commercial,,Nga line,,1,unclear: 'Bentaria'; no activity given,90.0
+dev04|HIE-I022-X016|2026-08-24T15:46:11.707770+00:00,industrial,,Siakem Herman,carpentry workshop,2,,104.39999999999998
+dev04|HIE-I022-X017|2026-08-24T15:46:12.711195+00:00,residential,2,,,,,107.7
+dev04|HIE-I022-X019|2026-08-24T15:46:12.713219+00:00,residential,5,,,,,79.59999999999997
+dev03|HIE-I022-X207|2026-08-24T15:56:52.203399+00:00,unknown,,,,,,262.1
+dev01|HIE-I022-X116|2026-08-24T15:57:00.431082+00:00,unknown,,,,,,73.5
+dev01|HIE-I022-X117|2026-08-24T15:57:00.433185+00:00,unknown,,,,,,97.59999999999997
+dev01|HIE-I022-X118|2026-08-24T15:57:00.434483+00:00,unknown,,,,,,95.5
+dev01|HIE-I022-X119|2026-08-24T15:57:00.435697+00:00,residential,4,,,,,87.5
+dev01|HIE-I022-X120|2026-08-24T15:57:03.021538+00:00,unknown,,,,,,81.09999999999997
+dev01|HIE-I022-X121|2026-08-24T15:57:03.023541+00:00,unknown,,,,,,72.19999999999999
+dev07|HIE-I022-X058|2026-08-24T16:00:46.748107+00:00,public,,Lycée technique de Fotouni,technical high school,15,,115.2
+dev05|HIE-I022-X018|2026-08-24T16:06:43.387081+00:00,residential,2,,,,,90.0
+dev02|HIE-I022-X025|2026-08-24T16:07:51.241194+00:00,residential,4,,,,,86.39999999999998
+dev02|HIE-I021-X016|2026-08-24T16:07:51.243219+00:00,industrial,,"Provenderie, ferme...",farming; animal feed mill; farm,5,,95.0
+dev02|HIE-I002-X024|2026-08-24T16:07:51.244575+00:00,unknown,,,,,,84.89999999999998
+dev02|HIE-I022-X026|2026-08-24T16:07:52.962677+00:00,residential,1,,,,,83.5
+dev02|HIE-I022-X028|2026-08-24T16:07:52.964638+00:00,unknown,,,,,,86.30000000000001
+dev02|HIE-I022-X030|2026-08-24T16:07:52.965913+00:00,unknown,,,,,,83.19999999999999
+dev02|HIE-I022-X031|2026-08-24T16:08:30.534628+00:00,unknown,,,,,,75.30000000000001
+dev02|HIE-I022-X032|2026-08-24T16:08:30.536609+00:00,residential,1,,,,,90.7
+dev02|HIE-I022-X033|2026-08-24T16:08:30.537866+00:00,unknown,,,,,,107.2
+dev02|HIE-I022-X034|2026-08-24T16:08:30.538961+00:00,residential,4,,,,,82.09999999999997
+dev02|BAV-I022-X036|2026-08-24T16:08:31.600316+00:00,unknown,,,,,,78.80000000000001
+dev02|HIE-I022-X036|2026-08-24T16:59:52.161267+00:00,residential,7,,,,,76.69999999999999
+dev03|HIE-I022-X119|2026-08-24T16:12:46.759927+00:00,residential,4,,,,,105.60000000000002
+dev03|HIE-I022-X110|2026-08-24T16:12:46.761938+00:00,residential,1,,,,,115.7
+dev03|HIE-I022-X204|2026-08-24T16:12:46.763156+00:00,unknown,,,,,,98.39999999999998
+dev03|HIE-I022-X113|2026-08-24T16:12:46.764251+00:00,unknown,,,,,,138.89999999999998
+dev03|HIE-I022-X154|2026-08-24T16:12:47.633841+00:00,unknown,,,,,,13.099999999999966
+dev03|HIE-I022-X235|2026-08-24T16:12:47.635992+00:00,unknown,,,,,,118.5
+dev04|HIE-I022-X018|2026-08-24T16:18:03.072980+00:00,residential,2,,,,,93.59999999999997
+dev04|HIE-I022-X020|2026-08-24T16:18:03.075151+00:00,unknown,,,,,,91.8
+dev02|HIE-I022-X037|2026-08-24T16:21:12.865740+00:00,unknown,,,,,,83.80000000000001
+dev01|HIE-J022-X122|2026-08-24T16:21:55.123192+00:00,unknown,,,,,,91.39999999999998
+dev01|HIE-I022-X123|2026-08-24T16:21:55.125211+00:00,unknown,,,,,,88.80000000000001
+dev05|HIE-I022-X019|2026-08-24T16:24:15.903709+00:00,residential,3,,,,,90.0
+dev07|HIE-I022-X059|2026-08-24T16:25:33.868275+00:00,unknown,,,,,,120.0
+dev07|HIE-I022-X060|2026-08-24T16:25:33.870359+00:00,unknown,,,,,,120.0
+dev04|HIE-I022-X021|2026-08-24T16:27:39.060722+00:00,residential,1,,,,,84.5
+dev04|HIE-I022-X022|2026-08-24T16:27:39.062815+00:00,residential,1,,,,,90.0
+dev02|HIE-I022-X040|2026-08-24T16:59:52.617501+00:00,industrial,,Fokou William,welding workshop,,,103.7
+dev05|HIE-I022-X021|2026-08-24T16:59:56.847434+00:00,residential,1,,,,,90.0
+dev05|HIE-I022-X022|2026-08-24T16:59:56.849491+00:00,residential,1,,,,,90.0
+dev04|BAN-L019-X001|2026-08-25T08:51:00.062257+00:00,public,,Centre de santé intégré de BANO,health centre,5,,90.0
+dev04|BAN-L019-X002|2026-08-25T08:51:00.067627+00:00,unknown,,,,,,90.0
+dev07|BAN-L019-X001|2026-08-25T08:51:14.094304+00:00,public,,Centre de santé intégré de BANO,health centre,5,,121.29999999999995
+dev05|BAN-L019-X001|2026-08-25T08:56:40.860142+00:00,public,,Centre de santé intégré de BANO,health centre,5,,99.59999999999997
+dev05|BAN-L019-X002|2026-08-25T08:56:40.861624+00:00,unknown,,,,,,84.69999999999999
+dev09|BAN-L019-X003|2026-08-25T08:57:06.763648+00:00,residential,1,,,,,44.97167205810547
+dev06|BAN-L019-X001|2026-08-25T08:58:02.092833+00:00,public,,Centre de santé intégré de BANO,health centre,5,,9.299999999999956
+dev01|BAN-L019-X001|2026-08-25T17:12:04.806098+00:00,residential,1,,,,,93.7
+dev01|BAN-L019-X002|2026-08-25T09:02:11.659414+00:00,unknown,,,,,,80.0
+dev09|BAN-L019-X007|2026-08-25T09:09:21.696997+00:00,residential,1,,,,,150.32261657714844
+dev02|BAN-L019-X001|2026-08-25T17:17:10.818578+00:00,residential,4,,,,,94.2
+dev02|BAN-L019-X002|2026-08-25T09:11:10.882610+00:00,unknown,,,,,,111.39999999999998
+dev02|BAN-I019-X003|2026-08-25T09:11:10.884044+00:00,unknown,,,,,,102.0
+dev01|BAN-L019-X003|2026-08-25T09:12:00.908780+00:00,residential,1,,,,,83.69999999999999
+dev04|BAN-L019-X003|2026-08-25T09:17:44.001055+00:00,residential,1,,,,,90.0
+dev04|BAN-L019-X004|2026-08-25T09:17:44.003127+00:00,unknown,,,,,,90.0
+dev04|BAN-L019-X005|2026-08-25T09:17:44.004492+00:00,unknown,,,,,,90.0
+dev04|BAN-L019-X006|2026-08-25T09:17:44.005669+00:00,unknown,,,,,,90.0
+dev03|BAN-L019-X009|2026-08-25T09:20:48.078307+00:00,unknown,,,,,,298.20000000000005
+dev03|BAN-L019-X010|2026-08-25T09:20:48.080230+00:00,residential,1,,,,,15.099999999999966
+dev03|BAN-L019-X080|2026-08-25T09:20:48.081464+00:00,unknown,,,,,,203.70000000000005
+dev04|BAN-L019-X007|2026-08-25T09:26:43.710736+00:00,residential,1,,,,,90.0
+dev04|BAN-L019-X008|2026-08-25T09:26:43.716068+00:00,residential,3,,,,,90.0
+dev04|BAN-L019-X009|2026-08-25T09:26:43.717277+00:00,unknown,,,,,,90.0
+dev04|BAN-L019-X010|2026-08-25T09:26:43.718458+00:00,residential,1,,,,,90.0
+dev07|BAN-L019-X002|2026-08-25T09:26:45.251124+00:00,unknown,,,,,,110.2
+dev01|BAN-L019-X004|2026-08-25T09:28:13.458777+00:00,unknown,,,,,,60.39999999999998
+dev02|BAN-I019-X004|2026-08-25T09:28:36.280088+00:00,unknown,,,,,,82.30000000000001
+dev02|BAN-L019-X005|2026-08-25T09:28:36.282097+00:00,unknown,,,,,,102.39999999999998
+dev02|BAN-L019-X006|2026-08-25T09:28:36.283261+00:00,unknown,,,,,,94.59999999999997
+dev02|BAN-L019-X007|2026-08-25T09:28:36.284447+00:00,residential,1,,,,,99.59999999999997
+dev02|BAN-L019-X008|2026-08-25T09:28:36.959868+00:00,residential,3,,,,,84.39999999999998
+dev08|BAN-L019-X001|2026-08-25T09:28:49.070670+00:00,public,,Centre de santé intégré de BANO,health centre,5,,104.2
+dev08|BAN-L019-X002|2026-08-25T09:28:49.072578+00:00,unknown,,,,,,76.89999999999998
+dev08|BAN-L019-X003|2026-08-25T09:28:49.073915+00:00,residential,1,,,,,109.2
+dev08|BAN-L019-X004|2026-08-25T09:28:49.075023+00:00,unknown,,,,,,104.79999999999995
+dev08|BAN-L019-X005|2026-08-25T09:28:49.686997+00:00,unknown,,,,,,91.2
+dev08|BAN-L019-X006|2026-08-25T09:28:49.689039+00:00,unknown,,,,,,112.39999999999998
+dev06|BAN-L019-X002|2026-08-25T09:29:31.444018+00:00,unknown,,,,,,124.89999999999998
+dev06|BAN-L019-X003|2026-08-25T09:29:31.445928+00:00,residential,1,,,,,126.29999999999995
+dev06|BAN-L019-X004|2026-08-25T09:29:31.447142+00:00,unknown,,,,,,291.70000000000005
+dev06|BAN-L019-X005|2026-08-25T09:29:31.448224+00:00,unknown,,,,,,71.89999999999998
+dev05|BAN-L019-X019|2026-08-25T16:14:01.894857+00:00,unknown,,,,,,103.8
+dev05|BAN-L019-X004|2026-08-25T09:29:38.447181+00:00,unknown,,,,,,85.89999999999998
+dev05|BAN-L019-X005|2026-08-25T09:29:38.448456+00:00,unknown,,,,,,90.2
+dev08|BAN-L019-X008|2026-08-25T09:32:24.219401+00:00,residential,3,,,,,263.0
+dev03|BAN-L019-X015|2026-08-25T09:35:55.425613+00:00,residential,2,,,,,282.9
+dev05|BAN-L019-X006|2026-08-25T09:37:24.803824+00:00,unknown,,,,,,95.0
+dev05|BAN-L019-X007|2026-08-25T09:37:24.805799+00:00,residential,1,,,,,83.69999999999999
+dev08|BAN-L019-X007|2026-08-25T09:38:48.893076+00:00,residential,1,,,,,109.79999999999995
+dev02|BAN-L019-X010|2026-08-25T09:41:37.462719+00:00,residential,1,,,,,98.59999999999997
+dev02|BAN-L019-X019|2026-08-25T09:41:37.464285+00:00,unknown,,,,,,102.59999999999997
+dev02|BAN-L019-X009|2026-08-25T09:41:37.465373+00:00,unknown,,,,,,69.59999999999997
+dev02|BAN-L019-X011|2026-08-25T09:41:37.466398+00:00,unknown,,,,,,97.89999999999998
+dev02|BAN-L019-X012|2026-08-25T09:41:39.683335+00:00,residential,1,,,,,97.5
+dev02|BAN-L019-X013|2026-08-25T09:48:16.892111+00:00,commercial,,Chez Système,general food store; drinks,3,,98.5
+dev08|BAN-L019-X009|2026-08-25T09:43:35.667806+00:00,unknown,,,,,,3.5
+dev07|BAN-L019-X003|2026-08-25T09:46:03.464920+00:00,residential,1,,,,,114.39999999999998
+dev07|BAN-L019-X004|2026-08-25T09:46:03.466958+00:00,unknown,,,,,,108.89999999999998
+dev05|BAN-L019-X008|2026-08-25T09:53:46.286027+00:00,residential,3,,,,,101.5
+dev03|BAN-L019-X058|2026-08-25T14:10:06.452031+00:00,residential,2,,,,,351.70000000000005
+dev03|BAN-L019-X020|2026-08-25T09:53:50.848287+00:00,unknown,,,,,,169.79999999999995
+dev03|BAN-L019-X021|2026-08-25T09:53:50.849583+00:00,residential,13,,,,,89.59999999999997
+dev03|BAN-L019-X022|2026-08-25T09:53:50.850719+00:00,residential,3,,,,,305.79999999999995
+dev03|BAN-L019-X023|2026-08-25T09:58:55.102020+00:00,unknown,,,,,,112.79999999999995
+dev01|BAN-L019-X005|2026-08-25T09:59:08.891067+00:00,unknown,,,,,,90.89999999999998
+dev01|BAN-L019-X006|2026-08-25T09:59:08.893277+00:00,unknown,,,,,,90.0
+dev01|BAN-L019-X007|2026-08-25T09:59:08.894643+00:00,residential,1,,,,,76.09999999999997
+dev01|BAN-L019-X008|2026-08-25T09:59:08.895972+00:00,residential,3,,,,,76.89999999999998
+dev01|BAN-L019-X009|2026-08-25T09:59:10.620431+00:00,unknown,,,,,,87.89999999999998
+dev01|BAN-L019-X010|2026-08-25T09:59:10.622466+00:00,residential,1,,,,,76.09999999999997
+dev01|BAN-L019-X011|2026-08-25T09:59:10.623741+00:00,unknown,,,,,,96.39999999999998
+dev01|BAN-L019-X012|2026-08-25T09:59:10.624974+00:00,residential,1,,,,,102.09999999999997
+dev01|BAN-L019-X013|2026-08-25T09:59:11.961463+00:00,commercial,,Chez Système,general food store; drinks,3,,89.59999999999997
+dev08|BAN-L016-X009|2026-08-25T10:08:34.524918+00:00,residential,1,,,,,109.7
+dev08|BAN-L019-X010|2026-08-25T10:08:34.526898+00:00,residential,1,,,,,57.80000000000001
+dev08|BAN-L019-X011|2026-08-25T10:08:34.528169+00:00,unknown,,,,,,92.09999999999997
+dev08|BAN-L019-X012|2026-08-25T10:08:34.529266+00:00,residential,1,,,,,152.5
+dev07|BAN-L019-X005|2026-08-25T10:10:46.713253+00:00,unknown,,,,,,114.39999999999998
+dev07|BAN-L019-X006|2026-08-25T10:10:46.715358+00:00,unknown,,,,,,100.8
+dev03|BAN-L019-X024|2026-08-25T10:12:58.506390+00:00,residential,2,,,,,299.9
+dev04|BAN-L019-X011|2026-08-25T10:14:52.182146+00:00,unknown,,,,,,90.0
+dev04|BAN-L019-X012|2026-08-25T10:14:52.184185+00:00,residential,1,,,,,90.0
+dev04|BAN-L019-X013|2026-08-25T10:14:52.185554+00:00,commercial,,Chez Système,general food store; drinks,3,,90.0
+dev04|BAN-L019-X015|2026-08-25T10:14:52.186679+00:00,commercial,,Beau regard,general food store,1,,90.0
+dev04|BAN-L019-X014|2026-08-25T10:14:57.142753+00:00,residential,1,,,,,90.0
+dev04|BAN-L019-X016|2026-08-25T10:14:57.144902+00:00,residential,5,,,,,90.0
+dev04|BAN-L019-X017|2026-08-25T10:14:57.146490+00:00,residential,1,,,,,90.0
+dev04|BAN-L019-X018|2026-08-25T10:14:57.147854+00:00,residential,2,,,,,90.0
+dev04|BAN-L019-X019|2026-08-25T10:15:00.263096+00:00,unknown,,,,,,90.0
+dev04|BAN-L019-X020|2026-08-25T10:15:00.265086+00:00,unknown,,,,,,90.0
+dev04|BAN-L 019-X021|2026-08-25T10:15:00.266516+00:00,unknown,,,,,,90.0
+dev01|BAN-L019-X014|2026-08-25T10:15:16.180484+00:00,residential,1,,,,,93.5
+dev01|BAN-L019-X015|2026-08-25T10:15:16.182571+00:00,residential,2,,,,,95.7
+dev01|BAN-L019-X016|2026-08-25T10:15:16.184070+00:00,residential,5,,,,,89.39999999999998
+dev03|BAN-L019-X025|2026-08-25T14:58:10.700094+00:00,residential,4,,,,,47.29999999999996
+dev07|BAN-L019-X007|2026-08-25T10:16:58.546152+00:00,residential,1,,,,,109.89999999999998
+dev07|BAN-L019-X008|2026-08-25T10:16:58.548140+00:00,residential,3,,,,,128.0
+dev03|BAN-L019-X026|2026-08-25T10:22:34.833507+00:00,commercial,,Fozing Elvis,general food store,2,,122.79999999999995
+dev08|BAN-L019-X013|2026-08-25T10:24:05.441812+00:00,commercial,,Chez Système,general food store; drinks,3,,89.0
+dev08|BAN-L019-X014|2026-08-25T10:24:05.444007+00:00,residential,1,,,,,106.60000000000002
+dev07|BAN-L019-X009|2026-08-25T10:27:13.620224+00:00,unknown,,,,,,104.10000000000002
+dev09|BAN-L019-X123|2026-08-25T10:27:55.952003+00:00,unknown,,,,,,116.6687469482422
+dev07|BAN-L019-X010|2026-08-25T10:34:27.528449+00:00,residential,1,,,,,119.7
+dev07|BAN-L019-X011|2026-08-25T10:34:27.530534+00:00,unknown,,,,,,106.5
+dev08|BAN-L019-X015|2026-08-25T10:38:34.989108+00:00,residential,1,,,,,150.0
+dev01|BAN-L019-X018|2026-08-25T10:39:17.757240+00:00,residential,2,,,,,73.5
+dev01|BAN-L019-X017|2026-08-25T10:39:17.759372+00:00,residential,1,,,,,91.0
+dev01|BAN-L016-X019|2026-08-25T10:39:17.760812+00:00,unknown,,,,,,75.59999999999997
+dev01|BAN-L019-X020|2026-08-25T10:39:17.761986+00:00,unknown,,,,,,16.69999999999999
+dev01|BAN-L019-X021|2026-08-25T10:39:19.880350+00:00,residential,13,,,,,80.5
+dev01|BAN-L019-X022|2026-08-25T10:39:19.882454+00:00,residential,3,,,,,93.59999999999997
+dev04|BAN-L019-X022|2026-08-25T10:44:57.408734+00:00,residential,3,,,,,90.0
+dev04|BAN-L019-X023|2026-08-25T10:44:57.410846+00:00,unknown,,,,,,90.0
+dev04|BAN-L019-X024|2026-08-25T10:44:57.412320+00:00,residential,2,,,,,90.0
+dev04|BAN-L019-X025|2026-08-25T10:44:57.413644+00:00,residential,4,,,,,90.0
+dev04|BAN-L019-X026|2026-08-25T10:44:59.151180+00:00,commercial,,Fozing Elvis,general food store,2,,90.0
+dev04|BAN-L 019-X027|2026-08-25T10:44:59.152565+00:00,unknown,,,,,,90.0
+dev04|BAN-L019-X028|2026-08-25T10:44:59.153693+00:00,residential,3,,,,,90.0
+dev04|BAN-L019-X029|2026-08-25T10:45:00.405003+00:00,unknown,,,,,,90.0
+dev04|BAN-L019-X030|2026-08-25T10:45:00.407049+00:00,residential,3,,,,,90.0
+dev04|BAN-L016-X031|2026-08-25T10:45:00.408341+00:00,unknown,,,,,,90.0
+dev04|BAN-L019-X032|2026-08-25T10:45:00.409595+00:00,residential,1,,,,,90.0
+dev03|BAN-L019-X027|2026-08-25T10:45:08.014526+00:00,residential,2,,,,,246.1
+dev03|BAN-L019-X028|2026-08-25T13:47:13.725679+00:00,residential,3,,,,,104.0
+dev07|BAN-L019-X012|2026-08-25T10:46:22.348182+00:00,residential,3,,,,,126.79999999999995
+dev08|BAN-L019-X016|2026-08-25T10:48:20.115967+00:00,residential,5,,,,,77.5
+dev09|BAN-L019-X125|2026-08-25T10:50:27.354941+00:00,commercial,,"Boulangerie, ferme",bakery; farm,25,,109.18600463867188
+dev03|BAN-L019-X029|2026-08-25T10:53:08.295943+00:00,unknown,,,,,,180.10000000000002
+dev07|BAN-L019-X013|2026-08-25T10:51:38.800501+00:00,commercial,,Chez Système,general food store; drinks,3,,151.7
+dev08|BAN-L019-X018|2026-08-25T10:55:52.664574+00:00,residential,2,,,,,312.0
+dev03|BAN-L019-X205|2026-08-25T10:55:58.125004+00:00,unknown,,,,,,118.7
+dev03|BAN-L019-X209|2026-08-25T10:58:28.911141+00:00,unknown,,,,,,272.1
+dev03|BAN-L019-X030|2026-08-25T11:02:07.996504+00:00,residential,3,,,,,321.70000000000005
+dev04|BAN-L019-X033|2026-08-26T16:25:40.949474+00:00,residential,4,,,,,90.0
+dev04|BAN-L019-X034|2026-08-25T11:02:19.772147+00:00,residential,8,,,,,90.0
+dev07|BAN-L019-X014|2026-08-25T11:09:14.834598+00:00,residential,1,,,,,106.79999999999995
+dev07|BAN-L019-X015|2026-08-25T11:09:14.836644+00:00,residential,1,,,,,137.5
+dev05|BAN-L019-X009|2026-08-25T11:09:41.736594+00:00,unknown,,,,,,104.10000000000002
+dev05|BAN-L019-X010|2026-08-25T11:09:41.738698+00:00,residential,6,,,,,98.0
+dev05|BAN-L019-X011|2026-08-25T11:09:41.740269+00:00,unknown,,,,,,85.89999999999998
+dev05|BAN-L019-X012|2026-08-25T11:09:41.741607+00:00,residential,5,,,,,84.5
+dev03|BAN-L019-X031|2026-08-25T11:10:33.454619+00:00,residential,2,,,,,182.9
+dev01|BAN-L019-X023|2026-08-25T11:11:01.466797+00:00,unknown,,,,,,87.59999999999997
+dev01|BAN-L019-X024|2026-08-25T11:11:01.469007+00:00,residential,2,,,,,80.39999999999998
+dev01|BAN-L019-X025|2026-08-25T11:11:01.470576+00:00,residential,4,,,,,93.8
+dev01|BAN-L019-X026|2026-08-25T11:11:02.447927+00:00,commercial,,Fozing Elvis,general food store,2,,87.59999999999997
+dev01|BAN-L019-X027|2026-08-25T11:11:02.450006+00:00,residential,2,,,,,53.39999999999998
+dev07|BAN-L019-X016|2026-08-25T11:17:27.317467+00:00,residential,1,,,,,102.7
+dev07|BAN-L019-X017|2026-08-25T11:17:27.319604+00:00,residential,1,,,,,102.89999999999998
+dev07|BAN-L019-X018|2026-08-25T11:19:45.980804+00:00,residential,1,,,,,93.5
+dev03|BAN-L019-X032|2026-08-25T11:23:15.027610+00:00,residential,1,,,,,235.4
+dev07|BAN-L019-X019|2026-08-25T11:34:50.163558+00:00,unknown,,,,,,123.79999999999995
+dev04|BAN-L019-X035|2026-08-25T11:35:26.600251+00:00,residential,2,,,,,90.0
+dev04|BAN-L019-X036|2026-08-25T11:35:26.602422+00:00,commercial,,Clinique traditionnelle,pharmacy / medicines; traditional healing; traditional healing clinic,20,,90.0
+dev04|BAN-L019-X037|2026-08-25T12:25:53.150686+00:00,residential,2,,,,,90.0
+dev08|BAN-L019-X019|2026-08-25T11:35:48.156049+00:00,unknown,,,,,,111.60000000000002
+dev08|BAN-L019-X020|2026-08-25T11:35:48.158251+00:00,unknown,,,,,,86.59999999999997
+dev08|BAN-L021-X022|2026-08-25T11:35:48.159736+00:00,unknown,,,,,,86.5
+dev08|BAN-L019-X023|2026-08-25T11:36:56.757033+00:00,unknown,,,,,,89.30000000000001
+dev03|BAN-L022-X201|2026-08-25T11:37:40.352957+00:00,unknown,,,,,,147.5
+dev03|BAN-L019-X204|2026-08-25T11:37:40.355157+00:00,unknown,,,,,,17.5
+dev03|BAN-L019-X206|2026-08-25T11:45:03.572132+00:00,unknown,,,,,,39.5
+dev03|BAN-L019-X203|2026-08-25T11:45:03.574440+00:00,public,,Foyer bano,community hall,5,,205.29999999999995
+dev02|BAN-L019-X014|2026-08-25T11:45:24.546906+00:00,residential,1,,,,,95.8
+dev02|BAN-L019-X015|2026-08-25T11:45:24.549061+00:00,residential,2,,,,,95.8
+dev02|BAN-L019-X016|2026-08-25T11:45:24.550389+00:00,residential,5,,,,,101.7
+dev02|BAN-L019-X017|2026-08-25T11:45:24.551595+00:00,residential,1,,,,,84.80000000000001
+dev02|BAN-L019-X018|2026-08-25T11:45:28.739011+00:00,residential,2,,,,,87.69999999999999
+dev02|BAN-L019-X020|2026-08-25T11:45:28.741169+00:00,unknown,,,,,,97.0
+dev02|BAN-L019-X021|2026-08-25T11:45:28.742613+00:00,residential,13,,,,,128.79999999999995
+dev02|BAN-L019-X022|2026-08-25T11:45:28.743992+00:00,residential,3,,,,,118.89999999999998
+dev02|BAN-L019-X023|2026-08-25T11:45:29.921357+00:00,unknown,,,,,,94.2
+dev02|BAN-L019-X024|2026-08-25T11:45:29.923488+00:00,residential,2,,,,,78.69999999999999
+dev02|BAN-L019-X025|2026-08-25T11:45:29.924851+00:00,residential,4,,,,,105.5
+dev02|BAN-L019-X026|2026-08-25T11:45:29.926221+00:00,commercial,,Fozing Elvis,general food store,2,,80.30000000000001
+dev02|BAN-L019-X027|2026-08-25T11:45:31.177955+00:00,residential,2,,,,,103.2
+dev02|BAN-L019-X028|2026-08-25T11:45:31.180206+00:00,residential,3,,,,,101.09999999999997
+dev02|BAN-L019-X030|2026-08-25T11:45:31.181701+00:00,residential,3,,,,,80.30000000000001
+dev02|BAN-L019-X031|2026-08-25T11:45:31.182947+00:00,residential,2,,,,,90.5
+dev02|BAN-L019-X032|2026-08-25T11:45:31.960102+00:00,residential,1,,,,,95.3
+dev02|BAN-L019-X033|2026-08-25T11:45:31.961489+00:00,residential,2,,,,,90.09999999999997
+dev02|BAN-L019-X034|2026-08-25T11:45:31.962761+00:00,residential,8,,,,,92.5
+dev02|BAN-L019-X035|2026-08-25T11:45:33.205661+00:00,residential,2,,,,,93.8
+dev02|BAN-L019-X036|2026-08-25T11:45:33.207908+00:00,commercial,,Clinique traditionnelle,pharmacy / medicines; traditional healing; traditional healing clinic,20,,93.89999999999998
+dev02|BAN-L019-X037|2026-08-25T11:45:33.210762+00:00,residential,2,,,,,83.19999999999999
+dev02|BAN-L019-X038|2026-08-25T11:45:34.486735+00:00,unknown,,,,,,86.39999999999998
+dev02|BAN-L026-X039|2026-08-25T11:45:34.489001+00:00,unknown,,,,,,68.30000000000001
+dev05|BAN-L019-X013|2026-08-25T12:00:32.664632+00:00,commercial,,Chez Système,general food store; drinks,3,,77.80000000000001
+dev05|BAN-L019-X014|2026-08-25T12:00:32.669960+00:00,residential,1,,,,,105.79999999999995
+dev05|BAN-L019-X015|2026-08-25T12:00:32.671402+00:00,commercial,,Sop kam missieh,general food store; drinks; household products,3,,105.10000000000002
+dev01|BAN-L019-X028|2026-08-25T12:02:33.705079+00:00,residential,3,,,,,99.09999999999997
+dev01|BAN-L019-X029|2026-08-25T12:02:33.707197+00:00,unknown,,,,,,93.2
+dev03|BAN-L019-X159|2026-08-25T12:02:40.309543+00:00,public,,Chefferie bano,heritage: chiefdom; tourist site; facilities: toilets,,,210.4
+dev03|BAN-L019-X036|2026-08-25T12:02:40.311695+00:00,commercial,,Clinique traditionnelle,pharmacy / medicines; traditional healing; traditional healing clinic,20,,80.0
+dev02|BAN-L019-X040|2026-08-25T12:07:48.224825+00:00,unknown,,,,,,88.89999999999998
+dev07|BAN-L019-X020|2026-08-25T12:09:51.755940+00:00,unknown,,,,,,93.0
+dev05|BAN-L019-X016|2026-08-25T12:14:03.050325+00:00,residential,5,,,,,87.09999999999997
+dev05|BAN-L019-X017|2026-08-25T12:14:03.052533+00:00,residential,1,,,,,96.09999999999997
+dev03|BAN-L019-X035|2026-08-25T12:26:46.275396+00:00,residential,2,,,,,108.2
+dev02|BAN-L019-X041|2026-08-25T12:20:17.634657+00:00,residential,2,,,,,79.5
+dev01|BAN-L019-X030|2026-08-25T12:22:32.089495+00:00,residential,3,,,,,84.80000000000001
+dev01|BAN-L019-X031|2026-08-25T12:22:32.091746+00:00,residential,2,,,,,72.5
+dev01|BAN-L019-X032|2026-08-25T12:22:32.093402+00:00,residential,1,,,,,75.19999999999999
+dev01|BAN-L019-X033|2026-08-25T12:44:34.709495+00:00,residential,2,,,,,76.0
+dev06|BAN-L019-X006|2026-08-25T12:29:44.245202+00:00,unknown,,,,,,130.29999999999995
+dev06|BAN-L019-X007|2026-08-25T12:29:44.247439+00:00,residential,8,,,,,34.5
+dev06|BAN-L019-X008|2026-08-25T12:29:44.248936+00:00,residential,3,,,,,56.19999999999999
+dev06|BAN-L019-X009|2026-08-25T12:29:44.250161+00:00,unknown,,,,,,224.20000000000005
+dev06|BAN-L019-X010|2026-08-25T12:29:45.917693+00:00,residential,1,,,,,133.5
+dev06|BAN-L009-X011|2026-08-25T12:29:45.919964+00:00,residential,9,,,,,258.4
+dev06|BAN-L019-X012|2026-08-25T12:29:45.921458+00:00,residential,1,,,,,262.4
+dev06|BAN-L019-X013|2026-08-25T12:29:45.922722+00:00,commercial,,Chez Système,general food store; drinks,3,,276.70000000000005
+dev06|BAN-L019-X014|2026-08-25T12:29:48.703423+00:00,residential,1,,,,,353.1
+dev06|BAN-L019-X015|2026-08-25T12:29:48.705591+00:00,residential,2,,,,,120.5
+dev06|BAN-L019-X016|2026-08-25T12:29:48.706988+00:00,residential,5,,,,,164.89999999999998
+dev06|BAN-L019-X017|2026-08-25T12:29:48.708257+00:00,residential,1,,,,,153.60000000000002
+dev06|BAN-L019-X018|2026-08-25T12:29:49.921346+00:00,residential,2,,,,,337.6
+dev06|BAN-L019-X019|2026-08-25T12:29:49.923551+00:00,unknown,,,,,,351.6
+dev06|XXX-A019-X020|2026-08-25T12:29:49.925069+00:00,unknown,,,,,,143.60000000000002
+dev06|BAN-L019-X021|2026-08-25T12:29:49.926306+00:00,residential,13,,,,,113.89999999999998
+dev06|BAN-L019-X022|2026-08-25T12:29:50.969339+00:00,residential,3,,,,,126.29999999999995
+dev06|BAN-L019-X023|2026-08-25T12:29:50.971550+00:00,unknown,,,,,,154.70000000000005
+dev06|BAN-L019-X025|2026-08-25T12:29:50.973004+00:00,residential,4,,,,,349.20000000000005
+dev06|BAN-L019-X026|2026-08-25T12:29:50.974331+00:00,commercial,,Fozing Elvis,general food store,2,,189.4
+dev03|BAN-L019-X039|2026-08-25T12:31:03.181252+00:00,commercial,,Boutique Mr dépec,drinks; general food store,1,,101.39999999999998
+dev04|BAN-L019-X038|2026-08-25T12:41:36.746474+00:00,unknown,,,,,,90.0
+dev04|BAN-L019-X039|2026-08-25T12:41:37.034650+00:00,commercial,,Boutique Mr dépec,drinks; general food store,1,,90.0
+dev04|BAN-L019-X040|2026-08-25T12:41:37.036894+00:00,unknown,,,,,,90.0
+dev02|BAN-L019-X042|2026-08-25T12:41:48.637619+00:00,residential,4,,,,,69.19999999999999
+dev05|BAN-L019-X018|2026-08-25T12:41:56.835942+00:00,residential,2,,,,,83.80000000000001
+dev05|BAN-L019-X020|2026-08-25T12:41:56.838440+00:00,unknown,,,,,,88.80000000000001
+dev05|BAN-L019-X021|2026-08-25T12:41:56.840466+00:00,residential,13,,,,,77.5
+dev05|BAN-I019-X022|2026-08-25T12:41:56.842277+00:00,unknown,,,,,,77.80000000000001
+dev05|BAN-L019-X023|2026-08-25T12:42:13.919680+00:00,unknown,,,,,,98.59999999999997
+dev05|BAN-L019-X024|2026-08-25T12:42:13.922046+00:00,residential,2,,,,,94.0
+dev07|BAN-L019-X021|2026-08-25T12:42:37.560069+00:00,residential,4,,,,,129.10000000000002
+dev01|BAN-L019-X034|2026-08-25T12:44:34.712200+00:00,residential,1,,,,,87.5
+dev03|BAN-L019-X129|2026-08-25T12:48:16.216758+00:00,residential,2,,,,,333.29999999999995
+dev03|BAN-L019-X041|2026-08-25T12:48:16.219127+00:00,residential,2,,,,,185.4
+dev03|BAN-L019-X046|2026-08-25T12:48:16.220916+00:00,residential,2,,,,,280.6
+dev08|BAN-L021-X025|2026-08-25T12:52:27.938507+00:00,residential,5,,,,,171.70000000000005
+dev08|BAN-L021-X026|2026-08-25T12:52:27.940995+00:00,residential,3,,,,,80.39999999999998
+dev08|BAN-L021-X027|2026-08-25T12:57:56.710144+00:00,residential,1,,,,,108.10000000000002
+dev03|BAN-L019-X048|2026-08-25T16:01:40.889645+00:00,residential,2,,,,,151.89999999999998
+dev02|BAN-L019-X046|2026-08-25T12:57:21.513925+00:00,residential,2,,,,,106.89999999999998
+dev02|BAN-L019-X043|2026-08-25T12:57:21.518053+00:00,unknown,,,,,,92.89999999999998
+dev03|BAN-L019-X248|2026-08-25T12:58:39.957202+00:00,unknown,,,,,,180.79999999999995
+dev05|BAN-L019-X025|2026-08-25T12:59:10.650677+00:00,residential,4,,,,,97.7
+dev08|BAN-L019-X028|2026-08-25T13:02:24.626193+00:00,residential,3,,,,,106.39999999999998
+dev04|BAN-L019-X041|2026-08-25T13:03:49.578169+00:00,residential,2,,,,,90.0
+dev04|BAN-L019-X042|2026-08-25T13:03:49.580903+00:00,residential,4,,,,,90.0
+dev04|BAN-L019-X043|2026-08-25T14:22:21.903080+00:00,unknown,,,,,,90.0
+dev04|BAN-L019-X044|2026-08-25T13:03:53.405571+00:00,residential,3,,,,,90.0
+dev04|BAN-L019-X045|2026-08-25T13:19:40.990502+00:00,unknown,,,,,,90.0
+dev07|BAN-L019-X022|2026-08-25T13:04:00.651267+00:00,residential,3,,,,,98.59999999999997
+dev03|BAN-L019-X050|2026-08-25T13:06:44.700357+00:00,commercial,,Chez douanier,drinks; meat and fish,3,,75.09999999999997
+dev07|BAN-L019-X023|2026-08-25T13:07:48.474354+00:00,unknown,,,,,,114.2
+dev02|BAN-L019-X044|2026-08-25T13:08:07.075257+00:00,residential,3,,,,,104.5
+dev08|BAN-L019-X030|2026-08-25T13:09:01.885170+00:00,residential,3,,,,,114.2
+dev05|BAN-L019-X026|2026-08-25T13:12:07.090269+00:00,commercial,,Chez Nicolas Kengni,meat and fish,5,,94.2
+dev05|BAN-L019-X027|2026-08-25T13:12:07.092652+00:00,residential,2,,,,,80.0
+dev08|BAN-L019-X031|2026-08-25T13:13:47.329983+00:00,residential,2,,,,,112.60000000000002
+dev08|BAN-L019-X032|2026-08-25T13:13:47.332675+00:00,residential,1,,,,,137.7
+dev02|BAN-L019-X045|2026-08-25T13:18:08.456824+00:00,unknown,,,,,,102.5
+dev04|BAN-L019-X046|2026-08-25T13:48:24.092737+00:00,residential,2,,,,,90.0
+dev07|BAN-L019-X024|2026-08-25T13:20:24.391063+00:00,residential,2,,,,,101.8
+dev08|BAN-L021-X033|2026-08-25T13:21:00.581951+00:00,unknown,,,,,,111.60000000000002
+dev03|BAN-L019-X068|2026-08-25T13:26:57.080417+00:00,residential,2,,,,,168.79999999999995
+dev08|BAN-L019-X036|2026-08-25T13:31:11.451229+00:00,commercial,,Clinique traditionnelle,pharmacy / medicines; traditional healing; traditional healing clinic,20,,297.6
+dev08|BAN-L019-X037|2026-08-25T13:35:37.587346+00:00,residential,4,,,,,218.9
+dev02|BAN-L019-X047|2026-08-25T13:37:39.502127+00:00,residential,1,,,,,79.19999999999999
+dev02|BAN-L019-X048|2026-08-25T13:37:39.504719+00:00,residential,2,,,,,83.59999999999997
+dev04|BAN-L019-X047|2026-08-25T13:48:24.095045+00:00,residential,1,,,,,90.0
+dev04|BAN-L019-X048|2026-08-25T14:37:39.677871+00:00,commercial,,Ngankam Jule,general food store,2,,90.0
+dev07|BAN-L019-X025|2026-08-25T13:57:44.796908+00:00,residential,2,,,,,120.0
+dev04|BAN-L019-X049|2026-08-25T14:00:10.204677+00:00,commercial,,Chez maman aimé,general food store,3,,90.0
+dev02|BAN-L019-X049|2026-08-25T14:02:28.547722+00:00,commercial,,Chez maman aimé,general food store,3,,73.30000000000001
+dev02|BAN-L019-X050|2026-08-25T14:12:42.694489+00:00,commercial,,Chez douanier,drinks; meat and fish,3,,95.09999999999997
+dev03|BAN-L019-X054|2026-08-25T14:19:54.937474+00:00,residential,2,,,,,36.39999999999998
+dev04|BAN-L019-X050|2026-08-25T14:22:21.480727+00:00,commercial,,Chez douanier,drinks; meat and fish,3,,90.0
+dev04|BAN-L019-X051|2026-08-25T14:22:21.483004+00:00,unknown,,,,,,90.0
+dev04|BAN-L016-X052|2026-08-25T14:22:21.484572+00:00,unknown,,,,,,90.0
+dev03|BAN-L019-X086|2026-08-25T15:46:20.070986+00:00,residential,1,,,,,114.2
+dev05|BAN-L019-X028|2026-08-25T14:27:43.698581+00:00,residential,3,,,,,98.2
+dev05|BAN-L019-X029|2026-08-25T14:27:43.701140+00:00,unknown,,,,,,90.89999999999998
+dev05|BAN-L019-X030|2026-08-25T14:27:43.702820+00:00,residential,3,,,,,74.0
+dev05|BAN-L019-X031|2026-08-25T14:27:43.704630+00:00,residential,2,,,,,109.2
+dev05|BAN-L019-X032|2026-08-25T14:27:46.064165+00:00,residential,1,,,,,99.2
+dev05|BAN-L019-X033|2026-08-25T14:27:46.066488+00:00,residential,2,,,,,104.5
+dev05|BAN-L019-X034|2026-08-25T14:45:33.166487+00:00,residential,1,,,,,86.39999999999998
+dev03|BAN-L019-X095|2026-08-25T14:40:30.879970+00:00,residential,1,,,,,94.5
+dev08|BAN-L019-X038|2026-08-25T14:29:30.650553+00:00,unknown,,,,,,71.59999999999997
+dev03|BAN-L019-X099|2026-08-25T14:42:47.353181+00:00,unknown,,,,,,165.0
+dev02|BAN-L019-X051|2026-08-25T14:44:56.143668+00:00,unknown,,,,,,82.0
+dev02|BAN-L019-X052|2026-08-25T14:44:56.146307+00:00,unknown,,,,,,81.5
+dev02|BAN-L019-X053|2026-08-25T14:44:56.148485+00:00,unknown,,,,,,77.39999999999998
+dev02|BAN-L019-X054|2026-08-25T14:48:03.227116+00:00,residential,2,,,,,122.29999999999995
+dev05|BAN-L019-X035|2026-08-25T14:45:33.168951+00:00,residential,2,,,,,86.80000000000001
+dev05|BAN-L019-X036|2026-08-25T14:45:33.171082+00:00,commercial,,Clinique traditionnelle,pharmacy / medicines; traditional healing; traditional healing clinic,20,,88.5
+dev08|BAN-L019-X039|2026-08-25T14:52:02.226268+00:00,commercial,,Boutique Mr dépec,drinks; general food store,1,,81.39999999999998
+dev08|BAN-L019-X040|2026-08-25T14:52:02.228612+00:00,unknown,,,,,,323.70000000000005
+dev07|BAN-L019-X026|2026-08-25T14:53:06.656480+00:00,commercial,,Fozing Elvis,general food store,2,,104.0
+dev07|BAN-L019-X027|2026-08-25T14:53:06.659089+00:00,residential,2,,,,,99.39999999999998
+dev04|BAN-B019-X053|2026-08-25T14:53:52.380614+00:00,unknown,,,,,,90.0
+dev04|BAN-L019-X054|2026-08-25T14:53:52.383396+00:00,residential,2,,,,,90.0
+dev08|BAN-L019-X041|2026-08-25T15:03:28.692634+00:00,residential,2,,,,,68.80000000000001
+dev07|BAN-L019-X029|2026-08-25T15:03:30.863363+00:00,unknown,,,,,,75.19999999999999
+dev01|BAN-L019-X035|2026-08-25T15:04:02.505125+00:00,residential,2,,,,,96.09999999999997
+dev01|BAN-L019-X036|2026-08-25T15:04:02.507695+00:00,commercial,,Clinique traditionnelle,pharmacy / medicines; traditional healing; traditional healing clinic,20,,95.2
+dev01|BAN-L019-X037|2026-08-25T15:04:02.509641+00:00,residential,2,,,,,88.0
+dev01|BAN-L019-X038|2026-08-25T15:04:02.511260+00:00,unknown,,,,,,86.0
+dev01|BAN-L019-X039|2026-08-25T15:04:03.983056+00:00,commercial,,Boutique Mr dépec,drinks; general food store,1,,89.59999999999997
+dev01|BAN-L019-X040|2026-08-25T15:04:03.985575+00:00,unknown,,,,,,92.89999999999998
+dev01|BAN-L019-X041|2026-08-25T15:04:03.987423+00:00,commercial,,Boutique ma'a magni,drinks; general food store,1,,84.69999999999999
+dev01|BAN-L019-X042|2026-08-25T15:04:03.988871+00:00,residential,4,,,,,88.0
+dev01|BAN-L019-X043|2026-08-25T15:04:05.483201+00:00,unknown,,,,,,91.5
+dev01|BAN-L019-X044|2026-08-25T15:04:05.485857+00:00,residential,3,,,,,84.09999999999997
+dev01|BAN-L019-X045|2026-08-25T15:04:05.488129+00:00,unknown,,,,,,100.8
+dev01|BAN-L019-X046|2026-08-25T15:04:05.489769+00:00,residential,2,,,,,108.60000000000002
+dev01|BAN-L019-X047|2026-08-25T15:04:06.699431+00:00,commercial,,Boutique,drinks,1,,71.5
+dev01|BAN-L019-X048|2026-08-25T15:04:06.702317+00:00,residential,2,,,,,88.80000000000001
+dev01|BAN-L019-X049|2026-08-25T15:04:06.704461+00:00,commercial,,Chez maman aimé,general food store,3,,91.7
+dev01|BAN-L019-X050|2026-08-25T15:04:06.706129+00:00,commercial,,Boutique Système,drinks,1,,93.0
+dev03|BAN- L019-X054|2026-08-25T15:04:17.880997+00:00,unknown,,,,,,327.1
+dev01|BAN-L019-X051|2026-08-25T15:06:57.146866+00:00,unknown,,,,,,77.69999999999999
+dev03|BAN-L019-X084|2026-08-25T15:11:23.397244+00:00,unknown,,,,,,181.5
+dev02|BAN-L019-X057|2026-08-25T15:12:11.403368+00:00,residential,1,,,,,79.69999999999999
+dev02|BAN-L019-X056|2026-08-25T15:12:11.405928+00:00,residential,2,,,,,83.39999999999998
+dev01|BAN-L019-X052|2026-08-25T15:30:48.154773+00:00,unknown,,,,,,73.69999999999999
+dev01|BAN-L019-X053|2026-08-25T15:30:48.904957+00:00,unknown,,,,,,82.5
+dev01|BAN-L019-X054|2026-08-25T15:30:48.909315+00:00,residential,2,,,,,67.19999999999999
+dev01|BAN-L019-X055|2026-08-25T15:30:48.915590+00:00,residential,3,,,,,83.09999999999997
+dev01|BAN-L019-X056|2026-08-25T15:30:50.630785+00:00,residential,2,,,,,91.8
+dev01|BAN-L019-X057|2026-08-25T15:30:50.633464+00:00,commercial,,Chez kagero,drinks; general food store,1,,69.09999999999997
+dev01|BAN-L019-X058|2026-08-25T15:30:50.635424+00:00,residential,2,,,,,90.5
+dev04|BAN-L019-X055|2026-08-25T15:31:46.804684+00:00,residential,3,,,,,90.0
+dev04|BAN-L019-X057|2026-08-25T15:46:41.345674+00:00,commercial,,Chez kagero,drinks; general food store,1,,90.0
+dev04|BAN-L019-X056|2026-08-25T15:31:46.808349+00:00,residential,1,,,,,90.0
+dev03|BAN-L019-X091|2026-08-25T15:33:05.309641+00:00,unknown,,,,,,293.79999999999995
+dev03|BAN-L019-X078|2026-08-25T16:01:40.887296+00:00,unknown,,,,,,262.79999999999995
+dev03|BAN-L019-X055|2026-08-25T16:38:12.345802+00:00,residential,3,,,,,222.9
+dev05|BAN-L019-X037|2026-08-25T15:34:11.810666+00:00,residential,2,,,,,76.80000000000001
+dev05|BAN-L019-X038|2026-08-25T15:34:11.813080+00:00,unknown,,,,,,103.09999999999997
+dev05|BAN-L019-X039|2026-08-25T15:34:11.814858+00:00,commercial,,Boutique Mr dépec,drinks; general food store,1,,103.0
+dev05|BAN-L019-X040|2026-08-25T15:34:11.816320+00:00,unknown,,,,,,105.60000000000002
+dev05|BAN-L019-X041|2026-08-25T15:34:13.733381+00:00,residential,2,,,,,84.39999999999998
+dev05|BAN-L019-X042|2026-08-25T15:34:13.737445+00:00,residential,4,,,,,106.79999999999995
+dev05|BAN-L019-X044|2026-08-25T15:34:13.738961+00:00,residential,3,,,,,86.30000000000001
+dev05|BAN-L019-X045|2026-08-25T15:34:15.364520+00:00,unknown,,,,,,107.39999999999998
+dev05|BAN-L019-X043|2026-08-25T15:34:15.366895+00:00,unknown,,,,,,99.2
+dev05|BAN-L019-X046|2026-08-25T15:34:15.368735+00:00,residential,2,,,,,79.89999999999998
+dev05|BAN-L019-X047|2026-08-25T15:34:15.370474+00:00,residential,1,,,,,84.09999999999997
+dev05|BAN-L019-X049|2026-08-25T15:34:16.182988+00:00,commercial,,Chez maman aimé,general food store,3,,93.7
+dev01|BAN-L019-X059|2026-08-25T15:45:11.151036+00:00,residential,2,,,,,66.80000000000001
+dev01|BAN-L019-X060|2026-08-25T15:45:11.153393+00:00,unknown,,,,,,76.5
+dev01|BAN-L019-X061|2026-08-25T15:45:11.155161+00:00,residential,1,,,,,93.7
+dev02|BAN-L019-X058|2026-08-25T16:55:53.776617+00:00,residential,1,,,,,93.7
+dev03|BAN-L019-X001|2026-08-25T16:01:40.891113+00:00,public,,Centre de santé intégré de BANO,health centre,5,,107.10000000000002
+dev03|BAN-L019-X088|2026-08-25T16:03:55.449998+00:00,unknown,,,,,,345.9
+dev04|BAN-L019-X058|2026-08-25T16:07:45.361645+00:00,residential,2,,,,,90.0
+dev03|BAN-L019-X075|2026-08-25T16:11:57.596596+00:00,unknown,,,,,,317.20000000000005
+dev05|BAN-L019-X048|2026-08-25T16:14:00.392229+00:00,residential,2,,,,,93.5
+dev05|BAN-L019-X050|2026-08-25T16:14:00.394594+00:00,commercial,,Chez douanier,drinks; meat and fish,3,,92.5
+dev05|BAN-L000-X051|2026-08-25T16:14:00.396384+00:00,unknown,,,,,,105.0
+dev05|BAN-L019-X052|2026-08-25T16:14:00.397986+00:00,unknown,,,,,,109.10000000000002
+dev05|BAN-L019-X053|2026-08-25T16:14:01.898634+00:00,unknown,,,,,,91.5
+dev05|BAN-L019-X054|2026-08-25T16:14:01.900093+00:00,residential,2,,,,,92.59999999999997
+dev05|BAN-L019-X055|2026-08-25T16:14:03.299933+00:00,residential,3,,,,,107.29999999999995
+dev05|BAN-L019-X056|2026-08-25T16:14:03.302389+00:00,residential,5,,,,,110.7
+dev04|BAN-L019-X059|2026-08-25T16:37:21.290994+00:00,residential,2,,,,,90.0
+dev04|BAN-L019-X060|2026-08-25T16:37:21.297975+00:00,unknown,,,,,,90.0
+dev03|BAN-L019-X087|2026-08-25T16:38:12.343555+00:00,unknown,,,,,,13.899999999999975
+dev05|BAN-L019-X057|2026-08-25T16:39:33.079935+00:00,commercial,,Chez kagero,drinks; general food store,1,,96.5
+dev05|BAN-L019-X058|2026-08-25T16:39:33.082349+00:00,residential,2,,,,,97.89999999999998
+dev05|BAN-L019-X059|2026-08-25T16:39:33.084005+00:00,residential,2,,,,,74.19999999999999
+dev05|BAN-L019-X060|2026-08-25T16:39:33.085691+00:00,unknown,,,,,,94.2
+dev05|BAN-L019-X061|2026-08-25T16:39:36.304397+00:00,residential,1,,,,,88.0
+dev05|BAN-L019-X062|2026-08-25T16:39:36.306884+00:00,unknown,,,,,,95.8
+dev05|BAN-L019-X063|2026-08-25T16:39:36.308699+00:00,commercial,,Hôtel Zogang (derrière l'église catholique),accommodation (hotel),4,,90.7
+dev05|BAN-L019-X064|2026-08-25T16:39:36.310228+00:00,unknown,,,,,,90.7
+dev05|BAN-L019-X065|2026-08-25T16:39:37.960849+00:00,unknown,,,,,,105.10000000000002
+dev03|BAN-L019-X211|2026-08-25T16:40:47.102100+00:00,unknown,,,,,,245.9
+dev01|BAN-L019-X062|2026-08-25T16:42:33.585546+00:00,unknown,,,,,,90.39999999999998
+dev01|BAN-L019-X063|2026-08-25T16:42:33.587841+00:00,commercial,,Hôtel Zogang (derrière l'église catholique),accommodation (hotel),4,,86.5
+dev01|BAN-L019-X064|2026-08-25T16:42:33.589221+00:00,unknown,,,,,,60.89999999999998
+dev01|BAN-L019-X065|2026-08-25T16:42:33.590570+00:00,unknown,,,,,,80.59999999999997
+dev07|BAN-L019-X028|2026-08-25T16:50:54.285129+00:00,residential,3,,,,,105.79999999999995
+dev08|BAN-L019-X042|2026-08-25T16:51:13.271372+00:00,residential,4,,,,,167.79999999999995
+dev08|BAN-L019-X043|2026-08-25T16:54:22.759208+00:00,unknown,,,,,,82.19999999999999
+dev02|BAN-L019-X059|2026-08-25T16:55:53.778882+00:00,commercial,,Boutique bar,drinks; bar,1,,105.2
+dev05|BAN-L019-X066|2026-08-25T17:00:57.876023+00:00,unknown,,,,,,90.2
+dev05|BAN-L019-X067|2026-08-25T17:00:57.878567+00:00,unknown,,,,,,99.09999999999997
+dev05|BAN-L019-X068|2026-08-25T17:00:57.880568+00:00,residential,2,,,,,82.39999999999998
+dev05|BAN-L019-X069|2026-08-25T17:00:57.882268+00:00,public,,Église protestante de Fotouni,church,3,,104.60000000000002
+dev05|BAN-L000-X070|2026-08-25T17:01:03.076454+00:00,unknown,,,,,,99.8
+dev08|BAN-L019-X044|2026-08-25T17:07:36.041808+00:00,residential,3,,,,,86.89999999999998
+dev01|BAN-L019-X066|2026-08-25T17:12:04.801876+00:00,unknown,,,,,,86.89999999999998
+dev01|TCH-E026-X067|2026-08-25T17:12:04.804328+00:00,residential,1,,,,,100.3
+dev01|BAN-L019-X068|2026-08-25T17:12:04.807466+00:00,residential,2,,,,,87.0
+dev01|BAN-L019-X070|2026-08-25T17:12:05.651560+00:00,public,,École maternelle et primaire la providence,nursery school,4,,90.59999999999997
+dev05|BAN-L019-X071|2026-08-25T17:13:41.143253+00:00,unknown,,,,,,91.0
+dev05|BAN-L019-X072|2026-08-25T17:13:41.145825+00:00,unknown,,,,,,86.0
+dev05|BAN-L019-X073|2026-08-25T17:13:41.147380+00:00,commercial,,Chez sopkuibou,general food store; drinks; bakery,1,not operating,87.19999999999999
+dev07|BAN-L019-X031|2026-08-25T17:15:36.310148+00:00,residential,2,,,,,118.2
+dev07|BAN-L019-X032|2026-08-25T17:15:36.312498+00:00,residential,1,,,,,111.79999999999995
+dev05|BAN-L019-X075|2026-08-25T17:17:15.662825+00:00,unknown,,,,,,83.5
+dev02|BAN-L019-X060|2026-08-25T17:17:10.814906+00:00,unknown,,,,,,96.5
+dev02|BAN-L019-X061|2026-08-25T17:17:10.817215+00:00,residential,1,,,,,101.2
+dev02|BAN-L019-X062|2026-08-25T17:17:10.819776+00:00,unknown,,,,,,315.0
+dev01|BAN-L019-X071|2026-08-25T17:17:40.693386+00:00,unknown,,,,,,88.5
+dev02|BAN-L019-X063|2026-08-25T17:19:24.488759+00:00,residential,1,,,,,88.39999999999998
+dev05|BAN-L019-X074|2026-08-25T17:19:28.044184+00:00,unknown,,,,,,99.5
+dev07|BAN-L019-X033|2026-08-25T17:25:40.751709+00:00,residential,2,,,,,83.80000000000001
+dev02|BAN-L019-X064|2026-08-25T17:26:14.732756+00:00,unknown,,,,,,86.0
+dev02|BAN-L019-X065|2026-08-25T17:33:11.106990+00:00,unknown,,,,,,114.39999999999998
+dev07|BAN-L019-X034|2026-08-25T17:36:54.899519+00:00,residential,8,,,,,105.60000000000002
+dev05|BAN-L019-X076|2026-08-25T17:38:33.631613+00:00,residential,3,,,,,97.5
+dev02|SON-O016-X001|2026-08-26T08:13:59.905004+00:00,unknown,,,,,,76.09999999999997
+dev02|SON-O016-X002|2026-08-26T08:17:45.346296+00:00,residential,1,,,,,69.80000000000001
+dev02|SON-O016-X003|2026-08-26T08:21:29.443605+00:00,residential,1,,,,,92.3
+dev02|SON-O016-X004|2026-08-26T08:26:43.901297+00:00,commercial,,Chez maman Hélène,drinks,1,,101.89999999999998
+dev02|SON-O016-X005|2026-08-26T08:30:06.437879+00:00,unknown,,,,,,88.5
+dev07|SON-O016-X001|2026-08-26T08:31:47.426526+00:00,unknown,,,,,,125.60000000000002
+dev02|SON-O016-X006|2026-08-26T08:33:31.035384+00:00,unknown,,,,,,109.39999999999998
+dev07|SON-O016-X002|2026-08-26T08:33:55.609481+00:00,residential,1,,,,,101.7
+dev02|SON-O016-X007|2026-08-26T08:51:59.041350+00:00,residential,1,,,,,91.0
+dev03|GON-M018-X001|2026-08-26T08:41:51.926512+00:00,residential,2,,,,,113.60000000000002
+dev01|SON-O016-X001|2026-08-26T08:43:09.870525+00:00,unknown,,,,,,100.8
+dev01|SON-O016-X002|2026-08-26T08:43:09.872859+00:00,residential,1,,,,,78.89999999999998
+dev01|SON-O016-X003|2026-08-26T08:43:09.874571+00:00,residential,1,,,,,89.89999999999998
+dev01|SAN-O016-X004|2026-08-26T08:43:09.876249+00:00,unknown,,,,,,95.39999999999998
+dev01|SON-O016-X005|2026-08-26T08:43:11.333168+00:00,unknown,,,,,,76.59999999999997
+dev08|SON-O019-X001|2026-08-26T08:45:57.458119+00:00,residential,1,,,,,109.79999999999995
+dev08|SON-O019-X002|2026-08-26T08:45:57.459600+00:00,residential,1,,,,,86.89999999999998
+dev07|SON-O016-X003|2026-08-26T08:52:59.089598+00:00,residential,1,,,,,110.5
+dev08|SON-O019-X003|2026-08-26T08:54:58.735106+00:00,unknown,,,,,,84.59999999999997
+dev04|SON-O016-X001|2026-08-26T09:09:54.580700+00:00,unknown,,,,,,90.0
+dev04|SON-O016-X002|2026-08-26T09:09:54.583061+00:00,residential,1,,,,,90.0
+dev04|SON-O016-X003|2026-08-26T09:09:54.584561+00:00,residential,1,,,,,90.0
+dev04|SON-O016-X004|2026-08-26T09:09:54.586067+00:00,commercial,,Chez maman Hélène,drinks,1,,90.0
+dev04|SON-O016-X005|2026-08-26T09:10:03.752017+00:00,unknown,,,,,,90.0
+dev04|SON-O016-X006|2026-08-26T09:10:03.754347+00:00,unknown,,,,,,90.0
+dev04|SON-O016-X008|2026-08-26T09:10:03.757458+00:00,unknown,,,,,,90.0
+dev04|SON-O016-X009|2026-08-26T09:10:07.909957+00:00,unknown,,,,,,90.0
+dev04|SON-O016-X007|2026-08-26T09:10:07.912285+00:00,residential,1,,,,,90.0
+dev07|SON-O016-X004|2026-08-26T09:52:36.738069+00:00,commercial,,Chez maman Hélène,drinks,1,,115.5
+dev05|TOU-N017-X001|2026-08-26T09:54:45.760371+00:00,unknown,,,,,,98.2
+dev05|TOU-N017-X002|2026-08-26T09:54:45.762856+00:00,unknown,,,,,,102.09999999999997
+dev05|TOU-N017-X003|2026-08-26T09:54:45.764558+00:00,unknown,,,,,,80.59999999999997
+dev05|TOU-N017-X004|2026-08-26T09:54:45.766097+00:00,unknown,,,,,,95.09999999999997
+dev05|TOU-N017-X005|2026-08-26T09:55:57.788601+00:00,unknown,,,,,,87.89999999999998
+dev04|SON-O016-X010|2026-08-26T10:05:05.185976+00:00,unknown,,,,,,90.0
+dev03|NGO-M018-X002|2026-08-26T10:07:43.071750+00:00,unknown,,,,,,195.4
+dev03|NGO-M018-X003|2026-08-26T10:07:43.074084+00:00,unknown,,,,,,348.9
+dev03|NGO-M018-X004|2026-08-26T10:07:43.075623+00:00,unknown,,,,,,63.30000000000001
+dev03|NGO-M018-X005|2026-08-26T10:07:43.076919+00:00,unknown,,,,,,261.29999999999995
+dev03|NGO-M018-X006|2026-08-26T10:07:44.566687+00:00,unknown,,,,,,299.79999999999995
+dev03|NGO-M018-X007|2026-08-26T10:07:44.568987+00:00,residential,1,,,,,193.0
+dev03|NGO-M018-X008|2026-08-26T10:07:44.570598+00:00,residential,1,,,,,312.1
+dev03|NGO-M018-X010|2026-08-26T10:07:44.571958+00:00,public,,Chefferie ngonfet,heritage: chiefdom; sacred site; facilities: parking,,,214.4
+dev05|TOU-N017-X006|2026-08-26T10:20:22.644097+00:00,residential,2,,,,,102.7
+dev05|TOU-N017-X007|2026-08-26T10:20:22.646401+00:00,unknown,,,,,,100.7
+dev05|TOU-N017-X008|2026-08-26T10:20:22.649406+00:00,residential,7,,,,,108.29999999999995
+dev05|TOU-N017-X009|2026-08-26T10:34:04.228040+00:00,unknown,,,,,,82.89999999999998
+dev05|TOU-N017-X010|2026-08-26T10:34:04.230399+00:00,unknown,,,,,,86.0
+dev05|TOU-N017-X011|2026-08-26T10:34:04.232100+00:00,unknown,,,,,,101.8
+dev05|TOU-N017-X012|2026-08-26T10:34:04.233796+00:00,unknown,,,,,,86.69999999999999
+dev05|TOU-N017-X013|2026-08-26T10:34:05.424477+00:00,unknown,,,,,,99.09999999999997
+dev05|TOU-N017-X014|2026-08-26T10:46:16.347261+00:00,unknown,,,,,,85.0
+dev08|SON-O019-X004|2026-08-26T10:46:28.209542+00:00,residential,1,,,,,104.5
+dev04|SON-O016-X011|2026-08-26T10:46:42.454573+00:00,residential,1,,,,,90.0
+dev01|SON-O016-X006|2026-08-26T10:46:44.097445+00:00,unknown,,,,,,83.59999999999997
+dev01|SON-O016-X007|2026-08-26T10:46:44.099742+00:00,residential,1,,,,,85.19999999999999
+dev02|SON-O016-X008|2026-08-26T11:05:56.004694+00:00,unknown,,,,,,63.19999999999999
+dev06|BAN-L019-X027|2026-08-26T11:09:51.701987+00:00,residential,5,,,,,70.09999999999997
+dev06|BAN-L019-X028|2026-08-26T11:09:51.704303+00:00,residential,3,,,,,25.69999999999999
+dev06|BAN-L019-X029|2026-08-26T11:09:51.705893+00:00,unknown,,,,,,17.299999999999955
+dev06|BAN-L019-X030|2026-08-26T11:09:51.707350+00:00,residential,3,,,,,102.3
+dev06|BAN-L019-X031|2026-08-26T11:09:54.134103+00:00,residential,2,,,,,154.10000000000002
+dev06|BAN-L019-X032|2026-08-26T11:09:54.136430+00:00,residential,1,,,,,7.299999999999954
+dev06|BAN-L019-X033|2026-08-26T11:09:54.137930+00:00,residential,2,,,,,92.89999999999998
+dev06|BAN-L019-X034|2026-08-26T11:09:54.139374+00:00,residential,8,,,,,193.1
+dev06|BAN-L019-X035|2026-08-26T11:09:55.324346+00:00,residential,2,,,,,136.39999999999998
+dev06|BAN-L019-X036|2026-08-26T11:09:55.326733+00:00,commercial,,Clinique traditionnelle,pharmacy / medicines; traditional healing; traditional healing clinic,20,,165.29999999999995
+dev01|SON-O013-X008|2026-08-26T11:18:10.962982+00:00,unknown,,,,,,78.39999999999998
+dev01|SON-O016-X009|2026-08-26T11:18:10.965500+00:00,unknown,,,,,,68.30000000000001
+dev01|SON-O016-X010|2026-08-26T11:18:10.967425+00:00,unknown,,,,,,83.0
+dev05|TOU-N017-X015|2026-08-26T11:18:18.819801+00:00,residential,1,,,,,82.0
+dev05|TOU-N017-X016|2026-08-26T11:18:18.822316+00:00,unknown,,,,,,105.29999999999995
+dev05|TOU-N017-X017|2026-08-26T11:18:18.824042+00:00,unknown,,,,,,99.09999999999997
+dev05|TOU-N017-X018|2026-08-26T11:18:18.825697+00:00,unknown,,,,,,93.59999999999997
+dev05|TOU-N017-X019|2026-08-26T11:18:20.710745+00:00,unknown,,,,,,85.80000000000001
+dev05|TOU-N017-X020|2026-08-26T11:18:20.713336+00:00,unknown,,,,,,77.89999999999998
+dev05|TOU-N017-X021|2026-08-26T11:18:20.714929+00:00,unknown,,,,,,91.7
+dev05|TOU-N017-X022|2026-08-26T11:18:20.716429+00:00,unknown,,,,,,89.0
+dev02|SON-O016-X009|2026-08-26T11:24:32.267096+00:00,unknown,,,,,,87.09999999999997
+dev04|SON-O016-X012|2026-08-26T11:26:40.796547+00:00,unknown,,,,,,90.0
+dev04|SON-O016-X013|2026-08-26T11:26:40.798959+00:00,unknown,,,,,,90.0
+dev04|FAM-U014-X014|2026-08-26T11:33:13.770844+00:00,unknown,,,,,,90.0
+dev03|NGO-M018-X011|2026-08-26T11:39:40.192338+00:00,unknown,,,,,,25.5
+dev03|NGO-M018-X012|2026-08-26T11:39:40.194789+00:00,unknown,,,,,,254.79999999999995
+dev06|BAN-L019-X037|2026-08-26T11:40:49.482979+00:00,residential,2,,,,,104.2
+dev06|BAN-L019-X038|2026-08-26T11:40:49.485263+00:00,unknown,,,,,,117.7
+dev07|SON-O016-X005|2026-08-26T11:42:06.646980+00:00,unknown,,,,,,99.2
+dev06|BAN-L019-X039|2026-08-26T11:42:17.584916+00:00,commercial,,Boutique Mr dépec,drinks; general food store,1,,358.6
+dev02|FAM-U014-X001|2026-08-26T11:43:38.151470+00:00,commercial,,Alimentation la merveille,general food store; drinks; bakery; airtime and mobile money,2,,93.5
+dev02|FAM-U014-X002|2026-08-26T11:43:38.153797+00:00,unknown,,,,,,88.5
+dev02|FAM-U014-X003|2026-08-26T11:43:38.155352+00:00,industrial,,Pressoir à huile,cooking oil; oil press,1,,83.80000000000001
+dev08|FAN-U014-X006|2026-08-26T11:48:29.881806+00:00,residential,3,,,,,57.89999999999998
+dev02|FAM-U014-X005|2026-08-26T11:50:53.226183+00:00,unknown,,,,,,80.89999999999998
+dev08|FAN-U014-X007|2026-08-26T11:52:23.736656+00:00,residential,3,,,,,67.59999999999997
+dev06|BAN-A019-X040|2026-08-26T11:52:25.556860+00:00,unknown,,,,,,30.899999999999977
+dev06|BAN-L019-X041|2026-08-26T11:52:25.559221+00:00,residential,2,,,,,80.0
+dev04|FAM-U014-X015|2026-08-26T11:54:00.720980+00:00,residential,4,,,,,90.0
+dev04|FAM-U014-X016|2026-08-26T11:54:00.723353+00:00,unknown,,,,,,90.0
+dev04|FAM-U014-X017|2026-08-26T11:54:00.724754+00:00,unknown,,,,,,90.0
+dev05|TOU-N017-X023|2026-08-26T11:54:08.207254+00:00,unknown,,,,,,81.89999999999998
+dev05|TOU-N017-X024|2026-08-26T11:54:08.209758+00:00,residential,3,,,,,85.19999999999999
+dev05|TOU-N017-X026|2026-08-26T11:54:08.211227+00:00,residential,2,,,,,101.3
+dev05|BAN-N019-X025|2026-08-26T11:54:08.212753+00:00,unknown,,,,,,98.3
+dev05|TOU-N017-X027|2026-08-26T11:54:08.904733+00:00,residential,5,,,,,85.89999999999998
+dev07|FAN-U014-X006|2026-08-26T12:19:52.165257+00:00,residential,3,,,,,113.10000000000002
+dev07|FAN-U014-X007|2026-08-26T12:19:52.170786+00:00,residential,3,,,,,161.10000000000002
+dev01|SON-O016-X011|2026-08-26T12:20:31.951375+00:00,residential,1,,,,,67.59999999999997
+dev01|FAN-U014-X013|2026-08-26T12:20:31.956952+00:00,unknown,,,,,,84.30000000000001
+dev01|FAN-U014-X014|2026-08-26T12:20:43.606466+00:00,unknown,,,,,,105.29999999999995
+dev01|FAN-U014-X015|2026-08-26T12:20:43.608903+00:00,unknown,,,,,,102.59999999999997
+dev01|FAN-U014-X016|2026-08-26T12:20:43.610607+00:00,unknown,,,,,,94.39999999999998
+dev01|FAN-U014-X017|2026-08-26T12:20:43.612121+00:00,public,,Chef poste,chiefdom,30,,99.8
+dev01|FAN-U014-X018|2026-08-26T12:20:47.395831+00:00,residential,3,,,,,83.69999999999999
+dev01|FAN-U014-X019|2026-08-26T12:20:47.399061+00:00,unknown,,,,,,86.80000000000001
+dev01|FAN-U014-X020|2026-08-26T12:20:47.400647+00:00,unknown,,,,,,78.19999999999999
+dev01|FAN-U014-X021|2026-08-26T12:20:47.402142+00:00,unknown,,,,,,92.0
+dev02|FAM-U014-X004|2026-08-26T12:20:51.621076+00:00,unknown,,,,,,106.7
+dev02|FAM-U014-X007|2026-08-26T12:20:51.623426+00:00,commercial,,Boutique,drinks; bakery,1,,83.69999999999999
+dev02|FAM-U014-X006|2026-08-26T12:20:51.625014+00:00,public,,Église catholique de famgam,church,5,,86.69999999999999
+dev02|FAM-U014-X009|2026-08-26T12:20:51.626333+00:00,residential,1,,,,,87.59999999999997
+dev04|FAM-U014-X018|2026-08-26T12:24:01.204879+00:00,unknown,,,,,,90.0
+dev04|FAM-U014-X019|2026-08-26T12:24:01.207327+00:00,commercial,,Boutique bar,general food store; bar,1,,90.0
+dev03|BAK-P015-X001|2026-08-26T12:26:36.027219+00:00,public,,École publique de bakwop,primary school,6,,185.6
+dev03|BAK-P015-X002|2026-08-26T12:26:36.029831+00:00,residential,1,,,,,142.5
+dev03|BAK-P015-X003|2026-08-26T12:26:36.031819+00:00,unknown,,,,,,110.10000000000002
+dev03|BAK-P015-X004|2026-08-26T12:26:36.033650+00:00,unknown,,,,,,74.09999999999997
+dev03|BAK-P015-X005|2026-08-26T12:26:36.920568+00:00,unknown,,,,,,276.4
+dev03|BAK-P015-X006|2026-08-26T12:26:36.922848+00:00,unknown,,,,,,277.1
+dev03|BAK-P015-X007|2026-08-26T12:26:36.924334+00:00,unknown,,,,,,338.5
+dev03|BAK-P015-X008|2026-08-26T12:26:36.925695+00:00,unknown,,,,,,262.9
+dev03|BAK-P015-X009|2026-08-26T12:26:39.383353+00:00,unknown,,,,,,333.5
+dev03|BAK-P015-X010|2026-08-26T12:26:39.385725+00:00,unknown,,,,,,246.5
+dev03|BAK-P015-X011|2026-08-26T12:26:39.387325+00:00,unknown,,,,,,346.1
+dev03|BAK-P015-X012|2026-08-26T12:26:39.388714+00:00,unknown,,,,,,76.0
+dev03|BAN-P015-X013|2026-08-26T12:26:41.975723+00:00,unknown,,,,,,306.4
+dev03|BAK-P015-X014|2026-08-26T12:26:41.978125+00:00,unknown,,,,,,279.6
+dev03|BAK-P015-X015|2026-08-26T12:26:41.979746+00:00,unknown,,,,,,327.4
+dev03|BAK-P015-X016|2026-08-26T12:26:41.981179+00:00,unknown,,,,,,340.29999999999995
+dev01|FAN-U014-X022|2026-08-26T12:27:41.416267+00:00,unknown,,,,,,74.69999999999999
+dev01|FAN-U014-X023|2026-08-26T12:27:41.418573+00:00,unknown,,,,,,88.5
+dev01|FAN-U014-X024|2026-08-26T12:27:41.419948+00:00,unknown,,,,,,82.5
+dev02|FAM-U014-X008|2026-08-26T12:30:36.698243+00:00,residential,3,,,,,102.39999999999998
+dev02|FAM-U014-X010|2026-08-26T12:30:36.700699+00:00,residential,2,,,,,97.7
+dev02|FAM-U014-X011|2026-08-26T12:33:34.565730+00:00,residential,1,,,,,81.69999999999999
+dev01|FAN-U014-X025|2026-08-26T12:33:35.388848+00:00,unknown,,,,,,78.0
+dev01|FAN-U014-X026|2026-08-26T12:37:22.129653+00:00,unknown,,,,,,72.69999999999999
+dev01|FAN-U014-X027|2026-08-26T12:37:22.132195+00:00,unknown,,,,,,87.39999999999998
+dev08|FAN-U014-X008|2026-08-26T12:38:22.837809+00:00,unknown,,,,,,91.89999999999998
+dev08|FAN-U014-X009|2026-08-26T12:38:22.840096+00:00,residential,1,,,,,93.3
+dev08|FAN-U014-X010|2026-08-26T12:38:22.841681+00:00,public,,École publique fangam,primary school,3,,97.5
+dev08|FAN-U014-X011|2026-08-26T12:38:22.843092+00:00,residential,9,,,,,92.39999999999998
+dev02|FAM-U014-X012|2026-08-26T12:41:26.026807+00:00,public,,Point d'eau,water point,5,,82.39999999999998
+dev02|FAM-U014-X013|2026-08-26T12:50:58.448977+00:00,residential,1,,,,,91.5
+dev03|BAK-P015-X017|2026-08-26T13:12:15.422091+00:00,residential,2,,,,,118.5
+dev03|BAK-P015-X019|2026-08-26T12:53:43.211541+00:00,unknown,,,,,,114.79999999999995
+dev03|BAK-P015-X018|2026-08-26T12:53:43.213366+00:00,residential,1,,,,,93.59999999999997
+dev03|BAK-P015-X020|2026-08-26T12:53:43.214956+00:00,unknown,,,,,,94.39999999999998
+dev03|BAK-P015-X021|2026-08-26T12:53:45.346558+00:00,unknown,,,,,,196.6
+dev03|BAK-P015-X022|2026-08-26T12:53:45.348937+00:00,unknown,,,,,,154.70000000000005
+dev03|BAK-P015-X023|2026-08-26T12:53:45.350493+00:00,unknown,,,,,,81.5
+dev01|FAN-U014-X028|2026-08-26T13:16:31.212395+00:00,unknown,,,,,,81.19999999999999
+dev01|FAN-U014-X029|2026-08-26T13:16:31.214741+00:00,unknown,,,,,,105.29999999999995
+dev01|FAN-U014-X030|2026-08-26T13:16:31.216304+00:00,unknown,,,,,,86.30000000000001
+dev01|FAN-U014-X031|2026-08-26T13:16:31.217761+00:00,unknown,,,,,,89.5
+dev05|FAM-U014-X001|2026-08-26T13:03:47.324582+00:00,commercial,,Alimentation la merveille,general food store; drinks; bakery; airtime and mobile money,2,,103.5
+dev07|FAM-U014-X008|2026-08-26T13:04:43.239265+00:00,residential,3,,,,,115.7
+dev06|BAN-L019-X042|2026-08-26T13:11:04.566358+00:00,residential,4,,,,,80.09999999999997
+dev06|BAN-L019-X043|2026-08-26T13:11:04.568791+00:00,unknown,,,,,,97.7
+dev06|BAN-L019-X044|2026-08-26T13:11:04.570363+00:00,residential,3,,,,,171.60000000000002
+dev06|BAN-L019-X045|2026-08-26T13:11:04.571816+00:00,unknown,,,,,,115.0
+dev06|BAN-L019-X047|2026-08-26T13:11:05.961244+00:00,residential,1,,,,,4.599999999999966
+dev06|BAN-L019-X046|2026-08-26T13:11:05.963700+00:00,residential,3,,,,,319.0
+dev06|BAN-L019-X048|2026-08-26T13:11:05.965227+00:00,residential,2,,,,,176.5
+dev06|BAN-L019-X049|2026-08-26T13:11:05.966767+00:00,residential,3,,,,,195.0
+dev06|BAN-L019-X050|2026-08-26T13:11:07.135149+00:00,commercial,,Chez douanier,drinks; meat and fish,3,,27.09999999999997
+dev06|BAN-L019-X051|2026-08-26T13:11:07.137480+00:00,unknown,,,,,,41.29999999999996
+dev06|BAN-L019-X052|2026-08-26T13:11:07.139082+00:00,unknown,,,,,,225.79999999999995
+dev06|BAN-L019-X053|2026-08-26T13:11:07.140461+00:00,unknown,,,,,,181.70000000000005
+dev06|BAN-L019-X054|2026-08-26T13:11:08.263993+00:00,residential,2,,,,,61.80000000000001
+dev06|BAN-L019-X055|2026-08-26T13:11:08.266357+00:00,residential,3,,,,,57.0
+dev05|FAN-U014-X002|2026-08-26T13:12:07.007422+00:00,commercial,,Alimentation,general food store; drinks,2,,106.89999999999998
+dev03|BAK-P015-X025|2026-08-26T13:12:15.418134+00:00,unknown,,,,,,109.60000000000002
+dev03|BAK-P015-X026|2026-08-26T13:12:15.420526+00:00,unknown,,,,,,114.10000000000002
+dev03|BAK-P015-X028|2026-08-26T13:12:15.423582+00:00,unknown,,,,,,94.89999999999998
+dev03|BAK-P015-X029|2026-08-26T13:12:16.810026+00:00,unknown,,,,,,78.19999999999999
+dev03|BAN-P015-X030|2026-08-26T13:12:16.812397+00:00,unknown,,,,,,182.79999999999995
+dev03|BAK-P015-X031|2026-08-26T13:12:16.814062+00:00,unknown,,,,,,137.39999999999998
+dev03|BAK-P015-X032|2026-08-26T13:12:16.815475+00:00,unknown,,,,,,258.70000000000005
+dev04|FAM-U014-X021|2026-08-26T13:13:08.948566+00:00,unknown,,,,,,90.0
+dev04|FAM-U014-X022|2026-08-26T13:13:08.953168+00:00,unknown,,,,,,90.0
+dev04|FAM-U014-X023|2026-08-26T13:13:08.954939+00:00,unknown,,,,,,90.0
+dev04|FAM-U014-X024|2026-08-26T13:13:16.260510+00:00,residential,7,,,,,90.0
+dev07|FAM-U014-X009|2026-08-26T13:14:48.665163+00:00,residential,1,,,,,105.79999999999995
+dev08|FAN-U014-X012|2026-08-26T13:16:28.365519+00:00,residential,1,,,,,239.79999999999995
+dev01|FAN-U014-X032|2026-08-26T13:16:35.353658+00:00,unknown,,,,,,89.80000000000001
+dev01|FAN-U014-X033|2026-08-26T13:16:35.356070+00:00,public,,Centre de santé intégré de Fangam,health centre,6,,79.39999999999998
+dev01|FAN-U014-X034|2026-08-26T13:16:35.357759+00:00,unknown,,,,,,80.5
+dev01|FAN-U014-X035|2026-08-26T13:16:35.359189+00:00,unknown,,,,,,95.3
+dev02|FAM-U014-X014|2026-08-26T13:21:06.701346+00:00,unknown,,,,,,102.3
+dev02|FAM-U014-X015|2026-08-26T13:21:06.703845+00:00,residential,4,,,,,97.09999999999997
+dev02|FAM-U014-X017|2026-08-26T13:21:06.705807+00:00,unknown,,,,,,87.5
+dev05|TOU-U014-X003|2026-08-26T13:25:27.423223+00:00,commercial,,Chez Agnès Restau,general food store; drinks; bakery; restaurant / prepared food; household products; restaurant,2,,88.5
+dev05|FAN-U014-X004|2026-08-26T13:25:27.425804+00:00,commercial,,Chez père laurent nouboussie,general food store; drinks; household products; bakery,1,,74.30000000000001
+dev07|FAM-U014-X010|2026-08-26T13:25:56.096040+00:00,residential,2,,,,,83.59999999999997
+dev03|BAK-P015-X033|2026-08-26T13:27:06.375558+00:00,unknown,,,,,,86.09999999999997
+dev03|BAK-P015-X027|2026-08-26T13:27:06.378120+00:00,unknown,,,,,,127.29999999999995
+dev03|BAK-P015-X034|2026-08-26T13:27:06.379802+00:00,unknown,,,,,,120.5
+dev02|FAM-U014-X016|2026-08-26T13:47:35.189345+00:00,unknown,,,,,,91.89999999999998
+dev02|FAM-U014-X018|2026-08-26T13:47:35.191734+00:00,unknown,,,,,,100.0
+dev03|BAK-P015-X035|2026-08-26T13:48:05.526563+00:00,residential,1,,,,,19.5
+dev03|BAK-P015-X036|2026-08-26T13:48:05.529021+00:00,unknown,,,,,,176.20000000000005
+dev03|BAK-P015-X037|2026-08-26T13:48:05.530735+00:00,unknown,,,,,,358.29999999999995
+dev03|BAK-P015-X038|2026-08-26T13:48:05.532183+00:00,unknown,,,,,,81.0
+dev03|BAK-P015-X039|2026-08-26T13:50:09.459729+00:00,unknown,,,,,,215.20000000000005
+dev05|FAN-U014-X005|2026-08-26T13:52:55.772611+00:00,public,,Ancien Eglise catholique de Famgam,church,0,,91.89999999999998
+dev01|FAN-U014-X036|2026-08-26T13:55:05.836979+00:00,residential,2,,,,,86.59999999999997
+dev01|FAN-U014-X037|2026-08-26T13:55:05.839380+00:00,residential,4,,,,,96.7
+dev08|FAN-U014-X014|2026-08-26T14:12:07.451226+00:00,unknown,,,,,,88.5
+dev08|FAN-U014-X015|2026-08-26T14:12:07.453770+00:00,unknown,,,,,,219.70000000000005
+dev04|FAM-U014-X025|2026-08-26T14:15:39.399285+00:00,residential,1,,,,,90.0
+dev04|FAM-U014-X026|2026-08-26T14:15:39.401830+00:00,unknown,,,,,,90.0
+dev04|FAM-U014-X027|2026-08-26T14:15:39.403613+00:00,unknown,,,,,,90.0
+dev04|FAM-U 014-X028|2026-08-26T14:15:39.405103+00:00,unknown,,,,,,90.0
+dev08|FAN-U011-X015|2026-08-26T14:19:18.773799+00:00,unknown,,,,,,87.59999999999997
+dev03|BAK-P015-X040|2026-08-26T14:19:51.821550+00:00,unknown,,,,,,106.7
+dev08|FAN-U014-X017|2026-08-26T14:21:45.649790+00:00,public,,Chef poste,chiefdom,30,,95.3
+dev03|BAK-P015-X041|2026-08-26T14:24:13.269427+00:00,public,,Chefferie bakwop,heritage: chiefdom; sacred site; facilities: guide,,,48.599999999999966
+dev04|FAM-U014-X029|2026-08-26T14:25:27.563952+00:00,unknown,,,,,,90.0
+dev04|FAM-U014-X030|2026-08-26T14:25:27.566453+00:00,unknown,,,,,,90.0
+dev04|FAM-U014-X031|2026-08-26T14:25:27.568016+00:00,unknown,,,,,,90.0
+dev01|FAN-U014-X038|2026-08-26T14:31:18.554698+00:00,residential,3,,,,,100.5
+dev01|FAN-U014-X039|2026-08-26T14:31:18.557127+00:00,unknown,,,,,,71.0
+dev01|FAN-U014-X040|2026-08-26T14:31:18.558762+00:00,unknown,,,,,,76.39999999999998
+dev07|FAM-U014-X011|2026-08-26T14:31:35.035985+00:00,residential,1,,,,,122.5
+dev07|FAM-U014-X012|2026-08-26T14:31:35.038350+00:00,public,,Point d'eau,water point,5,,115.79999999999995
+dev07|FAM-U014-X013|2026-08-26T15:10:07.792796+00:00,residential,1,,,,,114.29999999999995
+dev08|FAN-U014-X018|2026-08-26T14:32:19.171476+00:00,residential,1,,,,,104.0
+dev04|FAM-U014-X032|2026-08-26T14:32:59.762934+00:00,unknown,,,,,,90.0
+dev01|FAN-U014-X041|2026-08-26T14:34:41.475977+00:00,unknown,,,,,,65.0
+dev01|FAN-U014-X042|2026-08-26T14:34:41.478468+00:00,unknown,,,,,,79.89999999999998
+dev02|FAM-U014-X019|2026-08-26T14:36:20.521376+00:00,commercial,,Boutique bar,general food store; bar,1,,89.30000000000001
+dev02|FAM-U014-X020|2026-08-26T14:36:20.523767+00:00,industrial,,Pressoir à huile,cooking oil; oil press,2,,90.3
+dev02|FAM-U014-X021|2026-08-26T14:36:20.525493+00:00,unknown,,,,,,86.39999999999998
+dev02|FAM-U014-X022|2026-08-26T14:36:20.526890+00:00,unknown,,,,,,89.39999999999998
+dev02|FAM-U014-X023|2026-08-26T14:36:24.054779+00:00,unknown,,,,,,102.09999999999997
+dev02|FAM-U014-X024|2026-08-26T14:36:24.057174+00:00,residential,7,,,,,87.30000000000001
+dev02|FAM-U014-X025|2026-08-26T14:36:24.058879+00:00,residential,1,,,,,84.19999999999999
+dev03|BAK-P015-X042|2026-08-26T14:38:47.090658+00:00,residential,1,,,,,225.0
+dev03|BAK-P015-X043|2026-08-26T14:42:41.446234+00:00,residential,1,,,,,223.70000000000005
+dev03|BAK-P015-X044|2026-08-26T15:12:10.531303+00:00,unknown,,,,,,135.0
+dev03|BAK-P015-X045|2026-08-26T15:12:10.533749+00:00,unknown,,,,,,331.0
+dev03|BAK-P015-X046|2026-08-26T15:14:52.812063+00:00,unknown,,,,,,80.19999999999999
+dev03|BAK-P015-X049|2026-08-26T15:20:18.831616+00:00,unknown,,,,,,180.6
+dev01|FAN-U014-X043|2026-08-26T15:21:52.414027+00:00,unknown,,,,,,24.799999999999955
+dev03|BAK-P015-X050|2026-08-26T15:23:14.456293+00:00,unknown,,,,,,24.399999999999977
+dev03|BAK-P015-X052|2026-08-26T15:37:00.714757+00:00,unknown,,,,,,6.2999999999999545
+dev02|FAM-U014-X026|2026-08-26T15:44:30.919323+00:00,unknown,,,,,,82.09999999999997
+dev02|FAM-U014-X027|2026-08-26T15:44:30.926680+00:00,unknown,,,,,,100.09999999999997
+dev07|FAM-U014-X014|2026-08-26T15:44:33.829125+00:00,unknown,,,,,,145.10000000000002
+dev01|FAN-U014-X045|2026-08-26T15:44:39.822494+00:00,unknown,,,,,,86.89999999999998
+dev01|FAN-U014-X044|2026-08-26T15:44:39.825008+00:00,unknown,,,,,,87.30000000000001
+dev08|FAN-U014-X019|2026-08-26T15:53:00.304888+00:00,unknown,,,,,,93.89999999999998
+dev02|BAN-L019-X068|2026-08-26T15:53:53.203957+00:00,public,,École primaire EEC,primary school,3,,94.5
+dev02|BAN-L019-X070|2026-08-26T15:53:53.206434+00:00,public,,École maternelle EEC,nursery school,2,,95.39999999999998
+dev07|FAM-U014-X015|2026-08-26T15:53:53.850503+00:00,residential,4,,,,,117.2
+dev08|FAN-U014-X020|2026-08-26T15:54:15.053872+00:00,unknown,,,,,,98.0
+dev02|BAN-L019-X071|2026-08-26T15:57:49.184762+00:00,unknown,,,,,,54.30000000000001
+dev03|FAN-U014-X054|2026-08-26T15:59:11.238728+00:00,residential,1,,,,,234.1
+dev03|FAN-U014-X053|2026-08-26T15:59:11.241161+00:00,unknown,,,,,,54.69999999999999
+dev02|BAN-L019-X072|2026-08-26T15:59:59.136165+00:00,unknown,,,,,,71.69999999999999
+dev01|FAN-U014-X046|2026-08-26T16:06:29.743631+00:00,unknown,,,,,,83.09999999999997
+dev01|FAN-U014-X047|2026-08-26T16:06:29.746046+00:00,unknown,,,,,,84.69999999999999
+dev01|FAN-U014-X048|2026-08-26T16:06:29.747556+00:00,unknown,,,,,,79.89999999999998
+dev01|TCH-E026-X049|2026-08-26T16:08:49.620858+00:00,unknown,,,,,,82.19999999999999
+dev07|FAM-U014-X016|2026-08-26T16:09:02.529481+00:00,unknown,,,,,,121.0
+dev07|TCH-F025-X017|2026-08-26T16:34:38.224930+00:00,residential,2,,,,,128.29999999999995
+dev02|TCH-E026-X058|2026-08-26T16:33:40.659007+00:00,unknown,,,,,,96.5
+dev04|TCH-T013-X001|2026-08-27T07:44:33.673732+00:00,residential,1,,,,,90.0
+dev04|TCH-T013-X002|2026-08-27T07:47:10.945484+00:00,residential,6,,,,,90.0
+dev08|TCH-T013-X001|2026-08-27T07:53:11.923209+00:00,residential,1,,,,,100.0
+dev07|TCH-S013-X001|2026-08-27T07:54:40.030140+00:00,unknown,,,,,,121.5
+dev06|TCH-R013-X001|2026-08-27T07:55:49.596738+00:00,public,,École publique Tchikong,primary school,4,,173.79999999999995
+dev01|TCH-S013-X001|2026-08-27T07:59:22.709354+00:00,unknown,,,,,,79.59999999999997
+dev07|TCH-S013-X002|2026-08-27T08:07:04.520058+00:00,unknown,,,,,,128.2
+dev02|TCH-T013-X001|2026-08-27T08:17:57.593335+00:00,residential,1,,,,,101.8
+dev02|TCH-T013-X002|2026-08-27T08:17:57.596096+00:00,residential,6,,,,,91.5
+dev02|TCH-T013-X003|2026-08-27T08:17:57.597731+00:00,residential,2,,,,,93.3
+dev02|TCH-T013-X004|2026-08-27T08:17:57.599189+00:00,unknown,,,,,,107.7
+dev02|TCH-T013-X005|2026-08-27T08:34:22.684595+00:00,residential,1,,,,,94.8
+dev08|TCH-T013-X002|2026-08-27T08:18:14.516789+00:00,residential,6,,,,,118.29999999999995
+dev04|TCH-T013-X003|2026-08-27T08:20:16.157030+00:00,residential,2,,,,,90.0
+dev04|TCH-T013-X004|2026-08-27T08:20:16.159490+00:00,unknown,,,,,,90.0
+dev04|TCH-T013-X005|2026-08-27T08:20:16.162429+00:00,residential,1,,,,,90.0
+dev04|TCH-T013-X006|2026-08-27T08:20:17.169619+00:00,residential,1,,,,,90.0
+dev01|TCH-S013-X002|2026-08-27T08:20:21.711016+00:00,unknown,,,,,,74.09999999999997
+dev08|TCH-T003-X003|2026-08-27T08:21:37.414075+00:00,residential,3,,,,,154.70000000000005
+dev07|TCH-S013-X003|2026-08-27T08:25:26.991983+00:00,unknown,,,,,,110.5
+dev07|TCH-S013-X004|2026-08-27T08:25:26.994648+00:00,residential,2,,,,,124.10000000000002
+dev01|TCH-S013-X003|2026-08-27T08:26:28.385050+00:00,unknown,,,,,,86.89999999999998
+dev01|TCH-S013-X004|2026-08-27T08:31:47.166988+00:00,residential,2,,,,,70.59999999999997
+dev07|TCH-T013-X005|2026-08-27T08:36:17.917258+00:00,residential,1,,,,,115.0
+dev01|TCH-T013-X005|2026-08-27T08:46:05.354110+00:00,residential,1,,,,,66.30000000000001
+dev02|BAN-T013-X007|2026-08-27T08:46:23.934328+00:00,unknown,,,,,,100.89999999999998
+dev02|TCH-T013-X006|2026-08-27T08:46:23.936796+00:00,residential,1,,,,,91.09999999999997
+dev08|TCH-T013-X005|2026-08-27T08:47:11.635750+00:00,residential,1,,,,,53.0
+dev01|TCH-T013-X006|2026-08-27T08:49:52.206359+00:00,residential,1,,,,,73.19999999999999
+dev07|TCH-T013-X006|2026-08-27T08:51:08.272518+00:00,residential,1,,,,,91.0
+dev08|TCH-T013-X004|2026-08-27T08:51:56.898187+00:00,unknown,,,,,,95.59999999999997
+dev03|TCH-R013-X001|2026-08-27T09:09:30.248805+00:00,public,,École publique Tchikong,primary school,4,,23.19999999999999
+dev01|TCH-T013-X007|2026-08-27T09:10:23.958103+00:00,residential,3,,,,,99.2
+dev01|TCH-T013-X008|2026-08-27T09:10:23.961122+00:00,residential,1,,,,,25.69999999999999
+dev02|TCH-T013-X008|2026-08-27T09:11:49.584495+00:00,residential,3,,,,,100.3
+dev08|TCH-T013-X006|2026-08-27T09:12:53.523312+00:00,residential,2,,,,,96.09999999999997
+dev04|TCH-T013-X007|2026-08-27T09:13:59.510960+00:00,residential,3,,,,,90.0
+dev04|BAN-A013-X009|2026-08-27T09:13:59.513750+00:00,residential,1,,,,,90.0
+dev08|TCH-T 013-X008|2026-08-27T09:19:19.617402+00:00,residential,4,,,,,105.79999999999995
+dev03|TCH-R013-X002|2026-08-27T09:37:37.267002+00:00,public,,Centre médical de tchikong,health centre,0,,274.9
+dev04|TCH-T013-X008|2026-08-27T09:27:21.465975+00:00,residential,1,,,,,90.0
+dev04|TCH-T013-X010|2026-08-27T09:27:21.468794+00:00,residential,6,,,,,90.0
+dev01|TCH-T013-X009|2026-08-27T09:29:25.074518+00:00,commercial,,Alimentation TPO,general food store; drinks,1,,89.0
+dev08|TCH-T013-X007|2026-08-27T09:32:07.279729+00:00,residential,3,,,,,96.5
+dev02|TCH-T013-X009|2026-08-27T09:37:41.426378+00:00,residential,1,,,,,87.39999999999998
+dev04|TCH-T013-X011|2026-08-27T09:38:08.949347+00:00,residential,2,,,,,90.0
+dev04|TCH-T013-X012|2026-08-27T09:54:51.808988+00:00,residential,2,,,,,90.0
+dev07|TCH-T013-X007|2026-08-27T09:54:11.614025+00:00,residential,1,,,,,101.2
+dev04|TCH-T013-X013|2026-08-27T10:00:45.215363+00:00,unknown,,,,,,90.0
+dev02|TCH-T013-X011|2026-08-27T10:09:36.091201+00:00,residential,2,,,,,111.2
+dev02|TCH-T013-X012|2026-08-27T10:09:36.093627+00:00,residential,2,,,,,103.2
+dev04|TCH-T013-X014|2026-08-27T10:12:01.321471+00:00,unknown,,,,,,90.0
+dev04|TCH-T013-X015|2026-08-27T10:12:01.323861+00:00,unknown,,,,,,90.0
+dev07|TCH-T013-X008|2026-08-27T10:58:55.828968+00:00,residential,1,,,,,132.79999999999995
+dev07|TCH-T013-X009|2026-08-27T11:15:25.551028+00:00,commercial,,Alimentation TPO,general food store; drinks,1,,107.7
+dev08|TCH-T013-X010|2026-08-27T11:18:23.040528+00:00,residential,6,,,,,70.09999999999997
+dev04|TCH-T013-X018|2026-08-27T11:24:04.710702+00:00,residential,2,,,,,90.0
+dev04|TCH-T013-X017|2026-08-27T11:24:04.821259+00:00,unknown,,,,,,90.0
+dev04|TCH-T013-X019|2026-08-27T11:24:04.824077+00:00,unknown,,,,,,90.0
+dev04|TCH-T013-X020|2026-08-27T11:24:04.826598+00:00,unknown,,,,,,90.0
+dev02|TCH-T013-X013|2026-08-27T11:24:04.920272+00:00,unknown,,,,,,91.59999999999997
+dev07|BAN-T013-X010|2026-08-27T11:28:02.788445+00:00,unknown,,,,,,108.2
+dev01|TCH-T013-X010|2026-08-27T11:28:43.522528+00:00,residential,6,,,,,82.30000000000001
+dev04|TCH-T013-X021|2026-08-27T11:31:47.748693+00:00,unknown,,,,,,90.0
+dev08|TCH-T013-X009|2026-08-27T11:31:49.300350+00:00,commercial,,Alimentation TPO,general food store; drinks,1,,96.3
+dev03|TCH-R013-X055|2026-08-27T11:41:46.155028+00:00,unknown,,,,,,349.20000000000005
+dev08|TCH-T013-X011|2026-08-27T11:42:43.592668+00:00,residential,2,,,,,87.30000000000001
+dev04|TCH-T013-X022|2026-08-27T11:44:13.061675+00:00,residential,1,,,,,90.0
+dev02|TCH-T013-X014|2026-08-27T13:44:41.204404+00:00,unknown,,,,,,95.2
+dev08|TCH-T013-X012|2026-08-27T11:45:33.177430+00:00,residential,2,,,,,98.8
+dev08|TCH-T013-X013|2026-08-27T11:47:57.392601+00:00,unknown,,,,,,98.89999999999998
+dev07|TCH-T013-X011|2026-08-27T12:10:04.987977+00:00,residential,2,,,,,110.60000000000002
+dev07|TCH-T013-X012|2026-08-27T12:10:05.572201+00:00,residential,2,,,,,118.60000000000002
+dev03|TCH-R013-X056|2026-08-27T12:10:25.140666+00:00,unknown,,,,,,101.39999999999998
+dev03|TCH-R013-X057|2026-08-27T12:10:25.142616+00:00,unknown,,,,,,351.6
+dev06|TCH-R013-X002|2026-08-27T12:27:42.293434+00:00,residential,1,,,,,95.59999999999997
+dev06|TCH-R013-X003|2026-08-27T12:27:42.296137+00:00,residential,1,,,,,179.5
+dev06|TCH-R013-X004|2026-08-27T12:27:42.298185+00:00,unknown,,,,,,184.4
+dev06|TCH-R013-X005|2026-08-27T12:27:42.299731+00:00,unknown,,,,,,315.0
+dev03|TCH-T013-X056|2026-08-27T12:31:41.654260+00:00,unknown,,,,,,139.2
+dev03|TCH-T013-X058|2026-08-27T12:31:41.656797+00:00,unknown,,,,,,105.5
+dev03|TCH-U013-X059|2026-08-27T12:31:41.658417+00:00,unknown,,,,,,59.69999999999999
+dev07|TCH-T013-X013|2026-08-27T12:45:09.183390+00:00,unknown,,,,,,140.5
+dev07|TCH-T013-X014|2026-08-27T12:45:09.618872+00:00,unknown,,,,,,128.0
+dev07|TCH-T013-X015|2026-08-27T12:45:09.624083+00:00,unknown,,,,,,108.5
+dev07|TCH-T013-X016|2026-08-27T12:45:09.626315+00:00,unknown,,,,,,116.39999999999998
+dev08|TCH-R013-X014|2026-08-27T12:50:06.341627+00:00,unknown,,,,,,333.9
+dev03|TCH-R013-X059|2026-08-27T12:50:59.301540+00:00,unknown,,,,,,266.4
+dev03|TCH-U013-X081|2026-08-27T12:50:59.304007+00:00,unknown,,,,,,147.7
+dev03|TCH-T013-X086|2026-08-27T12:50:59.305637+00:00,unknown,,,,,,315.9
+dev03|TCH-T013-X089|2026-08-27T12:50:59.307112+00:00,unknown,,,,,,304.5
+dev03|TCH-T013-X090|2026-08-27T12:51:00.420392+00:00,unknown,,,,,,104.60000000000002
+dev03|TCH-T013-X091|2026-08-27T12:51:00.422904+00:00,unknown,,,,,,253.9
+dev07|TCH-T013-X017|2026-08-27T13:19:53.477464+00:00,unknown,,,,,,109.39999999999998
+dev03|TCH-U013-X092|2026-08-27T13:43:57.749693+00:00,unknown,,,,,,304.5
+dev01|TCH-T013-X011|2026-08-27T13:49:04.981444+00:00,residential,2,,,,,88.69999999999999
+dev01|TCH-T013-X012|2026-08-27T13:49:04.984071+00:00,residential,2,,,,,71.89999999999998
+dev01|TCH-T013-X013|2026-08-27T13:49:04.985766+00:00,unknown,,,,,,89.89999999999998
+dev01|TCH-T013-X014|2026-08-27T13:49:06.203533+00:00,unknown,,,,,,89.09999999999997
+dev10|TCH-E026-X001|2026-08-27T13:49:59.104608+00:00,public,,Centre Agro pastorale,agro-pastoral centre,,,113.29999999999995
+dev05|FAN-U014-X006|2026-08-27T13:53:14.550622+00:00,residential,3,,,,,103.2

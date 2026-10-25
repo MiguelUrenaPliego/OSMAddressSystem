@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Community address app</title>
+<link rel="stylesheet" href="static/vendor/leaflet.css">
+<link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+<header id="top">
+  <div class="brand"><strong id="project-name">Address app</strong><span id="save-state" class="muted"></span></div>
+  <div class="actions">
+    <button id="btn-undo" title="Undo the last edit">&#8630; Undo</button>
+    <button id="btn-redo" title="Redo">&#8631; Redo</button>
+    <button id="btn-save" class="primary" title="Edits are saved at once. Save makes a named checkpoint (with the street ids) you can come back to">&#128190; Save checkpoint</button>
+    <button id="btn-checkpoints" title="Go back to an older saved checkpoint">&#128339; Checkpoints</button>
+    <span class="menu"><button id="btn-export">&#11015; Export</button>
+      <span class="menu-body">
+        <div class="menu-row"><span>Reference point<small>where the numbering starts</small></span><span class="fmt"><a href="api/export/reference.gpkg" data-dl="reference.gpkg">GeoPackage</a> <a href="api/export/reference.csv" data-dl="reference.csv">CSV</a></span></div>
+        <div class="menu-row"><span>Streets<small>one row per street id</small></span><span class="fmt"><a href="api/export/streets.gpkg" data-dl="streets.gpkg">GeoPackage</a> <a href="api/export/streets.csv" data-dl="streets.csv">CSV</a></span></div>
+        <div class="menu-row"><span>Edges<small>one row per edge</small></span><span class="fmt"><a href="api/export/edges.gpkg" data-dl="edges.gpkg">GeoPackage</a> <a href="api/export/edges.csv" data-dl="edges.csv">CSV</a></span></div>
+        <div class="menu-row"><span>Nodes<small></small></span><span class="fmt"><a href="api/export/nodes.gpkg" data-dl="nodes.gpkg">GeoPackage</a> <a href="api/export/nodes.csv" data-dl="nodes.csv">CSV</a></span></div>
+        <div class="menu-row"><span>Buildings + addresses<small></small></span><span class="fmt"><a href="api/export/buildings.gpkg" data-dl="buildings.gpkg">GeoPackage</a> <a href="api/export/buildings.csv" data-dl="buildings.csv">CSV</a></span></div>
+        <div class="menu-row"><span>Street signs<small></small></span><span class="fmt"><a href="api/export/signs.gpkg" data-dl="signs.gpkg">GeoPackage</a> <a href="api/export/signs.csv" data-dl="signs.csv">CSV</a></span></div>
+        <div class="menu-row"><span>Changes for OpenStreetMap<small>new + modified streets</small></span><span class="fmt"><a href="api/export/osm.osm" data-dl="osm.osm">OSM</a></span></div>
+        <div class="menu-row"><span>Street names given<small></small></span><span class="fmt"><a href="api/export/names.csv" data-dl="names.csv">CSV</a></span></div>
+            </span></span>
+    <button id="btn-warnings" title="Warnings">&#9888; <span id="warn-count">0</span></button>
+  </div>
+</header>
+<nav id="tabs">
+  <button data-tab="roads">1 &middot; Edit streets</button>
+  <button data-tab="ids">2 &middot; Street IDs</button>
+  <button data-tab="names">3 &middot; Street names</button>
+  <button data-tab="addresses">4 &middot; Addresses</button>
+  <span id="job" class="muted"></span>
+  <span id="stalebar" hidden></span>
+</nav>
+<main>
+  <div id="map"></div>
+  <div id="banner" hidden></div>
+  <div id="refbox" hidden></div>
+  <div id="side">
+    <aside id="panel"></aside>
+    <section id="warnings-box"><div class="warn-head"><strong>Active warnings <span id="warn-count2" class="badge">0</span></strong><button id="warn-close" title="Show or hide the list">&#9662;</button></div><div id="warn-list"></div></section>
+  </div>
+</main>
+<div id="modal" hidden><div class="modal-body"><div class="warn-head"><strong id="modal-title"></strong><button id="modal-close">&times;</button></div><div id="modal-content"></div></div></div>
+<div id="toast" hidden></div>
+<script src="static/vendor/leaflet.js"></script>
+<script src="static/app.js"></script>
+</body>
+</html>

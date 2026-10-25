@@ -1,0 +1,14 @@
+# Without Docker: /etc/systemd/system/address-app.service  (adjust the paths and user)
+[Unit]
+Description=Community address app
+After=network.target
+
+[Service]
+User=address
+WorkingDirectory=/srv/address/code/OSMAddressSystem
+Environment=ADDRESS_DB_URL=sqlite:////srv/address/project/project.db
+ExecStart=/srv/address/code/OSMAddressSystem/.venv/bin/python -m osmaddresssystem.app serve --project /srv/address/project --host 127.0.0.1 --port 8000
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

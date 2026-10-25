@@ -31,7 +31,7 @@ POIS_JSON_PATH = os.path.join(SUBREGION_DIR, "pois.json")
 STREET_SIGNS_HTML_PATH = os.path.join(SUBREGION_DIR, "street_signs_map.html")
 
 # Fotouni's own main-intersection center (same point used as the default
-# view for Fotouni's address/survey maps - see data/scripts/build_survey_maps.py
+# view for Fotouni's address/survey maps - see code/building_survey/build_survey_maps.py
 # FOTOUNI_DEFAULT_CENTER).
 FOTOUNI_CENTER_LAT, FOTOUNI_CENTER_LON = 5.321098, 10.227436
 FOTOUNI_POLYGON_BUFFER_M = 500.0
@@ -51,6 +51,12 @@ FOTOUNI_POLYGON_PARAMS = dict(
 
 
 def _poi_name(row, fallback: str) -> str:
+    """Return a POI's name tag, or a fallback when it has none.
+
+    Args:
+        row: OSM feature row.
+        fallback: Name to use when ``name`` is missing or blank.
+    """
     name = row.get("name")
     return name if isinstance(name, str) and name.strip() else fallback
 
@@ -77,6 +83,18 @@ def _points_from_osm(gdf: gpd.GeoDataFrame) -> gpd.GeoDataFrame:
 
 
 def _pois_to_records(gdf: gpd.GeoDataFrame, icon: str, fallback_name: str, description: str, params: dict) -> list[dict]:
+    """Convert OSM features into sign-map POI records.
+
+    Args:
+        gdf: OSM features.
+        icon: Emoji icon for the records.
+        fallback_name: Name used when a feature has none.
+        description: Description text of the records.
+        params: Extra sign-map parameters merged into each record.
+
+    Returns:
+        List of POI record dicts.
+    """
     records = []
     for _, row in _points_from_osm(gdf).iterrows():
         records.append(
@@ -92,6 +110,14 @@ def _pois_to_records(gdf: gpd.GeoDataFrame, icon: str, fallback_name: str, descr
 
 
 def build_pois_json(bounds: gpd.GeoDataFrame) -> list[dict]:
+    """Download schools, healthcare and chiefferies around the town and build POI records.
+
+    Args:
+        bounds: Area to search.
+
+    Returns:
+        List of POI record dicts, including the Fotouni chiefferie.
+    """
     schools = osm.schools(bounds)
     healthcare = osm.healthcare(bounds)
     chiefferies = osm.chiefferies(bounds)
@@ -129,6 +155,7 @@ def build_pois_json(bounds: gpd.GeoDataFrame) -> list[dict]:
 
 
 def main():
+    """Build ``pois.json`` for the Bandja street-sign map from the existing Bandja outputs."""
     nodes_gdf = gpd.read_file(os.path.join(SUBREGION_DIR, "nodes.gpkg")).set_index("osmid")
     edges_gdf = gpd.read_file(os.path.join(SUBREGION_DIR, "edges.gpkg")).set_index(["u", "v", "key"])
     streets_df = pd.read_csv(os.path.join(SUBREGION_DIR, "streets.csv"))

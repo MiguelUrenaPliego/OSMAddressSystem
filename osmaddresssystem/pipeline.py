@@ -17,9 +17,12 @@ import pandas as pd
 from shapely.geometry import Point, Polygon, MultiPolygon
 from shapely.ops import linemerge
 
-from . import numbering, osm, street_direction, street_ids, utils
+from . import branches, numbering, osm, path_numbering, street_direction, street_ids, utils
 from .default_values import (
+    DEFAULT_BRANCH_NUMBER_DIVISOR_M,
+    DEFAULT_MAX_BRANCH_LEVELS,
     DEFAULT_NUMBER_DIVISOR_M,
+    DEFAULT_PATH_HIGH_RANK_MAX,
     DEFAULT_TRANSVERSAL_ROAD_PCT,
 )
 
@@ -112,6 +115,47 @@ def write_gpkg(gdf: gpd.GeoDataFrame, path: str) -> gpd.GeoDataFrame:
     return out
 
 
+def _orient_along_numbering(main: gpd.GeoDataFrame, dissolved: gpd.GeoDataFrame):
+    """Flip each street line so it starts where the street's numbering starts.
+
+    The dissolved/merged line has an arbitrary direction, but side detection and the distance
+    along the street used for house numbers assume the line runs in the numbering direction.
+    The start is the node with the smallest ``street_pos_*_m`` (from
+    ``assign_street_directionality``); streets without those columns, or whose line is not a
+    single LineString, are left as they are.
+
+    Args:
+        main: Main-path edges with ``street_id``, geometry and ``street_pos_u_m``/``_v_m``.
+        dissolved: One row per street with its dissolved line.
+
+    Returns:
+        Series of geometries, oriented where possible.
+    """
+    if "street_pos_u_m" not in main.columns:
+        return dissolved["geometry"]
+    ends: dict = {}
+    for sid, geom, u, v, pu, pv in zip(main["street_id"], main.geometry, main.index.get_level_values("u"),
+                                       main.index.get_level_values("v"), main["street_pos_u_m"], main["street_pos_v_m"]):
+        if geom is None or pd.isna(pu) or pd.isna(pv) or geom.geom_type != "LineString":
+            continue
+        c = list(geom.coords)
+        for pos, xy in ((pu, c[0]), (pv, c[-1])):
+            cur = ends.get(sid)
+            if cur is None or pos < cur[0]:
+                ends[sid] = (pos, xy)
+    out = []
+    for sid, geom in zip(dissolved["street_id"], dissolved["geometry"]):
+        e = ends.get(sid)
+        if e is None or geom.geom_type != "LineString":
+            out.append(geom)
+            continue
+        c = list(geom.coords)
+        d0 = (c[0][0] - e[1][0]) ** 2 + (c[0][1] - e[1][1]) ** 2
+        d1 = (c[-1][0] - e[1][0]) ** 2 + (c[-1][1] - e[1][1]) ** 2
+        out.append(geom if d0 <= d1 else type(geom)(c[::-1]))
+    return gpd.GeoSeries(out, index=dissolved.index)
+
+
 def streets_gdf_from_edges(
     edges_gdf: gpd.GeoDataFrame, streets_df: pd.DataFrame
 ) -> gpd.GeoDataFrame:
@@ -150,6 +194,7 @@ def streets_gdf_from_edges(
     dissolved["geometry"] = dissolved["geometry"].apply(
         lambda geom: linemerge(geom) if geom.geom_type == "MultiLineString" else geom
     )
+    dissolved["geometry"] = _orient_along_numbering(main, dissolved)
     merged = dissolved.merge(streets_df, on="street_id", how="left")
     return gpd.GeoDataFrame(merged, geometry="geometry", crs=edges_gdf.crs)
 
@@ -163,15 +208,23 @@ def build_addressed_streets(
     transversal_road_pct: float = DEFAULT_TRANSVERSAL_ROAD_PCT,
     number_divisor_m: float = DEFAULT_NUMBER_DIVISOR_M,
     label_streets_kwargs: dict | None = None,
+    name_branches: bool = False,
+    max_branch_levels: int = DEFAULT_MAX_BRANCH_LEVELS,
+    branch_number_divisor_m: float = DEFAULT_BRANCH_NUMBER_DIVISOR_M,
+    path_high_rank_max: int = DEFAULT_PATH_HIGH_RANK_MAX,
+    suffix_split_names: bool = True,
+    backbone_streets=None,
 ) -> tuple[gpd.GeoDataFrame, gpd.GeoDataFrame, gpd.GeoDataFrame]:
     """Run the full street-identity -> directionality -> numbering pipeline.
 
     Args:
         G: A projected street network graph (see ``street_ids.label_streets``).
-        origin: ``(x, y)`` center point, in radial mode. Ignored in grid
-            mode.
-        numbering_mode: ``"radial"`` or ``"grid"`` (see
-            ``street_direction.assign_street_directionality``).
+        origin: ``(x, y)`` center point, in radial mode; the reference point in path mode.
+            Ignored in grid mode.
+        numbering_mode: ``"radial"``, ``"grid"`` or ``"path"`` (see
+            ``street_direction.assign_street_directionality`` and ``path_numbering``). In path
+            mode streets are cut so each begins at its end nearest to the reference (by road
+            network distance); ``street_id_original`` keeps the id before the cut.
         direction_deg: Compass direction for grid mode. If ``None`` and
             ``numbering_mode == "grid"``, it's autodetected via
             ``street_direction.detect_main_direction``.
@@ -184,6 +237,16 @@ def build_addressed_streets(
             ``numbering.assign_house_numbers``.
         label_streets_kwargs: Extra keyword arguments forwarded to
             ``street_ids.label_streets``.
+        name_branches: If True, unnamed roads branching off a named road get a
+            derived name (see ``branches.assign_branch_names``), in the extra
+            columns ``branch_name``/``display_name``.
+        max_branch_levels: Maximum number of branch prefixes in a derived name.
+        branch_number_divisor_m: Metres along the parent per branch-number step.
+        path_high_rank_max: Path mode: maximum street rank of the high-rank network.
+        backbone_streets: Path mode: street ids (named or to-be-named) the routes to the reference are
+            restricted to; every other street hangs off them (see ``path_numbering.node_distances``).
+        suffix_split_names: Path mode: give the parts after the first of a cut, named street a letter
+            suffix in parentheses (``Rue X (B)``); see ``path_numbering.split_streets``.
 
     Returns:
         A tuple ``(nodes_gdf, edges_gdf, streets_gdf)``. ``streets_gdf``
@@ -197,6 +260,15 @@ def build_addressed_streets(
     if numbering_mode == "grid" and direction_deg is None:
         direction_deg = street_direction.detect_main_direction(edges_gdf)
 
+    node_distances = None
+    if numbering_mode == "path":
+        node_distances, _reference = path_numbering.node_distances(
+            nodes_gdf, edges_gdf, origin, high_rank_max=path_high_rank_max,
+            backbone_streets=backbone_streets,
+        )
+        edges_gdf, streets_df, _mapping = path_numbering.split_streets(
+            edges_gdf, streets_df, node_distances, suffix_split_names=suffix_split_names)
+
     edges_gdf, streets_df = street_direction.assign_street_directionality(
         nodes_gdf,
         edges_gdf,
@@ -205,11 +277,19 @@ def build_addressed_streets(
         transversal_road_pct=transversal_road_pct,
         numbering_mode=numbering_mode,
         direction_deg=direction_deg if direction_deg is not None else 0.0,
+        node_distances=node_distances,
+        path_high_rank_max=path_high_rank_max,
     )
 
     edges_gdf, streets_df = numbering.assign_house_numbers(
         edges_gdf, streets_df, number_divisor_m=number_divisor_m
     )
+
+    if name_branches:
+        edges_gdf, streets_df = branches.assign_branch_names(
+            nodes_gdf, edges_gdf, streets_df,
+            number_divisor_m=branch_number_divisor_m, max_levels=max_branch_levels,
+        )
 
     if admin_polygons:
         streets_df = numbering.add_admin_columns(streets_df, admin_polygons)

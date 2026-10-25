@@ -90,6 +90,7 @@ STREETS_CSV_PATH = os.path.join(TOWN_DIR, "streets.csv")
 
 
 def main():
+    """Run the Madrid Nuevos Ministerios example end to end."""
     # --- Download and crop the street network --------------------------
     # Resolves LOCATION to an AOI (the finest OSM administrative/place
     # boundary containing it, or a buffer), downloads the best-matching

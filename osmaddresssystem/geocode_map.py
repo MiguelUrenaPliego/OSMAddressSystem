@@ -37,7 +37,7 @@ from branca.element import Element
 from shapely.geometry import Point
 
 from .default_values import DEFAULT_HIGHWAY_RANKS, DEFAULT_NUMBER_DIVISOR_M, DEFAULT_RANK
-from .street_editor import _line_coord_lists, _new_map
+from .street_editor import _DEFAULT_BASEMAP, _line_coord_lists, _new_map
 
 _EARTH_RADIUS_M = 6_371_000.0
 
@@ -113,13 +113,26 @@ window.__geocodeRefLat = 0;
     window.__geocodeRefLat = n > 0 ? sumLat / n : 0;
 }})();
 
+// WGS84 radii of curvature at the reference latitude: a degree of latitude is ~0.5 % shorter near
+// the equator than the sphere's 111.19 km, which at a 2 m house-number step shifts the numbers of a
+// long street by several steps, so an ellipsoid (not a sphere) is used for the local scale.
+window.__geocodeMeridianR = {_EARTH_RADIUS_M};
+window.__geocodePrimeVerticalR = {_EARTH_RADIUS_M};
+(function() {{
+    var a = 6378137.0, e2 = 0.00669437999014;
+    var phi = window.__geocodeRefLat * Math.PI / 180;
+    var w = 1 - e2 * Math.sin(phi) * Math.sin(phi);
+    window.__geocodePrimeVerticalR = a / Math.sqrt(w);
+    window.__geocodeMeridianR = a * (1 - e2) / (w * Math.sqrt(w));
+}})();
+
 function osmGeocodeToLocalMeters(lat, lon) {{
     var latRad = lat * Math.PI / 180;
     var lonRad = lon * Math.PI / 180;
     var refLatRad = window.__geocodeRefLat * Math.PI / 180;
     return [
-        {_EARTH_RADIUS_M} * Math.cos(refLatRad) * lonRad,
-        {_EARTH_RADIUS_M} * latRad
+        window.__geocodePrimeVerticalR * Math.cos(refLatRad) * lonRad,
+        window.__geocodeMeridianR * latRad
     ];
 }}
 
@@ -128,8 +141,8 @@ function osmGeocodeToLocalMeters(lat, lon) {{
 // lat/lon, so it can be drawn on the map (the red projection dot).
 function osmGeocodeFromLocalMeters(x, y) {{
     var refLatRad = window.__geocodeRefLat * Math.PI / 180;
-    var latRad = y / {_EARTH_RADIUS_M};
-    var lonRad = x / ({_EARTH_RADIUS_M} * Math.cos(refLatRad));
+    var latRad = y / window.__geocodeMeridianR;
+    var lonRad = x / (window.__geocodePrimeVerticalR * Math.cos(refLatRad));
     return [latRad * 180 / Math.PI, lonRad * 180 / Math.PI];
 }}
 
@@ -191,8 +204,23 @@ function osmGeocodeHouseNumber(distanceAlong, side) {{
     return Math.max(minimum, base);
 }}
 
+// Path numbering: the position along the street is interpolated from the street's own
+// [length along, position] profile (numbering.profile_position); no profile = plain length.
+function osmGeocodeApplyProfile(profile, d) {{
+    if (!profile || profile.length === 0) {{ return d; }}
+    if (d <= profile[0][0]) {{ return profile[0][1]; }}
+    for (var i = 0; i < profile.length - 1; i++) {{
+        var a = profile[i], b = profile[i + 1];
+        if (d >= a[0] && d <= b[0]) {{
+            return b[0] === a[0] ? a[1] : a[1] + (b[1] - a[1]) * (d - a[0]) / (b[0] - a[0]);
+        }}
+    }}
+    return profile[profile.length - 1][1];
+}}
+
 function osmGeocodeAddress(bestStreet, bestProjection) {{
-    var houseNumber = osmGeocodeHouseNumber(bestProjection.distanceAlong, bestProjection.side);
+    var houseNumber = osmGeocodeHouseNumber(
+        osmGeocodeApplyProfile(bestStreet.profile, bestProjection.distanceAlong), bestProjection.side);
     var label = (bestStreet.street_name && bestStreet.street_name !== "")
         ? bestStreet.street_name
         : ("street " + bestStreet.street_id);
@@ -433,7 +461,7 @@ def build_interactive_geocode_map(
             must match whatever ``numbering.assign_house_numbers`` used
             when generating ``streets_gdf``, or the shown house numbers
             won't agree with the ones already baked into the gpkg/csv.
-        numbering_mode: ``"radial"`` or ``"grid"`` - which of ``origin``/
+        numbering_mode: ``"radial"``, ``"grid"`` or ``"path"`` - which of ``origin``/
             ``direction_deg`` below to actually draw. ``None`` (the
             default) draws neither, e.g. for a caller that doesn't have
             this information on hand.
@@ -461,9 +489,13 @@ def build_interactive_geocode_map(
     bounds_proj = streets_gdf.total_bounds
     center = list(default_center) if default_center is not None else [(bounds[1] + bounds[3]) / 2, (bounds[0] + bounds[2]) / 2]
 
-    fmap = _new_map(center, zoom_start=default_zoom if default_zoom is not None else 15)
+    fmap, tile_layers = _new_map(center, zoom_start=default_zoom if default_zoom is not None else 15)
+    # This map has no basemap selector (the street editor's has): keep only the default base layer.
+    for name, layer in tile_layers.items():
+        if name != _DEFAULT_BASEMAP:
+            fmap._children.pop(layer.get_name(), None)
 
-    if numbering_mode == "radial" and origin is not None:
+    if numbering_mode in ("radial", "path") and origin is not None:
         _draw_origin_marker(fmap, origin, streets_gdf.crs)
     elif numbering_mode == "grid" and direction_deg is not None:
         anchor = origin if origin is not None else (
@@ -490,6 +522,9 @@ def build_interactive_geocode_map(
         street_name = None if pd.isna(street_name) else street_name
         street_id = row.get("street_id")
         entry_base = {"street_id": street_id, "street_name": street_name}
+        profile = row.get("path_profile")
+        if len(parts) == 1 and isinstance(profile, str) and profile:
+            entry_base["profile"] = json.loads(profile)
         for column in admin_columns:
             value = row.get(column)
             entry_base[column] = None if pd.isna(value) else value

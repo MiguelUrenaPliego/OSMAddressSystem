@@ -15,6 +15,7 @@ from osmaddresssystem.synthetic_grid import build_idealized_grid
 
 
 def _labeled_and_directed(G, origin=(0.0, 0.0), **kwargs):
+    """Test helper: labeled and directed."""
     nodes_gdf, edges_gdf, streets_df = street_ids.label_streets(G, node_cluster_m=0)
     edges_gdf, streets_df = street_direction.assign_street_directionality(
         nodes_gdf, edges_gdf, streets_df, origin=origin, **kwargs
@@ -23,6 +24,7 @@ def _labeled_and_directed(G, origin=(0.0, 0.0), **kwargs):
 
 
 def test_build_street_editor_map_writes_html(tmp_path):
+    """Check build street editor map writes html."""
     G = build_idealized_grid(rows=2, cols=2, spacing=100.0, named_row=None, primary_row=None)
     nodes_gdf, edges_gdf, streets_df = _labeled_and_directed(G, origin=(0.0, 0.0))
     streets_gdf = pipeline.streets_gdf_from_edges(edges_gdf, streets_df)
@@ -69,6 +71,7 @@ def test_build_street_editor_map_has_three_switchable_basemaps(tmp_path):
 
 
 def test_popup_html_shows_readonly_highway_and_rank():
+    """Check popup html shows readonly highway and rank."""
     html = street_editor._popup_html(
         street_id=5, street_name="Main St", highway="primary", street_rank=1
     )
@@ -81,11 +84,13 @@ def test_popup_html_shows_readonly_highway_and_rank():
 
 
 def test_popup_html_handles_missing_highway_rank():
+    """Check popup html handles missing highway rank."""
     html = street_editor._popup_html(street_id=5, street_name=None, highway=None, street_rank=None)
     assert "unknown" in html
 
 
 def test_popup_html_includes_rank_drivable_and_geometry_button():
+    """Check popup html includes rank drivable and geometry button."""
     html = street_editor._popup_html(
         street_id=5, street_name="Main St", highway="primary", street_rank=1, is_drivable=True
     )
@@ -96,6 +101,7 @@ def test_popup_html_includes_rank_drivable_and_geometry_button():
 
 
 def test_popup_html_drivable_unchecked_when_false():
+    """Check popup html drivable unchecked when false."""
     html = street_editor._popup_html(
         street_id=5, street_name="Main St", highway="footway", is_drivable=False
     )
@@ -103,6 +109,7 @@ def test_popup_html_drivable_unchecked_when_false():
 
 
 def test_build_street_editor_map_has_labels_layer_and_control(tmp_path):
+    """Check build street editor map has labels layer and control."""
     G = build_idealized_grid(rows=2, cols=2, spacing=100.0, named_row=None, primary_row=None)
     nodes_gdf, edges_gdf, streets_df = _labeled_and_directed(G, origin=(0.0, 0.0))
     streets_gdf = pipeline.streets_gdf_from_edges(edges_gdf, streets_df)
@@ -119,6 +126,7 @@ def test_build_street_editor_map_has_labels_layer_and_control(tmp_path):
 
 
 def test_export_csv_includes_new_columns(tmp_path):
+    """Check export csv includes new columns."""
     G = build_idealized_grid(rows=2, cols=2, spacing=100.0, named_row=None, primary_row=None)
     nodes_gdf, edges_gdf, streets_df = _labeled_and_directed(G, origin=(0.0, 0.0))
     streets_gdf = pipeline.streets_gdf_from_edges(edges_gdf, streets_df)
@@ -136,6 +144,7 @@ def test_export_csv_includes_new_columns(tmp_path):
 
 
 def test_build_street_editor_map_raises_on_empty_streets(tmp_path):
+    """Check build street editor map raises on empty streets."""
     import geopandas as gpd
 
     empty = gpd.GeoDataFrame(
@@ -190,6 +199,7 @@ def test_build_street_editor_map_has_no_legacy_edit_edges_ui(tmp_path):
 
 
 def test_apply_street_edits_with_edge_level_override(tmp_path):
+    """Check apply street edits with edge level override."""
     G = build_idealized_grid(rows=3, cols=3, spacing=100.0, named_row=None, primary_row=None)
     nodes_gdf, edges_gdf, streets_df = _labeled_and_directed(G, origin=(0.0, 0.0))
 
@@ -236,6 +246,7 @@ def test_apply_street_edits_with_edge_level_override(tmp_path):
 
 
 def test_apply_street_edits_edge_level_unassign(tmp_path):
+    """Check apply street edits edge level unassign."""
     G = build_idealized_grid(rows=3, cols=3, spacing=100.0, named_row=None, primary_row=None)
     nodes_gdf, edges_gdf, streets_df = _labeled_and_directed(G, origin=(0.0, 0.0))
 
@@ -274,6 +285,7 @@ def test_apply_street_edits_edge_level_unassign(tmp_path):
 
 
 def test_apply_street_edits_edge_level_new_street_gets_a_streets_row(tmp_path):
+    """Check apply street edits edge level new street gets a streets row."""
     G = build_idealized_grid(rows=2, cols=2, spacing=100.0, named_row=None, primary_row=None)
     nodes_gdf, edges_gdf, streets_df = _labeled_and_directed(G, origin=(0.0, 0.0))
 
@@ -306,6 +318,7 @@ def test_apply_street_edits_edge_level_new_street_gets_a_streets_row(tmp_path):
 
 
 def test_apply_street_edits_renames_a_street(tmp_path):
+    """Check apply street edits renames a street."""
     G = build_idealized_grid(rows=2, cols=2, spacing=100.0, named_row=None, primary_row=None)
     nodes_gdf, edges_gdf, streets_df = _labeled_and_directed(G, origin=(0.0, 0.0))
 
@@ -334,6 +347,7 @@ def test_apply_street_edits_renames_a_street(tmp_path):
 
 
 def test_apply_street_edits_honors_rank_and_drivable_override(tmp_path):
+    """Check apply street edits honors rank and drivable override."""
     G = build_idealized_grid(rows=2, cols=2, spacing=100.0, named_row=None, primary_row=None)
     nodes_gdf, edges_gdf, streets_df = _labeled_and_directed(G, origin=(0.0, 0.0))
 
@@ -357,6 +371,7 @@ def test_apply_street_edits_honors_rank_and_drivable_override(tmp_path):
 
 
 def test_apply_street_edits_returns_geom_edited_and_is_new_columns(tmp_path):
+    """Check apply street edits returns geom edited and is new columns."""
     G = build_idealized_grid(rows=3, cols=3, spacing=100.0, named_row=None, primary_row=None)
     nodes_gdf, edges_gdf, streets_df = _labeled_and_directed(G, origin=(0.0, 0.0))
 
@@ -396,6 +411,7 @@ def test_apply_street_edits_returns_geom_edited_and_is_new_columns(tmp_path):
 
 
 def test_apply_street_edits_gpkg_round_trips(tmp_path):
+    """Check apply street edits gpkg round trips."""
     G = build_idealized_grid(rows=2, cols=2, spacing=100.0, named_row=None, primary_row=None)
     nodes_gdf, edges_gdf, streets_df = _labeled_and_directed(G, origin=(0.0, 0.0))
 
@@ -422,6 +438,7 @@ def test_apply_street_edits_gpkg_round_trips(tmp_path):
 
 
 def test_apply_street_edits_unassigns_street_when_new_id_is_none(tmp_path):
+    """Check apply street edits unassigns street when new id is none."""
     G = build_idealized_grid(rows=2, cols=2, spacing=100.0, named_row=None, primary_row=None)
     nodes_gdf, edges_gdf, streets_df = _labeled_and_directed(G, origin=(0.0, 0.0))
 
@@ -442,6 +459,7 @@ def test_apply_street_edits_unassigns_street_when_new_id_is_none(tmp_path):
 
 
 def _add_edge(G, u, v, uxy, vxy, highway="residential", name=None, osmid=1, key=0):
+    """Test helper: add edge."""
     G.add_node(u, x=uxy[0], y=uxy[1])
     G.add_node(v, x=vxy[0], y=vxy[1])
     fwd = LineString([uxy, vxy])
@@ -556,6 +574,7 @@ def _pick_richest_street_id(page):
 
 
 def test_geometry_mode_enters_and_shows_panel(tmp_path):
+    """Check geometry mode enters and shows panel."""
     playwright_sync_api = pytest.importorskip("playwright.sync_api")
 
     G = build_idealized_grid(rows=3, cols=3, spacing=100.0, named_row=1, named_row_name="Elm Street", primary_row=0)
@@ -592,6 +611,7 @@ def test_geometry_mode_enters_and_shows_panel(tmp_path):
 
 
 def test_geometry_mode_undo_reverts_node_move(tmp_path):
+    """Check geometry mode undo reverts node move."""
     playwright_sync_api = pytest.importorskip("playwright.sync_api")
 
     G = build_idealized_grid(rows=3, cols=3, spacing=100.0, named_row=1, named_row_name="Elm Street", primary_row=0)
@@ -646,6 +666,7 @@ def test_geometry_mode_undo_reverts_node_move(tmp_path):
 
 
 def test_geometry_mode_finish_blocked_by_branch(tmp_path):
+    """Check geometry mode finish blocked by branch."""
     playwright_sync_api = pytest.importorskip("playwright.sync_api")
 
     G = build_idealized_grid(rows=3, cols=3, spacing=100.0, named_row=1, named_row_name="Elm Street", primary_row=0)
@@ -726,6 +747,7 @@ def test_geometry_mode_finish_blocked_by_branch(tmp_path):
 
 
 def test_geometry_mode_finish_succeeds_when_valid(tmp_path):
+    """Check geometry mode finish succeeds when valid."""
     playwright_sync_api = pytest.importorskip("playwright.sync_api")
 
     G = build_idealized_grid(rows=3, cols=3, spacing=100.0, named_row=1, named_row_name="Elm Street", primary_row=0)
@@ -761,6 +783,7 @@ def test_geometry_mode_finish_succeeds_when_valid(tmp_path):
 
 
 def test_geometry_mode_delete_node_merges_two_edges(tmp_path):
+    """Check geometry mode delete node merges two edges."""
     playwright_sync_api = pytest.importorskip("playwright.sync_api")
 
     G = build_idealized_grid(rows=3, cols=3, spacing=100.0, named_row=1, named_row_name="Elm Street", primary_row=0)
@@ -820,6 +843,7 @@ def test_geometry_mode_delete_node_merges_two_edges(tmp_path):
 
 
 def test_geometry_mode_remove_edge_then_finish_blocked_by_disconnection(tmp_path):
+    """Check geometry mode remove edge then finish blocked by disconnection."""
     playwright_sync_api = pytest.importorskip("playwright.sync_api")
 
     G = build_idealized_grid(rows=4, cols=1, spacing=100.0, named_row=0, named_row_name="Elm Street", primary_row=0)
@@ -883,6 +907,7 @@ def test_geometry_mode_remove_edge_then_finish_blocked_by_disconnection(tmp_path
 
 
 def test_new_street_button_enters_empty_geometry_mode(tmp_path):
+    """Check new street button enters empty geometry mode."""
     playwright_sync_api = pytest.importorskip("playwright.sync_api")
 
     G = build_idealized_grid(rows=2, cols=2, spacing=100.0, named_row=None, primary_row=None)
@@ -926,6 +951,7 @@ def test_new_street_button_enters_empty_geometry_mode(tmp_path):
 
 
 def test_geometry_mode_internal_vertex_moves_without_confirmation(tmp_path):
+    """Check geometry mode internal vertex moves without confirmation."""
     playwright_sync_api = pytest.importorskip("playwright.sync_api")
 
     G = build_idealized_grid(rows=3, cols=3, spacing=100.0, named_row=1, named_row_name="Elm Street", primary_row=0)
@@ -996,6 +1022,7 @@ def test_geometry_mode_internal_vertex_moves_without_confirmation(tmp_path):
 
 
 def test_geometry_mode_network_node_move_asks_for_confirmation(tmp_path):
+    """Check geometry mode network node move asks for confirmation."""
     playwright_sync_api = pytest.importorskip("playwright.sync_api")
 
     G = build_idealized_grid(rows=3, cols=3, spacing=100.0, named_row=1, named_row_name="Elm Street", primary_row=0)
@@ -1034,6 +1061,7 @@ def test_geometry_mode_network_node_move_asks_for_confirmation(tmp_path):
 
 
 def test_geometry_mode_node_marker_styles_distinguish_network_and_internal(tmp_path):
+    """Check geometry mode node marker styles distinguish network and internal."""
     playwright_sync_api = pytest.importorskip("playwright.sync_api")
 
     G = build_idealized_grid(rows=3, cols=3, spacing=100.0, named_row=1, named_row_name="Elm Street", primary_row=0)
@@ -1068,6 +1096,7 @@ def test_geometry_mode_node_marker_styles_distinguish_network_and_internal(tmp_p
 
 
 def test_node_popup_shows_spokes_for_each_street_and_allows_reassignment(tmp_path):
+    """Check node popup shows spokes for each street and allows reassignment."""
     playwright_sync_api = pytest.importorskip("playwright.sync_api")
 
     G = build_idealized_grid(rows=3, cols=3, spacing=100.0, named_row=1, named_row_name="Elm Street", primary_row=0)
@@ -1136,6 +1165,7 @@ def test_node_popup_shows_spokes_for_each_street_and_allows_reassignment(tmp_pat
 
 
 def test_street_name_must_be_unique(tmp_path):
+    """Check street name must be unique."""
     playwright_sync_api = pytest.importorskip("playwright.sync_api")
 
     G = build_idealized_grid(rows=3, cols=3, spacing=100.0, named_row=1, named_row_name="Elm Street", primary_row=0)
@@ -1172,6 +1202,7 @@ def test_street_name_must_be_unique(tmp_path):
 
 
 def test_build_street_editor_map_has_node_dots_layer(tmp_path):
+    """Check build street editor map has node dots layer."""
     G = build_idealized_grid(rows=2, cols=2, spacing=100.0, named_row=None, primary_row=None)
     nodes_gdf, edges_gdf, streets_df = _labeled_and_directed(G, origin=(0.0, 0.0))
     streets_gdf = pipeline.streets_gdf_from_edges(edges_gdf, streets_df)
@@ -1232,6 +1263,7 @@ def test_create_edge_does_not_finish_on_empty_space(tmp_path):
 
 
 def test_create_edge_finishes_on_node_and_chains_next_edge(tmp_path):
+    """Check create edge finishes on node and chains next edge."""
     playwright_sync_api = pytest.importorskip("playwright.sync_api")
 
     G = build_idealized_grid(rows=3, cols=3, spacing=100.0, named_row=1, named_row_name="Elm Street", primary_row=0)
@@ -1279,6 +1311,7 @@ def test_create_edge_finishes_on_node_and_chains_next_edge(tmp_path):
 
 
 def test_create_edge_snaps_within_5m_of_existing_node(tmp_path):
+    """Check create edge snaps within 5m of existing node."""
     playwright_sync_api = pytest.importorskip("playwright.sync_api")
 
     G = build_idealized_grid(rows=3, cols=3, spacing=100.0, named_row=1, named_row_name="Elm Street", primary_row=0)
@@ -1368,6 +1401,7 @@ def test_segment_intersection_helper():
 
 
 def test_apply_street_edits_applies_edited_geometry_to_existing_edge(tmp_path):
+    """Check apply street edits applies edited geometry to existing edge."""
     G = build_idealized_grid(rows=2, cols=2, spacing=100.0, named_row=None, primary_row=None)
     nodes_gdf, edges_gdf, streets_df = _labeled_and_directed(G, origin=(0.0, 0.0))
 
@@ -1409,6 +1443,7 @@ def test_apply_street_edits_applies_edited_geometry_to_existing_edge(tmp_path):
 
 
 def test_apply_street_edits_creates_brand_new_edge_and_node(tmp_path):
+    """Check apply street edits creates brand new edge and node."""
     G = build_idealized_grid(rows=2, cols=2, spacing=100.0, named_row=None, primary_row=None)
     nodes_gdf, edges_gdf, streets_df = _labeled_and_directed(G, origin=(0.0, 0.0))
 
@@ -1455,6 +1490,7 @@ def test_apply_street_edits_creates_brand_new_edge_and_node(tmp_path):
 
 
 def test_build_street_editor_map_simple_omits_geometry_tools(tmp_path):
+    """Check build street editor map simple omits geometry tools."""
     G = build_idealized_grid(rows=2, cols=2, spacing=100.0, named_row=None, primary_row=None)
     nodes_gdf, edges_gdf, streets_df = _labeled_and_directed(G, origin=(0.0, 0.0))
     streets_gdf = pipeline.streets_gdf_from_edges(edges_gdf, streets_df)
@@ -1477,6 +1513,7 @@ def test_build_street_editor_map_simple_omits_geometry_tools(tmp_path):
 
 
 def test_build_street_editor_map_full_keeps_all_geometry_tools(tmp_path):
+    """Check build street editor map full keeps all geometry tools."""
     G = build_idealized_grid(rows=2, cols=2, spacing=100.0, named_row=None, primary_row=None)
     nodes_gdf, edges_gdf, streets_df = _labeled_and_directed(G, origin=(0.0, 0.0))
     streets_gdf = pipeline.streets_gdf_from_edges(edges_gdf, streets_df)
@@ -1512,6 +1549,7 @@ def test_geometry_mode_simple_move_tool_is_unusable_via_ui(tmp_path):
 
 
 def test_street_popup_has_no_street_id_input_and_rank_is_a_dropdown(tmp_path):
+    """Check street popup has no street id input and rank is a dropdown."""
     playwright_sync_api = pytest.importorskip("playwright.sync_api")
 
     G = build_idealized_grid(rows=3, cols=3, spacing=100.0, named_row=1, named_row_name="Elm Street", primary_row=0)
@@ -1542,6 +1580,7 @@ def test_street_popup_has_no_street_id_input_and_rank_is_a_dropdown(tmp_path):
 
 
 def test_street_name_edit_trims_whitespace_and_rejects_duplicates(tmp_path):
+    """Check street name edit trims whitespace and rejects duplicates."""
     playwright_sync_api = pytest.importorskip("playwright.sync_api")
 
     G = build_idealized_grid(rows=3, cols=3, spacing=100.0, named_row=1, named_row_name="Elm Street", primary_row=0)
@@ -1594,6 +1633,7 @@ def test_street_name_edit_trims_whitespace_and_rejects_duplicates(tmp_path):
 
 
 def test_nodes_render_above_streets_in_marker_pane(tmp_path):
+    """Check nodes render above streets in marker pane."""
     playwright_sync_api = pytest.importorskip("playwright.sync_api")
 
     G = build_idealized_grid(rows=3, cols=3, spacing=100.0, named_row=1, named_row_name="Elm Street", primary_row=0)

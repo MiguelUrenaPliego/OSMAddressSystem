@@ -152,6 +152,7 @@ def process_subregion(
 
 
 def main():
+    """Download Bandja's streets, split into subregions and run the address pipeline for each."""
     town_streets_path, aoi, name = osm.download_town_streets(
         LOCATION,
         town_streets_path=TOWN_STREETS_PATH,

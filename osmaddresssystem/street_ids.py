@@ -424,6 +424,14 @@ def _direction_bin_offset(angles_deg: list[float], num_bins: int) -> float:
     n = len(reduced)
 
     def min_boundary_distance(offset: float) -> float:
+        """Distance from the reduced angles to the nearest bin boundary for a bin offset.
+
+        Args:
+            offset: Candidate offset of the bin edges in degrees.
+
+        Returns:
+            The smallest distance, in degrees, between any angle and a bin edge.
+        """
         return min(
             min((p - offset) % bin_width, bin_width - (p - offset) % bin_width)
             for p in reduced
@@ -909,6 +917,14 @@ def _split_disconnected_components(
             comp_parent = list(range(len(components)))
 
             def cfind(x: int, comp_parent=comp_parent) -> int:
+                """Union-find lookup with path compression.
+
+                Args:
+                    x: Element index.
+
+                Returns:
+                    The representative (root) of ``x``'s set.
+                """
                 while comp_parent[x] != x:
                     comp_parent[x] = comp_parent[comp_parent[x]]
                     x = comp_parent[x]
@@ -1058,12 +1074,28 @@ def _split_branching_street_ids(
         parent = {i: i for i in members}
 
         def find(x: int, parent=parent) -> int:
+            """Union-find lookup with path compression.
+
+            Args:
+                x: Element index.
+                parent: Union-find parent table.
+
+            Returns:
+                The representative (root) of ``x``'s set.
+            """
             while parent[x] != x:
                 parent[x] = parent[parent[x]]
                 x = parent[x]
             return x
 
         def union(a: int, b: int, parent=parent) -> None:
+            """Merge the sets of two elements.
+
+            Args:
+                a: First element index.
+                b: Second element index.
+                parent: Union-find parent table.
+            """
             ra, rb = find(a, parent), find(b, parent)
             if ra != rb:
                 if rb < ra:
@@ -1086,6 +1118,14 @@ def _split_branching_street_ids(
             parallel_anchor_bearing = {i: float(bearing_arr[i]) for i in members}
 
             def parallel_union(a: int, b: int, parent=parent, anchor=parallel_anchor_bearing) -> None:
+                """Merge two groups only when their anchor bearings are nearly parallel.
+
+                Args:
+                    a: First element index.
+                    b: Second element index.
+                    parent: Union-find parent table.
+                    anchor: Anchor bearing of each group.
+                """
                 ra, rb = find(a, parent), find(b, parent)
                 if ra == rb:
                     return
@@ -1220,6 +1260,14 @@ def _longest_path_in_component(
         return length, {eid}
 
     def farthest(from_node):
+        """Find the node farthest by path length from a node, with deterministic ties.
+
+        Args:
+            from_node: Start node.
+
+        Returns:
+            ``(node, distance)`` of the farthest node.
+        """
         dist = nx.single_source_dijkstra_path_length(G, from_node, weight="length")
         # Deterministic tie-break: on equal max distance, the smaller
         # node id wins - a pure function of the nodes' own ids. Sorted
@@ -1281,6 +1329,15 @@ def _best_diameter_path(
     node_parent: dict[int, int] = {}
 
     def nfind(x: int, node_parent=node_parent) -> int:
+        """Union-find lookup with path compression.
+
+        Args:
+            x: Node id.
+            node_parent: Union-find parent table.
+
+        Returns:
+            The representative (root) of ``x``'s set.
+        """
         node_parent.setdefault(x, x)
         while node_parent[x] != x:
             node_parent[x] = node_parent[node_parent[x]]
@@ -2249,12 +2306,32 @@ def _assign_external_street_ids_for_pass(
     parallel_anchor_bearing: dict = {i: float(bearing_arr[i]) for i in external_idx}
 
     def find(x: int) -> int:
+        """Union-find lookup with path compression.
+
+        Args:
+            x: Element index.
+
+        Returns:
+            The representative (root) of ``x``'s set.
+        """
         while parent[x] != x:
             parent[x] = parent[parent[x]]
             x = parent[x]
         return x
 
     def union(a: int, b: int, tol: float, angle_a: float | None = None, angle_b: float | None = None) -> bool:
+        """Merge two edge groups when their bearings are compatible.
+
+        Args:
+            a: First edge index.
+            b: Second edge index.
+            tol: Maximum bearing difference in degrees.
+            angle_a: Bearing to use for ``a`` instead of its own.
+            angle_b: Bearing to use for ``b`` instead of its own.
+
+        Returns:
+            True if the groups were merged.
+        """
         ra, rb = find(a), find(b)
         if ra == rb:
             return False
@@ -2389,6 +2466,15 @@ def _assign_external_street_ids_for_pass(
             name_group_parent = {i: i for i, _at_start in all_named}
 
             def _name_find(x: int, name_group_parent=name_group_parent) -> int:
+                """Union-find lookup with path compression.
+
+                Args:
+                    x: Element index.
+                    name_group_parent: Union-find parent table of name groups.
+
+                Returns:
+                    The representative (root) of ``x``'s set.
+                """
                 while name_group_parent[x] != x:
                     name_group_parent[x] = name_group_parent[name_group_parent[x]]
                     x = name_group_parent[x]
@@ -2696,6 +2782,15 @@ def _coverage_donate_non_drivable_edges(
                 drivable_sid_names[sid].add(name_arr[j])
 
     def name_compatible(own_name, sid: int) -> bool:
+        """Tell whether an edge's own street name is compatible with a candidate street id.
+
+        Args:
+            own_name: The edge's street name, or None if unnamed.
+            sid: Candidate street id.
+
+        Returns:
+            True when either side has no name or the names fuzzy-match.
+        """
         if own_name is None:
             return True
         known = drivable_sid_names.get(sid)
@@ -2846,6 +2941,15 @@ def _coverage_reassign_overlapping_street_ids(
                 sid_names[sid].add(name_arr[i])
 
     def name_compatible(sid_a: int, sid_b: int) -> bool:
+        """Tell whether two street ids have compatible names.
+
+        Args:
+            sid_a: First street id.
+            sid_b: Second street id.
+
+        Returns:
+            True when either has no name or any pair of names fuzzy-match.
+        """
         na, nb = sid_names[sid_a], sid_names[sid_b]
         if not na or not nb:
             return True
@@ -2859,6 +2963,15 @@ def _coverage_reassign_overlapping_street_ids(
         sid_dominant_rank[sid] = min(drivable_ranks) if drivable_ranks else None
 
     def rank_compatible(sid_a: int, sid_b: int) -> bool:
+        """Tell whether two street ids have the same dominant road rank.
+
+        Args:
+            sid_a: First street id.
+            sid_b: Second street id.
+
+        Returns:
+            True when either rank is unknown or both are equal.
+        """
         ra, rb = sid_dominant_rank[sid_a], sid_dominant_rank[sid_b]
         if ra is None or rb is None:
             return True
@@ -2975,6 +3088,15 @@ def _assign_internal_connector_edges(
             sid_names[sid].add(name_arr[i])
 
     def eligible(own_name, sid: int) -> bool:
+        """Tell whether an edge's own street name is compatible with a candidate street id.
+
+        Args:
+            own_name: The edge's street name, or None if unnamed.
+            sid: Candidate street id.
+
+        Returns:
+            True when either side has no name or the names fuzzy-match.
+        """
         if own_name is None:
             return True
         known = sid_names.get(sid)
@@ -3114,6 +3236,15 @@ def _reassign_short_streets(
                 sid_names[sid].add(name_arr[i])
 
     def eligible(own_name, cand_sid: int) -> bool:
+        """Tell whether an edge's own street name is compatible with a candidate street id.
+
+        Args:
+            own_name: The edge's street name, or None if unnamed.
+            cand_sid: Candidate street id.
+
+        Returns:
+            True when either side has no name or the names fuzzy-match.
+        """
         if own_name is not None and sid_names[cand_sid]:
             return any(
                 name_matching.names_match(own_name, other, name_similarity_threshold)
@@ -3175,6 +3306,15 @@ def _reassign_short_streets(
             own_node_tangents[v_arr[i]].append(float(end_angle[i]))
 
         def touches_with_compatible_direction(cand_js, own_node_tangents=own_node_tangents):
+            """Tell whether a short street touches any candidate edge with a similar direction.
+
+            Args:
+                cand_js: Candidate edge indices.
+                own_node_tangents: Tangent angles of the short street at each of its nodes.
+
+            Returns:
+                True when a candidate edge meets the street at a node within the direction tolerance.
+            """
             for j in cand_js:
                 for raw_node, cand_angle in (
                     (u_arr[j], float(start_angle[j])), (v_arr[j], float(end_angle[j]))
@@ -3323,6 +3463,15 @@ def _force_reassign_remaining_short_streets(
                 sid_names[sid].add(name_arr[i])
 
     def name_compatible(own_name, cand_sid: int) -> bool:
+        """Tell whether an edge's own street name is compatible with a candidate street id.
+
+        Args:
+            own_name: The edge's street name, or None if unnamed.
+            cand_sid: Candidate street id.
+
+        Returns:
+            True when either side has no name or the names fuzzy-match.
+        """
         if own_name is not None and sid_names[cand_sid]:
             return any(
                 name_matching.names_match(own_name, other, name_similarity_threshold)
@@ -3510,6 +3659,11 @@ def recompute_main_paths(
         next_id += 1
 
     def _surrogate_of(sid):
+        """Return the integer surrogate of a street id (ids may be strings).
+
+        Args:
+            sid: Street id.
+        """
         if isinstance(sid, (int, np.integer)):
             return int(sid)
         return sid_to_surrogate[sid]
@@ -3618,6 +3772,11 @@ def recompute_main_paths(
     # space, so it's all translated back to each original street_id
     # value in one final pass at the very end.
     def _sid_to_col(sid):
+        """Map the "no street" id ``-1`` to None.
+
+        Args:
+            sid: Street id.
+        """
         return None if sid == -1 else sid
 
     edges_gdf["street_id"] = pd.Series(

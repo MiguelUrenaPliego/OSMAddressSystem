@@ -48,11 +48,26 @@ class RoutingGraph:
     """
 
     def __init__(self, graph: ig.Graph, node_to_vertex: dict, vertex_to_node: list):
+        """Wrap an igraph graph with node-id lookups.
+
+        Args:
+            graph: The igraph routing graph.
+            node_to_vertex: Map from OSM node id to igraph vertex index.
+            vertex_to_node: List mapping vertex index to OSM node id.
+        """
         self.graph = graph
         self.node_to_vertex = node_to_vertex
         self.vertex_to_node = vertex_to_node
 
     def vertex_of(self, node_id):
+        """Return the igraph vertex index of an OSM node id.
+
+        Args:
+            node_id: OSM node id.
+
+        Returns:
+            The vertex index, or None if the node is not in the graph.
+        """
         return self.node_to_vertex.get(node_id)
 
 

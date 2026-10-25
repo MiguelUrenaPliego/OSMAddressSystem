@@ -260,6 +260,14 @@ def poi_signs_needed(entries: list[dict]) -> int:
 
 
 def _poi_row_html(text: str) -> str:
+    """HTML of one POI row on a street sign board.
+
+    Args:
+        text: Row text.
+
+    Returns:
+        The HTML.
+    """
     return (
         "<div style='background:#0b4a24;color:#fff;padding:5px 10px;margin-top:3px;"
         "border:1px solid #000;border-radius:2px;font-size:12px;"
@@ -304,6 +312,17 @@ def _sign_board_html(label: str, category: str, poi_entries: list[dict] | None =
 
 
 def _sign_popup_html(row, street_rank_map: dict, poi_signs: dict | None, category_ranks=None) -> str:
+    """HTML of the popup showing the street sign boards at an intersection.
+
+    Args:
+        row: Intersection row with ``node_id`` and ``sign_street_ids``.
+        street_rank_map: Street rank per street id.
+        poi_signs: POI direction signs per node, or None.
+        category_ranks: Optional road-category rank thresholds.
+
+    Returns:
+        The popup HTML.
+    """
     sign_ids = [int(s) for s in row["sign_street_ids"].split(";") if s]
     node_id = row["node_id"]
 
@@ -343,6 +362,14 @@ _PANEL_STYLE = (
 
 
 def _category_legend_panel(category_counts: dict[str, int]) -> str:
+    """HTML of the road-category legend.
+
+    Args:
+        category_counts: Number of streets per road category.
+
+    Returns:
+        The legend HTML.
+    """
     rows = "".join(
         '<div><span style="display:inline-block;width:18px;height:4px;'
         'background:{color};border:1px solid #000;vertical-align:middle;'
@@ -364,6 +391,15 @@ def _category_legend_panel(category_counts: dict[str, int]) -> str:
 def _intersection_legend_panel(
     rank_node_counts: dict[int, int], rank_sign_counts: dict[int, int]
 ) -> str:
+    """HTML of the intersection-rank legend.
+
+    Args:
+        rank_node_counts: Number of intersections per rank.
+        rank_sign_counts: Number of signs per rank.
+
+    Returns:
+        The legend HTML.
+    """
     rows = "".join(
         '<div><span style="display:inline-block;width:12px;height:12px;border-radius:50%;'
         'background:{color};border:1px solid #000;vertical-align:middle;'
@@ -538,7 +574,7 @@ def build_street_signs_map(
     bounds = streets_wgs84.total_bounds  # minx, miny, maxx, maxy
     center = [(bounds[1] + bounds[3]) / 2, (bounds[0] + bounds[2]) / 2]
 
-    fmap = _new_map(center, zoom_start=zoom_start)
+    fmap, _tile_layers = _new_map(center, zoom_start=zoom_start)
 
     # One GeoJson layer for every street, rather than one folium.PolyLine
     # (several lines of JS each) per street - the difference between a
@@ -548,6 +584,14 @@ def build_street_signs_map(
     # streets/intersections). Per-feature style/tooltip travel as plain
     # GeoJSON properties instead of being baked into per-feature JS.
     def _street_style(row):
+        """Folium style for a street by its road category.
+
+        Args:
+            row: Street feature row.
+
+        Returns:
+            Style dict with colour, weight and opacity.
+        """
         category = rank_to_category(row.get("street_rank"), category_ranks)
         s = _CATEGORY_STYLE[category]
         return {"color": s["color"], "weight": s["weight"], "opacity": 0.9}

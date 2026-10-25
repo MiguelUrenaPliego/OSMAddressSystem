@@ -1,0 +1,185 @@
+street_id,street_name,branch_name,branch_parent_id,branch_number,branch_label,branch_side,branch_level,branch_distance_m,street_rank,highway,length_m
+3,,25-Douala-Bafoussam (N5),2.0,25.0,25,left,1.0,477.6,0,trunk_link,989.5598993297987
+14,,26A-Douala-Bafoussam (N5),2.0,26.0,26A,right,1.0,517.2,2,secondary,401.0619968539909
+17,,44A-25-Douala-Bafoussam (N5),3.0,44.0,44A,right,2.0,853.3,2,secondary,4227.687470837396
+18,,21-26A-Douala-Bafoussam (N5),14.0,21.0,21,left,2.0,401.1,2,secondary,171.20903982603912
+37,,25-Nationale 5,1.0,25.0,25,left,1.0,493.5,3,tertiary,51.875754954354285
+38,,2-Boulevard Fo FONDJO - FON1,573.0,2.0,2,right,1.0,0.0,3,tertiary,869.7863695634715
+39,,44-2-Boulevard Fo FONDJO - FON1,38.0,44.0,44,right,2.0,869.8,3,tertiary,2768.9326766442473
+41,,26A-Nationale 5,1.0,26.0,26A,right,1.0,493.5,3,tertiary,46.85991917648504
+51,,2A-25-Boulevard Fo KUETCHONG - KUET (C),618.0,2.0,2A,right,2.0,0.0,3,tertiary,3065.8453929955913
+52,,203-24-Boulevard Fo KUETCHONG - KUET (C),53.0,203.0,203,left,2.0,4034.6,3,tertiary,509.77382531812117
+53,,24-Boulevard Fo KUETCHONG - KUET (C),614.0,24.0,24,right,1.0,484.4,3,tertiary,4056.4254303742327
+54,,2B-25-Boulevard Fo KUETCHONG - KUET (C),618.0,2.0,2B,right,2.0,0.0,3,tertiary,449.27438993264207
+55,,89-47-Boulevard Fo KUETCHONG - KUET,56.0,89.0,89,left,2.0,1781.3,3,tertiary,2195.6891374679053
+56,,47-Boulevard Fo KUETCHONG - KUET,46.0,47.0,47,left,1.0,929.9,3,tertiary,1781.277364556268
+57,,198-Douala-Bafoussam (N5),2.0,198.0,198,right,1.0,3932.8,3,tertiary,263.74615279823485
+58,,13-198-Douala-Bafoussam (N5),57.0,13.0,13,left,2.0,263.7,4,"['tertiary', 'residential']",836.6182546781632
+63,,26B-Nationale 5,1.0,26.0,26B,right,1.0,493.5,4,residential,334.76499985871413
+65,,69-38-Rue Fo Djoumsie  Albert,66.0,69.0,69,left,2.0,1350.2,4,residential,41.96825078148423
+66,,38-Rue Fo Djoumsie  Albert,578.0,38.0,38,right,1.0,769.3,4,residential,1350.2081829210515
+67,,96-Boulevard Fo TEMDEMNOU - TEMD,574.0,96.0,96,right,1.0,1915.6,4,unclassified,423.3362981895952
+68,,58-Boulevard Fo TEMDEMNOU - TEMD,574.0,58.0,58,right,1.0,1131.6,4,residential,331.68484426922294
+69,,61-Boulevard Fo TEMDEMNOU - TEMD,574.0,61.0,61,left,1.0,1209.4,4,residential,425.9117904044334
+70,,52-Boulevard Fo FONDJO - FON1,573.0,52.0,52,right,1.0,1016.6,4,residential,1495.6521627837715
+71,,97-Boulevard Fo FONDJO - FON1,573.0,97.0,97,left,1.0,1942.2,4,unclassified,1992.0306873809047
+72,,2-Boulevard Fo TEMDEMNOU - TEMD,574.0,2.0,2,right,1.0,0.0,4,residential,157.9228028308699
+73,,9-2-Boulevard Fo TEMDEMNOU - TEMD,72.0,9.0,9,left,2.0,157.9,4,residential,642.7618511847618
+74,,8-2-Boulevard Fo TEMDEMNOU - TEMD,72.0,8.0,8,right,2.0,157.9,4,residential,145.26495910461242
+75,,11-97-Boulevard Fo FONDJO - FON1,71.0,11.0,11,left,2.0,190.3,4,residential,88.44654059092797
+76,,18A-58-Boulevard Fo TEMDEMNOU - TEMD,68.0,18.0,18A,right,2.0,331.7,4,residential,305.0150342303174
+77,,42-Boulevard Fo KAMGANG - KAMG,572.0,42.0,42,right,1.0,826.6,4,service,75.22025630610017
+78,,22-96-Boulevard Fo TEMDEMNOU - TEMD,67.0,22.0,22,right,2.0,423.3,4,unclassified,411.9218795925245
+79,,93-Boulevard Fo TEMDEMNOU - TEMD,574.0,93.0,93,left,1.0,1860.9,4,residential,65.12366968063617
+80,,19-Boulevard Fo KAMGANG - KAMG,572.0,19.0,19,left,1.0,375.0,4,residential,91.39593710848149
+81,,15-Boulevard Fo KAMGANG - KAMG,572.0,15.0,15,left,1.0,273.1,4,residential,641.3534759139466
+82,,22-Boulevard Fo KAMGANG - KAMG,572.0,22.0,22,right,1.0,413.1,4,unclassified,658.0758292175593
+83,,49-Boulevard Fo NGOMSEU - NGOM,13.0,49.0,49,left,1.0,987.8,4,residential,74.49053847459038
+84,,2-52-Boulevard Fo NGOMSEU - NGOM,583.0,2.0,2,right,2.0,0.0,4,service,56.58702020729036
+85,,12-Boulevard Fo KAMGANG - KAMG,572.0,12.0,12,right,1.0,231.4,4,service,126.84448065472782
+86,,1-Boulevard Fo KEKUEKA - KEKU,8.0,1.0,1,left,1.0,0.0,4,service,370.0493507942594
+87,,6-Boulevard Fo KEKUEKA - KEKU,8.0,6.0,6,right,1.0,94.0,4,residential,125.94551790849464
+88,,26-Boulevard Fo NGANKAM - NGAN,571.0,26.0,26,right,1.0,506.2,4,service,99.58607814683587
+89,,9-Boulevard Fo NGANKAM - NGAN,571.0,9.0,9,left,1.0,157.5,4,service,658.901841636949
+90,,36-Boulevard Fo NGANKAM - NGAN,571.0,36.0,36,right,1.0,692.8,4,service,140.99348693361122
+91,,46-Meffo MEGAPGWET  - MEGP,577.0,46.0,46,right,1.0,918.7,4,unclassified,798.678000301473
+92,,1-Rue Fo Dombeu Michel,210.0,1.0,1,left,1.0,0.0,4,residential,199.33579912666224
+93,,1-Douala-Bafoussam (N5),2.0,1.0,1,left,1.0,22.6,4,residential,85.98808693937985
+94,,8-Douala-Bafoussam (N5) (B),595.0,8.0,8,right,1.0,131.3,4,residential,274.83311069735805
+95,,32-Provinciale 31,10.0,32.0,32,right,1.0,635.4,4,residential,463.85251825783627
+96,,21-Boulevard Fo KEPANTANG - KEPA,569.0,21.0,21,left,1.0,414.0,4,service,563.0667290630262
+97,,1-Boulevard Fo KEPANTANG - KEPA,569.0,1.0,1,left,1.0,0.0,4,service,68.87655678611249
+98,,19-Boulevard Fo NADOMDONG - NADO,570.0,19.0,19,left,1.0,372.2,4,service,61.24957200298353
+99,,43-Meffo MEGAPGWET  - MEGP,577.0,43.0,43,left,1.0,841.7,4,residential,177.97907022287296
+100,,33-Douala-Bafoussam (N5) (B),595.0,33.0,33,left,1.0,647.3,4,"['unclassified', 'residential']",1103.9824797759538
+101,,81-Boulevard Fo FOYET - FOYE,9.0,81.0,81,left,1.0,1591.7,4,unclassified,698.3004097747419
+102,,34-81-Boulevard Fo FOYET - FOYE,101.0,34.0,34,right,2.0,685.7,4,residential,197.1139395354857
+103,,29-Boulevard Fo FOYET - FOYE,9.0,29.0,29,left,1.0,584.8,4,residential,449.273576751306
+104,,15-Douala-Bafoussam (N5) (B),595.0,15.0,15,left,1.0,290.5,4,residential,270.8823168985972
+105,,18-Douala-Bafoussam (N5) (B),595.0,18.0,18,right,1.0,330.7,4,residential,319.0299703750411
+106,,48-Boulevard Fo KEKUEKA - KEKU,8.0,48.0,48,right,1.0,946.3,4,residential,495.29354866223383
+107,,3-48-Boulevard Fo KEKUEKA - KEKU,106.0,3.0,3,left,2.0,32.4,4,service,67.17566636747502
+108,,51-Boulevard Fo KEKUEKA - KEKU,8.0,51.0,51,left,1.0,1001.6,4,residential,154.7133151298478
+109,,2-Boulevard Fo NGOMSEU - NGOM,13.0,2.0,2,right,1.0,0.0,4,unclassified,1486.4868610772132
+110,,74A-2-Boulevard Fo NGOMSEU - NGOM,109.0,74.0,74A,right,2.0,1486.5,4,service,224.59400934446683
+111,,28-Provinciale 31,10.0,28.0,28,right,1.0,533.7,4,residential,219.8542891314493
+112,,58-Boulevard Fo KEKUEKA - KEKU,8.0,58.0,58,right,1.0,1150.9,4,residential,459.1200718379802
+113,,10-64-Boulevard Fo FONDJO II D. - FON2,203.0,10.0,10,right,2.0,170.9,4,residential,499.7144136982438
+114,,35-81-Boulevard Fo FOYET - FOYE,101.0,35.0,35,left,2.0,698.3,4,unclassified,1281.6377069173832
+115,,19-Boulevard Fo FOYET - FOYE,9.0,19.0,19,left,1.0,387.2,4,residential,53.69753596857142
+116,,2-48-Boulevard Fo KEKUEKA - KEKU,106.0,2.0,2,right,2.0,0.0,4,residential,237.16887844842614
+119,,19-25-Douala-Bafoussam (N5),3.0,19.0,19,left,2.0,369.4,4,residential,89.79585102770801
+120,,26-25-Douala-Bafoussam (N5),3.0,26.0,26,right,2.0,504.5,4,residential,112.90856714724318
+121,,15-25-Douala-Bafoussam (N5),3.0,15.0,15,left,2.0,292.1,4,residential,281.697619848979
+122,,47-Douala-Bafoussam (N5),2.0,47.0,47,left,1.0,942.1,4,residential,547.2303922268198
+123,,2-47-Douala-Bafoussam (N5),122.0,2.0,2,right,2.0,30.3,4,residential,59.700956194829566
+124,,45-Douala-Bafoussam (N5),2.0,45.0,45,left,1.0,882.3,4,residential,81.32653287498877
+125,,42-Douala-Bafoussam (N5),2.0,42.0,42,right,1.0,843.7,4,service,173.04095559617866
+126,,52-Douala-Bafoussam (N5),2.0,52.0,52,right,1.0,1045.8,4,residential,561.7867544579174
+127,,60-Douala-Bafoussam (N5),2.0,60.0,60,right,1.0,1196.0,4,residential,216.8847775467865
+128,,26B-Douala-Bafoussam (N5),2.0,26.0,26B,right,1.0,517.2,4,residential,307.5839229232215
+129,,15-26A-Douala-Bafoussam (N5),14.0,15.0,15,left,2.0,278.7,4,residential,79.39757946766707
+130,,2-25-Nationale 5,37.0,2.0,2,right,2.0,7.1,4,residential,3649.663486050467
+132,,270-Douala-Bafoussam (N5),2.0,270.0,270,right,1.0,5385.8,4,residential,652.31899846356
+141,,20A-26A-Douala-Bafoussam (N5),14.0,20.0,20A,right,2.0,401.1,4,service,230.9026589264371
+191,,148-Boulevard Fo FONDJO II D. - FON2,194.0,148.0,148,right,1.0,2960.8,4,residential,521.503034114252
+195,,4-Boulevard Fo FONDJO II D. - FON2,194.0,4.0,4,right,1.0,89.4,4,service,53.32513977183356
+197,,86-Boulevard Fo FONDJO II D. - FON2,194.0,86.0,86,right,1.0,1717.6,4,residential,506.0960698272751
+198,,99-Boulevard Fo FONDJO II D. - FON2,194.0,99.0,99,left,1.0,1978.3,4,residential,344.66267412928096
+199,,83-Boulevard Fo FONDJO II D. - FON2,194.0,83.0,83,left,1.0,1652.2,4,residential,186.78676652146606
+200,,2-39-Rue Fo Djoumsie  Albert,271.0,2.0,2,right,2.0,0.0,4,residential,101.13779133480922
+202,,25-Boulevard Fo FONDJO II D. - FON2,194.0,25.0,25,left,1.0,474.1,4,service,79.50486663832949
+203,,64-Boulevard Fo FONDJO II D. - FON2,194.0,64.0,64,right,1.0,1277.6,4,residential,795.2588246010442
+205,,106-Boulevard Fo FONDJO II D. - FON2,194.0,106.0,106,right,1.0,2116.3,4,residential,287.1698482007573
+206,,65-Boulevard Fo FONDJO II D. - FON2,194.0,65.0,65,left,1.0,1290.2,4,residential,106.51718947750152
+207,,180-Boulevard Fo FONDJO II D. - FON2,194.0,180.0,180,right,1.0,3608.2,4,residential,50.71038406060769
+208,,1-64-Boulevard Fo FONDJO II D. - FON2,203.0,1.0,1,left,2.0,21.9,4,residential,496.5069777955813
+209,,7-14-Boulevard Fo FONDJO II D. - FON2,597.0,7.0,7,left,2.0,126.2,4,residential,254.63349255122944
+211,,47-Rue Fo Dombeu Michel,210.0,47.0,47,left,1.0,944.7,4,service,143.0002940581037
+212,,25-Boulevard Fo KUETCHONG - KUET,46.0,25.0,25,left,1.0,485.4,4,residential,324.34349856542093
+215,,199-24-Boulevard Fo KUETCHONG - KUET (C),53.0,199.0,199,left,2.0,3975.1,4,unclassified,564.1358361033001
+236,,202-24-Boulevard Fo KUETCHONG - KUET (C),53.0,202.0,202,right,2.0,4034.6,4,residential,751.7267882753749
+238,,138-24-Boulevard Fo KUETCHONG - KUET (C),53.0,138.0,138,right,2.0,2741.9,4,residential,1280.3159943162377
+239,,137-24-Boulevard Fo KUETCHONG - KUET (C),53.0,137.0,137,left,2.0,2741.9,4,residential,207.1415357282532
+241,,80-24-Boulevard Fo KUETCHONG - KUET (C),53.0,80.0,80,right,2.0,1572.1,4,residential,20.33254121315368
+243,,67-24-Boulevard Fo KUETCHONG - KUET (C),53.0,67.0,67,left,2.0,1349.3,4,residential,124.5286603765365
+244,,68-24-Boulevard Fo KUETCHONG - KUET (C),53.0,68.0,68,right,2.0,1349.3,4,residential,113.00294912892419
+246,,1-Boulevard Fo KUETCHONG - KUET (C),614.0,1.0,1,left,1.0,0.0,4,unclassified,1778.8304774378787
+249,,90-47-Boulevard Fo KUETCHONG - KUET,56.0,90.0,90,right,2.0,1781.3,4,service,67.1159468979967
+250,,336-Boulevard Fo KUETCHONG - KUET,46.0,336.0,336,right,1.0,6723.0,4,residential,1563.8207288655396
+251,,85-47-Boulevard Fo KUETCHONG - KUET,56.0,85.0,85,left,2.0,1685.0,4,service,135.043077699962
+252,,2-336-Boulevard Fo KUETCHONG - KUET,250.0,2.0,2,right,2.0,24.0,4,residential,120.92108612305714
+253,,24-1-Boulevard Fo KUETCHONG - KUET (C),246.0,24.0,24,right,2.0,451.3,4,residential,317.86300764038083
+255,,112-Boulevard Fo KUETCHONG - KUET,46.0,112.0,112,right,1.0,2212.2,4,residential,3507.838204456904
+256,,34-47-Boulevard Fo KUETCHONG - KUET,56.0,34.0,34,right,2.0,680.5,4,service,84.00097372542372
+257,,37-112-Boulevard Fo KUETCHONG - KUET,255.0,37.0,37,left,2.0,717.9,4,residential,274.8243664817204
+258,,5-Rue Fo FOMO André,254.0,5.0,5,left,1.0,86.7,4,service,146.11796182513484
+259,,107-Douala-Bafoussam (N5) (B),595.0,107.0,107,left,1.0,2129.6,4,residential,187.36067922880136
+262,,16-38-Rue Fo Djoumsie  Albert,66.0,16.0,16,right,2.0,303.5,4,residential,256.76773769946203
+264,,36-81-Boulevard Fo FOYET - FOYE,101.0,36.0,36,right,2.0,698.3,4,residential,91.87854953810897
+268,,2-Rue Fo Djoumsie  Albert,578.0,2.0,2,right,1.0,0.0,4,residential,1021.829329818595
+269,,16-2-Rue Fo Djoumsie  Albert,268.0,16.0,16,right,2.0,315.6,4,residential,322.95979340798
+270,,1-Rue Fo Djoumsie  Albert,578.0,1.0,1,left,1.0,0.0,4,residential,365.19103807649907
+271,,39-Rue Fo Djoumsie  Albert,578.0,39.0,39,left,1.0,769.3,4,residential,666.4967502392386
+273,,30-Rue Fo Djoumsie  Albert,578.0,30.0,30,right,1.0,592.1,4,residential,102.22187100324929
+274,,22-Rue Fo Djoumsie  Albert,578.0,22.0,22,right,1.0,436.8,4,residential,204.83725819098933
+276,,144-Boulevard Fo FONDJO II D. - FON2,194.0,144.0,144,right,1.0,2877.0,4,residential,214.75412668563342
+277,,11-Boulevard Fo NGOMSEU - NGOM,13.0,11.0,11,left,1.0,214.3,4,residential,19.00998279456789
+280,,36-Boulevard Fo NGOMSEU - NGOM,13.0,36.0,36,right,1.0,725.2,4,residential,83.60438046151967
+283,,37-Boulevard Fo NGOMSEU - NGOM,13.0,37.0,37,left,1.0,748.5,4,residential,569.8715378761102
+284,,40-Boulevard Fo NGOMSEU - NGOM,13.0,40.0,40,right,1.0,791.8,4,residential,65.83441863597928
+285,,4-36-Boulevard Fo NGOMSEU - NGOM,280.0,4.0,4,right,2.0,83.6,4,service,111.99636222934558
+286,,5-36-Boulevard Fo NGOMSEU - NGOM,280.0,5.0,5,left,2.0,83.6,4,residential,50.128791604185054
+290,,60-Boulevard Fo NGOMSEU - NGOM,13.0,60.0,60,right,1.0,1191.4,4,residential,272.97462854084506
+299,,3-106-Boulevard Fo FONDJO II D. - FON2,205.0,3.0,3,left,2.0,61.2,4,residential,748.4811061681634
+310,,67-Douala-Bafoussam (N5),2.0,67.0,67,left,1.0,1320.1,4,residential,68.37098413317234
+311,,66-Douala-Bafoussam (N5),2.0,66.0,66,right,1.0,1320.1,4,residential,266.35536014227455
+312,,94-Douala-Bafoussam (N5),2.0,94.0,94,right,1.0,1864.1,4,residential,50.85726441103959
+313,,1-67-Douala-Bafoussam (N5),310.0,1.0,1,left,2.0,0.0,4,residential,92.7807653652131
+314,,5-47-Douala-Bafoussam (N5),122.0,5.0,5,left,2.0,90.0,4,residential,251.85402404569473
+315,,9-60-Douala-Bafoussam (N5),127.0,9.0,9,left,2.0,167.9,4,residential,58.13006514781445
+316,,10-26B-Douala-Bafoussam (N5),128.0,10.0,10,right,2.0,181.3,4,residential,233.290731692292
+317,,4-26B-Douala-Bafoussam (N5),128.0,4.0,4,right,2.0,82.3,4,residential,297.14547744305673
+319,,43-25-Douala-Bafoussam (N5),3.0,43.0,43,left,2.0,853.3,4,residential,141.32916816015418
+320,,44B-25-Douala-Bafoussam (N5),3.0,44.0,44B,right,2.0,853.3,4,residential,202.72275632075065
+321,,13-18-Douala-Bafoussam (N5) (B),105.0,13.0,13,left,2.0,244.9,4,residential,503.5617563367987
+322,,15-8-Douala-Bafoussam (N5) (B),94.0,15.0,15,left,2.0,274.8,4,residential,99.68466710082394
+323,,4-8-Douala-Bafoussam (N5) (B),94.0,4.0,4,right,2.0,87.9,4,"['residential', 'path']",158.66902061659482
+324,,9-28-Provinciale 31,111.0,9.0,9,left,2.0,183.4,4,residential,75.72693344447656
+325,,5-18-Douala-Bafoussam (N5) (B),105.0,5.0,5,left,2.0,108.8,4,residential,327.3919338533189
+326,,26-Provinciale 31,10.0,26.0,26,right,1.0,505.3,4,residential,558.7389490595225
+327,,5-46-Meffo MEGAPGWET  - MEGP,91.0,5.0,5,left,2.0,76.8,4,residential,146.4778275147992
+328,,15-33-Douala-Bafoussam (N5) (B),100.0,15.0,15,left,2.0,292.1,4,residential,152.05436029886314
+329,,13-33-Douala-Bafoussam (N5) (B),100.0,13.0,13,left,2.0,253.7,4,residential,150.4519959989905
+351,,14-198-Douala-Bafoussam (N5),57.0,14.0,14,right,2.0,263.7,4,residential,1238.1759357033689
+356,,11-18-Douala-Bafoussam (N5) (B),105.0,11.0,11,left,2.0,229.5,4,residential,96.68724987976796
+422,,52-Rue Fo Dombeu Michel,210.0,52.0,52,right,1.0,1010.1,4,unclassified,1502.2164712335343
+435,,106-Rue Fo FOMO André,254.0,106.0,106,right,1.0,2095.5,4,service,123.76497034599018
+436,,105-Rue Fo FOMO André,254.0,105.0,105,left,1.0,2095.5,4,service,202.5059114422047
+438,,16-Rue Fo FOMO André,254.0,16.0,16,right,1.0,306.5,4,service,244.9981511218314
+440,,70-Nationale 5,1.0,70.0,70,right,1.0,1380.0,4,residential,1157.4156658733764
+441,,52-Nationale 5,1.0,52.0,52,right,1.0,1043.8,4,residential,763.9609968488131
+442,,9-25-Boulevard Fo KUETCHONG - KUET,212.0,9.0,9,left,2.0,184.9,4,service,59.38697104176433
+468,,50-Nationale 5,1.0,50.0,50,right,1.0,993.2,4,residential,128.92889782968146
+469,,4-52-Nationale 5,441.0,4.0,4,right,2.0,72.8,4,residential,222.44848613062996
+470,,5-44-Nationale 5,472.0,5.0,5,left,2.0,102.8,4,residential,189.0432418184264
+471,,18-44-Nationale 5,472.0,18.0,18,right,2.0,345.7,4,"['track', 'residential']",1102.6350174347494
+472,,44-Nationale 5,1.0,44.0,44,right,1.0,858.0,4,residential,345.67769764951527
+473,,46-Nationale 5,1.0,46.0,46,right,1.0,922.2,4,residential,139.01258376659058
+563,,20B-26A-Douala-Bafoussam (N5),14.0,20.0,20B,right,2.0,401.1,4,residential,10.525935735858432
+582,,26-86-Boulevard Fo FONDJO II D. - FON2,197.0,26.0,26,right,2.0,506.1,4,residential,33.67485127059757
+583,,52-Boulevard Fo NGOMSEU - NGOM,13.0,52.0,52,right,1.0,1046.0,4,service,52.71930206943922
+587,,2-26A-Nationale 5,41.0,2.0,2,right,2.0,0.0,3,tertiary,438.85870766914263
+589,,68-38-Rue Fo Djoumsie  Albert,66.0,68.0,68,right,2.0,1350.2,4,residential,624.7181011038961
+592,,74B-2-Boulevard Fo NGOMSEU - NGOM,109.0,74.0,74B,right,2.0,1486.5,4,unclassified,223.76473925931168
+593,,8-Boulevard Fo NGANKAM - NGAN,571.0,8.0,8,right,1.0,157.5,4,service,47.17298935133342
+594,,35-Boulevard Fo NGANKAM - NGAN,571.0,35.0,35,left,1.0,692.8,4,service,27.695946847309017
+596,,33-9-Boulevard Fo NGANKAM - NGAN,89.0,33.0,33,left,2.0,658.9,4,residential,808.6067715944296
+597,,14-Boulevard Fo FONDJO II D. - FON2,194.0,14.0,14,right,1.0,265.4,4,residential,364.8262846919643
+600,,24-32-Provinciale 31,95.0,24.0,24,right,2.0,463.9,4,residential,192.69819688001843
+615,,181-Boulevard Fo FONDJO II D. - FON2,194.0,181.0,181,left,1.0,3608.2,4,residential,221.7049154146714
+618,,25-Boulevard Fo KUETCHONG - KUET (C),614.0,25.0,25,left,1.0,484.4,3,tertiary,1824.0493265123648
+620,,23-1-Boulevard Fo KUETCHONG - KUET (C),246.0,23.0,23,left,2.0,451.3,4,residential,395.14745096373775
+621,,15-38-Rue Fo Djoumsie  Albert,66.0,15.0,15,left,2.0,303.5,4,residential,106.25041830657982
+623,,18B-58-Boulevard Fo TEMDEMNOU - TEMD,68.0,18.0,18B,right,2.0,331.7,4,residential,53.59685941016016
+625,,8-60-Douala-Bafoussam (N5),127.0,8.0,8,right,2.0,167.9,4,residential,166.14103106213733

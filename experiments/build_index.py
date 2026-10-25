@@ -31,6 +31,14 @@ def find_maps() -> dict[str, list[tuple[str, str]]]:
 
 
 def build_html(maps: dict[str, list[tuple[str, str]]]) -> str:
+    """Build the HTML of the dropdown page that shows one geocode map at a time.
+
+    Args:
+        maps: Mapping from town name to ``(subregion_name, relative_path)`` pairs.
+
+    Returns:
+        The complete HTML document.
+    """
     options = []
     first_path = None
     for town, subregions in maps.items():
@@ -83,6 +91,7 @@ def build_html(maps: dict[str, list[tuple[str, str]]]) -> str:
 
 
 def main() -> None:
+    """Scan for geocode maps and write ``index.html``."""
     maps = find_maps()
     if not maps:
         print(f"No geocode_map.html files found under {EXPERIMENTS_ROOT}")

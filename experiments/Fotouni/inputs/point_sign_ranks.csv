@@ -1,0 +1,103 @@
+index,name,kind,sign_rank,why
+0,Place Witba Sop Sielinou,square,3,square
+1,Place Fo'o womgap Mbomgning Gabriel,square,3,square
+2,Place Nzogang Ta'a,square,3,square
+3,Place Mefoganzeu,square,3,square
+4,Place Mbeu Touno'oc,square,3,square
+5,Place Mbeupo'oc,square,3,square
+6,Place Witba Kuedjioko,square,3,square
+7,Place Witba Seung,square,3,square
+8,Place Sop Mbomgning,square,3,square
+9,Place Witba Kuengahalam,square,3,square
+10,Place Fo'o Fomo,square,3,square
+11,Place des rois,square,2,the main square of the chiefs
+12,Carréfour beauregard,intersection,2,named crossroads
+13,Carrefour Miaffo Fomo,intersection,2,named crossroads
+14,Carrefour Nkongsang,intersection,2,named crossroads
+15,Carrefour Sieleyap Pascal,intersection,2,named crossroads
+16,Carrefour Brouwer (hôtel),intersection,1,the reference crossroads of the town
+17,Carrefour Toubong,intersection,2,named crossroads
+18,Carrefour Witba Tediffo,intersection,2,named crossroads
+19,Carrefour Witba Sop Tendjon,intersection,2,named crossroads
+20,Carrefour billet de mile,intersection,2,named crossroads
+21,Foyer culturel Tchisso,facility,2,cultural centre
+22,Ya'a Witba DiffoTeu,facility,3,meeting place / local facility
+23,Ya'a Sop Kamgan Mefokou,facility,3,meeting place / local facility
+24,Y'aa Mekam Fogang,facility,3,meeting place / local facility
+25,Y'aa chefferie Bano,facility,2,chiefdom of a quarter
+26,Y'aa Miafodjio,facility,3,meeting place / local facility
+27,Y'aa no'ok Wang,facility,3,meeting place / local facility
+28,Y'aa Nzobeutchop,facility,3,meeting place / local facility
+29,Y'aa Sa'a Nguetnom,facility,3,meeting place / local facility
+30,Ya'a Witba Kwuedjoko,facility,3,meeting place / local facility
+31,Ya'a Sop Hutbou,facility,3,meeting place / local facility
+32,Ya'a Sop Ngakou,facility,3,meeting place / local facility
+33,Ya'a WitbaSop,facility,3,meeting place / local facility
+34,Ya'a Miafo Ngankam,facility,3,meeting place / local facility
+35,Ya'a Nzo'otamakwoo,facility,3,meeting place / local facility
+36,Y'aa chefferie Bamendjo,facility,2,chiefdom of a quarter
+37,No'o Ndenla'à,facility,3,meeting place / local facility
+38,Y a Chefferie Balatchie,facility,2,chiefdom of a quarter
+39,Ya'a Mekam Nzomo,facility,3,meeting place / local facility
+40,Ya'a Mekam Diffo,facility,3,meeting place / local facility
+41,Ya'a Miafo Nzodjin,facility,3,meeting place / local facility
+42,Meffo Kanmo,facility,3,meeting place / local facility
+43,Lieu sacré Sie Santa'a,facility,3,"sacred place, local"
+44,Ya'a Miaffo Ngankam,facility,3,meeting place / local facility
+45,Chefferie Balatchie,facility,2,chiefdom of a quarter
+46,Ya'a No'oc Latchie,facility,3,meeting place / local facility
+47,Ecole publique Balatchie,facility,3,school of a quarter
+48,Chefferie Balafi,facility,2,chiefdom of a quarter
+49,Mbock Tameu Fankam,facility,3,meeting place / local facility
+50,Ya'a Nzotamakwo,facility,3,meeting place / local facility
+51,Chefferie Balassie,facility,2,chiefdom of a quarter
+52,Y'aa Fofam,facility,3,meeting place / local facility
+53,Ya'a Nzotaptchom,facility,3,meeting place / local facility
+54,Ya'a Mekam Nzoyem,facility,3,meeting place / local facility
+55,Ya'a Mekam Sa'a Yanken,facility,3,meeting place / local facility
+56,Ya'a Sop Siegning,facility,3,meeting place / local facility
+57,Ya'a Mekam Nzo'o kwouo,facility,3,meeting place / local facility
+58,Bandoumgia,village,2,village (a destination)
+59,Fotouni,village,1,the town
+60,Baving,hamlet,3,hamlet
+61,Bandja,town,1,the town the road leads to
+62,Babouantou,village,2,village (a destination)
+63,Fondjomekwet,village,2,village (a destination)
+64,Fondanti,village,2,village (a destination)
+65,Basseu,village,2,village (a destination)
+66,Batoula,hamlet,3,hamlet
+67,Batack,village,2,village (a destination)
+68,Bachicheu,village,2,village (a destination)
+69,Famghang,village,2,village (a destination)
+70,Ecole du Centre (DEMKOU),School,3,school
+71,École,School,3,school
+72,École,School,3,school
+73,École,School,3,school
+74,Lycée de Fondjomekwet,School,2,secondary school
+75,École Catcholique Saint Jean,School,3,school
+76,École Catcholique Saint Jean,School,3,school
+77,École Publique de Bachicheu,School,3,school
+78,École Publique de Bachicheu,School,3,school
+79,École Publique de Bachicheu,School,3,school
+80,Lycée de Fondjomekwet,School,2,secondary school
+81,Lycée de Fondjomekwet,School,2,secondary school
+82,Lycée de Fondjomekwet,School,2,secondary school
+83,Lycée de Fondjomekwet,School,2,secondary school
+84,Lycée de Fondjomekwet,School,2,secondary school
+85,Lycée de Fotouni,School,2,secondary school
+86,École Publique de Latcheu,School,3,school
+87,École du Centre (DEMKOU),School,3,school
+88,Centre de Santé de Fondjomekwet,Healthcare centre,1,health centre
+89,Centre de santé,Healthcare centre,1,health centre
+90,Centre de santé intégré (CSI),Healthcare centre,1,health centre
+91,Chefferie Batié,Chiefferie,2,chiefdom
+92,Chefferie Bangam,Chiefferie,2,chiefdom
+93,Chefferie Fondjomekwet,Chiefferie,2,chiefdom
+94,Chefferie,Chiefferie,2,chiefdom
+95,Chefferie Fotouni,Chiefferie,1,the chiefdom of the town
+96,Ecole Publique de Batié Chefferie,Chiefferie,3,a school (listed as a chiefdom in OSM)
+97,Chefferie Bakoven,Chiefferie,2,chiefdom
+98,Chefferie Bachicheu,Chiefferie,2,chiefdom
+99,Chefferie Bandja,Chiefferie,2,chiefdom
+100,chefferie,Chiefferie,2,chiefdom
+101,Fotouni,Fotouni town centre,1,the town

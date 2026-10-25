@@ -18,3 +18,10 @@ examples/*/streets.csv
 **/reports/*
 
 *.osm
+# ...except the street files the Fotouni project and experiment are rebuilt from (needed in a fresh clone)
+!projects/*/input/streets.osm
+!experiments/Fotouni/inputs/streets.osm
+# community app: the example project's database and computed files are created by running the app
+projects/*/project.db*
+projects/*/computed/
+projects/*/exports/

@@ -1,0 +1,25 @@
+# Run from code/OSMAddressSystem:   docker compose -f deploy/docker-compose.yml up -d
+# SQLite (default):   the database is /data/project/project.db in the volume.
+# PostgreSQL:         docker compose -f deploy/docker-compose.yml --profile postgres up -d   and set ADDRESS_DB_URL below.
+services:
+  app:
+    build: { context: .., dockerfile: deploy/Dockerfile }
+    restart: unless-stopped
+    ports: ["127.0.0.1:8000:8000"]          # only the reverse proxy (Caddy) is public
+    volumes: ["address-data:/data"]
+    environment:
+      # ADDRESS_DB_URL: postgresql+psycopg://address:${POSTGRES_PASSWORD:-change-me}@db/address
+      PORT: "8000"
+  db:
+    image: postgres:16
+    profiles: ["postgres"]
+    restart: unless-stopped
+    environment: { POSTGRES_USER: address, POSTGRES_PASSWORD: "${POSTGRES_PASSWORD:-change-me}", POSTGRES_DB: address }
+    volumes: ["pg-data:/var/lib/postgresql/data"]
+  caddy:
+    image: caddy:2
+    profiles: ["public"]
+    restart: unless-stopped
+    ports: ["80:80", "443:443"]
+    volumes: ["./Caddyfile:/etc/caddy/Caddyfile:ro", "caddy-data:/data"]
+volumes: { address-data: {}, pg-data: {}, caddy-data: {} }

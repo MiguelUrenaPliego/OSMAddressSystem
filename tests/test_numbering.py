@@ -12,6 +12,7 @@ from osmaddresssystem.synthetic_grid import build_idealized_grid
 
 
 def _labeled_and_directed(G, origin=(0.0, 0.0), **kwargs):
+    """Test helper: labeled and directed."""
     nodes_gdf, edges_gdf, streets_df = street_ids.label_streets(G, node_cluster_m=0)
     edges_gdf, streets_df = street_direction.assign_street_directionality(
         nodes_gdf, edges_gdf, streets_df, origin=origin, **kwargs
@@ -20,6 +21,7 @@ def _labeled_and_directed(G, origin=(0.0, 0.0), **kwargs):
 
 
 def _expected_house_number(distance_m, divisor_m, side):
+    """Test helper: expected house number."""
     base = round(distance_m / divisor_m)
     wants_even = side == "right"
     if (base % 2 == 0) != wants_even:
@@ -28,10 +30,11 @@ def _expected_house_number(distance_m, divisor_m, side):
 
 
 def test_house_numbers_are_cumulative_length_divided_by_twenty_per_side():
+    """Check house numbers are cumulative length divided by twenty per side."""
     G = build_idealized_grid(rows=3, cols=3, spacing=100.0, named_row=None, primary_row=None)
     nodes_gdf, edges_gdf, streets_df = _labeled_and_directed(G, origin=(0.0, 0.0))
 
-    edges_gdf, streets_df = numbering.assign_house_numbers(edges_gdf, streets_df)
+    edges_gdf, streets_df = numbering.assign_house_numbers(edges_gdf, streets_df, number_divisor_m=20.0)
 
     numbered = edges_gdf[edges_gdf["street_start_length_m"].notna()]
     assert len(numbered) > 0
@@ -51,6 +54,7 @@ def test_house_numbers_are_cumulative_length_divided_by_twenty_per_side():
 
 
 def test_house_numbers_use_custom_divisor():
+    """Check house numbers use custom divisor."""
     G = build_idealized_grid(rows=2, cols=2, spacing=100.0, named_row=None, primary_row=None)
     nodes_gdf, edges_gdf, streets_df = _labeled_and_directed(G, origin=(0.0, 0.0))
 
@@ -91,6 +95,7 @@ def test_house_number_from_distance_parity_and_minimums():
 
 
 def test_geocode_points_house_number_never_zero_at_streets_own_start():
+    """Check geocode points house number never zero at streets own start."""
     G = build_idealized_grid(rows=2, cols=2, spacing=100.0, named_row=None, primary_row=None)
     nodes_gdf, edges_gdf, streets_df = _labeled_and_directed(G, origin=(0.0, 0.0))
     edges_gdf, streets_df = numbering.assign_house_numbers(edges_gdf, streets_df)
@@ -103,6 +108,7 @@ def test_geocode_points_house_number_never_zero_at_streets_own_start():
 
 
 def test_house_numbers_are_none_where_position_is_none():
+    """Check house numbers are none where position is none."""
     G = build_idealized_grid(rows=2, cols=2, spacing=100.0, named_row=None, primary_row=None)
     nodes_gdf, edges_gdf, streets_df = _labeled_and_directed(G, origin=(0.0, 0.0))
     edges_gdf.loc[edges_gdf.index[0], "street_start_length_m"] = None
@@ -125,6 +131,7 @@ def test_add_admin_columns_fills_from_polygon_chain(monkeypatch):
     _, _, streets_df = street_ids.label_streets(G, node_cluster_m=0)
 
     def fake_reverse(lat, lon, zooms=(), **kwargs):
+        """Test helper: fake reverse."""
         # Route the fake name by the exact single zoom add_admin_columns
         # asks for, matching _ADMIN_COLUMN_TO_ZOOM's own mapping.
         names = {3: "Cameroon", 5: "West", 10: "Bandja", 16: "Downtown"}
@@ -159,6 +166,7 @@ def test_add_admin_columns_ranks_by_area_not_dict_order(monkeypatch):
     _, _, streets_df = street_ids.label_streets(G, node_cluster_m=0)
 
     def fake_reverse(lat, lon, zooms=(), **kwargs):
+        """Test helper: fake reverse."""
         names = {3: "Cameroon", 5: "West"}
         zoom = zooms[0]
         return (str(zoom), zoom, names[zoom], Polygon()) if zoom in names else None
@@ -176,6 +184,7 @@ def test_add_admin_columns_ranks_by_area_not_dict_order(monkeypatch):
 
 
 def test_geocode_points_projects_onto_nearest_street_and_formats_address():
+    """Check geocode points projects onto nearest street and formats address."""
     G = build_idealized_grid(rows=2, cols=2, spacing=100.0, named_row=None, primary_row=None)
     nodes_gdf, edges_gdf, streets_df = _labeled_and_directed(G, origin=(0.0, 0.0))
     edges_gdf, streets_df = numbering.assign_house_numbers(edges_gdf, streets_df)
@@ -236,6 +245,7 @@ def test_geocode_points_uses_correct_side_for_house_number():
 
 
 def test_geocode_point_convenience_wrapper_matches_geocode_points():
+    """Check geocode point convenience wrapper matches geocode points."""
     G = build_idealized_grid(rows=2, cols=2, spacing=100.0, named_row=None, primary_row=None)
     nodes_gdf, edges_gdf, streets_df = _labeled_and_directed(G, origin=(0.0, 0.0))
     edges_gdf, streets_df = numbering.assign_house_numbers(edges_gdf, streets_df)
@@ -248,6 +258,24 @@ def test_geocode_point_convenience_wrapper_matches_geocode_points():
 
 
 def test_geocode_points_raises_on_empty_streets():
+    """Check geocode points raises on empty streets."""
     empty = gpd.GeoDataFrame({"street_id": [], "street_name": []}, geometry=[], crs="EPSG:3857")
     with pytest.raises(ValueError):
         numbering.geocode_points(empty, [(0.0, 0.0)])
+
+
+def test_letters_for_crowded_slots():
+    """Items sharing a slot get A, B, ...; a lone item keeps its plain number."""
+    from osmaddresssystem.numbering import add_letters, number_letter
+
+    assert add_letters([3, 3, 5], ["a3", "a3", "a5"], [10.0, 2.0, 0.0]) == ["3B", "3A", "5"]
+    assert [number_letter(i) for i in (0, 25, 26)] == ["A", "Z", "AA"]
+
+
+def test_default_house_divisor_is_two_metres_and_numbers_start_at_1_and_2():
+    """Houses are numbered every 2 m by default; the left side starts at 1 and the right at 2."""
+    from osmaddresssystem.default_values import DEFAULT_BRANCH_NUMBER_DIVISOR_M, DEFAULT_NUMBER_DIVISOR_M
+
+    assert DEFAULT_NUMBER_DIVISOR_M == 2.0 and DEFAULT_BRANCH_NUMBER_DIVISOR_M == 20.0
+    assert numbering._house_number_from_distance(0.0, 2.0, "left") == 1
+    assert numbering._house_number_from_distance(0.0, 2.0, "right") == 2

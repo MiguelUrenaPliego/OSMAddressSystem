@@ -28,6 +28,7 @@ def make_graph(edges, crs="EPSG:3857"):
 
 
 def label_and_direct(G, origin, transversal_road_pct=10.0, **kwargs):
+    """Test helper: label and direct."""
     # node_cluster_m=0 disables street_ids' node-clustering feature: these
     # are small hand-built graphs testing directionality, not clustering,
     # and some of their coordinates are deliberately within the default
@@ -134,6 +135,7 @@ def test_closed_loop_does_not_crash_and_stays_internally_consistent():
         G.add_node(i, x=radius * math.cos(angle), y=radius * math.sin(angle))
 
     def add_edge(u, v):
+        """Test helper: add edge."""
         ux, uy = G.nodes[u]["x"], G.nodes[u]["y"]
         vx, vy = G.nodes[v]["x"], G.nodes[v]["y"]
         fwd = LineString([(ux, uy), (vx, vy)])

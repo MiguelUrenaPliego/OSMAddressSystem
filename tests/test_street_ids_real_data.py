@@ -67,6 +67,7 @@ def _clean_name(raw):
 
 @pytest.fixture(scope="module")
 def edges_gdf():
+    """Test helper: edges gdf."""
     if not os.path.exists(_EDGES_PATH):
         pytest.skip(f"real-data fixture not present: {_EDGES_PATH}")
     edges = gpd.read_file(_EDGES_PATH)
@@ -76,6 +77,7 @@ def edges_gdf():
 
 @pytest.fixture(scope="module")
 def nodes_gdf():
+    """Test helper: nodes gdf."""
     if not os.path.exists(_NODES_PATH):
         pytest.skip(f"real-data fixture not present: {_NODES_PATH}")
     return gpd.read_file(_NODES_PATH).set_index("osmid")
@@ -166,6 +168,7 @@ def test_no_node_shares_more_than_two_logical_directions_per_street_id(edges_gdf
         by_node_edges[(row["v"], sid)].add(pair_key)
 
     def is_bridge(pair_key) -> bool:
+        """Test helper: is bridge."""
         u, v, sid = edge_uv[pair_key]
         if u == v:
             return False
@@ -251,6 +254,7 @@ def test_named_streets_have_a_nonzero_dominant_street_id_share(edges_gdf):
 
 
 def _street_id_of(edges_gdf, u, v):
+    """Test helper: street id of."""
     row = edges_gdf[(edges_gdf["u"] == u) & (edges_gdf["v"] == v)]
     assert len(row) == 1, f"expected exactly one edge ({u}, {v}), found {len(row)}"
     return row.iloc[0]["street_id"]
