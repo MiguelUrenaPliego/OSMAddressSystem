@@ -101,6 +101,7 @@ class NetworkState:
     notes: list = field(default_factory=list)
     warnings: list = field(default_factory=list)
     aoi: object = None
+    branch_ids: dict = field(default_factory=dict)  # ids given to the branches (kept for the next computation: a branch keeps its id)
     extra: set = field(default_factory=set)        # streets added to the plan after the cutting: the starting point of the next computation (saves rounds)
 
 
@@ -542,9 +543,12 @@ def apply_part_attributes(edges: gpd.GeoDataFrame, streets: pd.DataFrame, part_a
     key = {(int(o), int(p)): int(i) for i, o, p in zip(streets["street_id"], streets["street_id_original"], streets["street_part"])}
     sid = pd.to_numeric(edges["street_id"], errors="coerce")
     for k, a in part_attrs.items():
-        if k not in key:
+        if isinstance(k, int):                                           # a street that exists only after the cutting (a branch that became a street of its own)
+            m = (pd.to_numeric(edges["street_id_original"], errors="coerce") == k).to_numpy()
+        elif k in key:
+            m = (sid == key[k]).to_numpy()
+        else:
             continue
-        m = (sid == key[k]).to_numpy()
         if a.get("rank") is not None:
             edges.loc[m, "highway"] = RANK_HIGHWAY.get(int(a["rank"]), "residential")
         if "drivable" in a:
@@ -577,7 +581,7 @@ def drop_inferred_part_names(edges: gpd.GeoDataFrame, streets: pd.DataFrame, nam
     import re
 
     own = []
-    for o, nm in zip(edges["osmid"].astype(str), edges["name"]):
+    for o, nm in zip([str(x) if pd.notna(x) else "" for x in edges["osmid"]], edges["name"]):             # (an edge without an osm id: no name of its own)
         own.append(any(i in named_ways for i in re.findall(r"\d+", o)) or (o.startswith("road") and is_named(nm)))   # drawn roads carry their own name
     sid = pd.to_numeric(edges["street_id"], errors="coerce")
     ok = set(sid[pd.Series(own, index=edges.index)].dropna().astype(int))
@@ -885,7 +889,8 @@ def build_warnings(streets: pd.DataFrame, namable: set, unconnectable_originals:
     return sorted(out, key=lambda w: (order.get(w["severity"], 2), w["code"]))
 
 
-def compute_network(base: BaseData, project: Project, progress=None, roads_report: dict | None = None, hint_extra: set | None = None) -> NetworkState:
+def compute_network(base: BaseData, project: Project, progress=None, roads_report: dict | None = None, hint_extra: set | None = None,
+                    branch_ids: dict | None = None) -> NetworkState:
     """Run steps 1-5 of the module docstring.
 
     Args:
@@ -893,6 +898,7 @@ def compute_network(base: BaseData, project: Project, progress=None, roads_repor
         project: The project (reference, names, settings).
         progress: Optional callable ``progress(step: str)`` called as the computation advances.
         roads_report: ``RoadsResult.report`` when ``base`` contains drawn roads; adds the warnings about them.
+        branch_ids: ``NetworkState.branch_ids`` of the previous computation (the branches keep their street ids).
         hint_extra: ``NetworkState.extra`` of the previous computation: the extra streets to name found then are tried first, which
             saves the repeated rounds after an edit (the result is the same: rounds still continue while streets are uncovered).
 
@@ -918,12 +924,14 @@ def compute_network(base: BaseData, project: Project, progress=None, roads_repor
     common = dict(edge_edits_csv_path=str(base.edge_edits) if base.edge_edits else None, origin=ref_xy)
 
     path_numbering.NO_CUT_STREETS = {int(x) for x in project.roads.get("no_cut", [])}
+    path_numbering.BRANCH_IDS = {str(k): int(v) for k, v in (branch_ids or {}).items()}
     say("applying the community edits")
     nodes0, edges0, streets0 = street_editor.apply_street_edits(
         base.nodes, base.edges, base.streets, str(base.street_edits), numbering_mode="radial", **common)
     all_attrs = project.roads.get("attrs") or {}
     attrs = {int(k): v for k, v in all_attrs.items() if ":" not in str(k)}                    # one street (all its parts)
     part_attrs = {tuple(int(x) for x in k.split(":")): v for k, v in all_attrs.items() if ":" in str(k)}   # one part of a cut street
+    part_attrs.update({int(k): v for k, v in all_attrs.items() if ":" not in str(k) and int(k) not in set(streets0["street_id"].astype(int))})   # ids that exist only after the cutting
     if attrs:
         # the editors set rank / drivable / paved on the street ids they see (the ids after the community edits): apply them there, and carry them
         # to the edges of the base network (which still have the ids from before the edits) that the routing below starts from
@@ -1036,6 +1044,8 @@ def compute_network(base: BaseData, project: Project, progress=None, roads_repor
     sg_idx = sg.set_index("street_id")
     for o in sorted(allp, key=lambda x: (first_order.get(x, 10**6), x)):
         parts = s2[s2["street_id_original"] == o]
+        if parts.empty:                                   # a street that no longer exists after the cutting (its id was a branch of an earlier round)
+            continue
         covers = int(streets2["branch_root_id"].isin(parts.index).sum())
         geom = shapely.union_all([sg_idx.geometry[i] for i in parts.index if i in sg_idx.index])
         c = gpd.GeoSeries([geom.interpolate(0.5, normalized=True) if geom.geom_type == "LineString" else geom.centroid],
@@ -1069,7 +1079,7 @@ def compute_network(base: BaseData, project: Project, progress=None, roads_repor
                                  ids, count=len(parts)))
     warnings.sort(key=lambda w: ({"error": 0, "warning": 1}.get(w["severity"], 2), w["code"]))
     return NetworkState(nodes1, edges2, streets2, sg, dist, {"node": ref_node, "x": ref_xy[0], "y": ref_xy[1]}, plan_df, mapping, cuts, stats,
-                        notes, warnings, aoi, set(extra))
+                        notes, warnings, aoi, dict(path_numbering.BRANCH_IDS), set(extra))
 
 
 def street_status(state: NetworkState, project: Project) -> pd.DataFrame:

@@ -221,6 +221,7 @@ def _parse_pair(text) -> tuple[int, int, int] | None:
 
 
 NO_CUT_STREETS: set = set()
+BRANCH_IDS: dict = {}                      # branch key (street id|first road of the branch) -> street id: a branch keeps its id from one computation to the next
 """Street ids (before cutting) that must never be cut: the editors forced them to stay as one street (set by the app per computation)."""
 CUT_AT_PEAKS = False
 """Streets are cut where the distance to the reference has an interior minimum, not at peaks (set True to cut there too)."""
@@ -353,7 +354,8 @@ def split_streets(
     length = edges["length"].to_numpy(dtype=float)
     new_sid = pd.Series(edges["street_id"].astype("Int64").to_numpy(), dtype="Int64")
     part_of = pd.Series(0, index=range(len(edges)))
-    next_id = int(np.nanmax(edges["street_id"].astype(float))) + 1
+    taken = {int(x) for x in edges["street_id"].dropna().astype(int)} | {int(x) for x in BRANCH_IDS.values()}
+    next_id = max(taken) + 1 if taken else 1
     pair_assign: dict = {}   # (pair, original street) -> (new street id, part)
 
     net_deg: dict = {}
@@ -367,15 +369,26 @@ def split_streets(
         if real[i] and pd.notna(sid[i]):
             by_street.setdefault(int(sid[i]), {}).setdefault(pair[i], (idx["u"][i], idx["v"][i], length[i], edges.geometry.iloc[i]))
     part_count: dict = {}
+    used_now: set = set()                                                 # ids given to branches in this call
+    present = {int(x) for x in edges["street_id"].dropna().astype(int)}   # ids the streets have before the cutting
+    branch_of: dict = {}                                                  # new street id -> the street id it was a branch of (a street of its own, not a part)
     for s, pairs in by_street.items():
         trails = _trails(pairs)                                           # a street id is a simple path: branches become streets of their own
         for t, trail in enumerate(trails):
             if t == 0:
                 base = s
+                part_no = part_count.get(s, 0)
+                part_count[s] = part_no + 1
             else:
-                base, next_id = next_id, next_id + 1
-            part_no = part_count.get(s, 0)
-            part_count[s] = part_no + 1
+                bkey = f"{s}|" + min(f"{p[0]}-{p[1]}-{p[2]}" for p in trail)
+                base = BRANCH_IDS.get(bkey)
+                if base is None or base in used_now or base in present:        # new branch, or its old id is taken by another street now
+                    base, next_id = next_id, next_id + 1
+                    BRANCH_IDS[bkey] = base
+                used_now.add(base)
+                branch_of[base] = s
+                part_no = 0                                               # a branch is not a part of the street it ends in: it is another street
+                part_count[base] = 1
             G = nx.MultiGraph()
             for pk in trail:
                 u0, v0, ln, _g = pairs[pk]
@@ -411,6 +424,9 @@ def split_streets(
                     new, pn = base, part_no
                 else:
                     new, next_id = next_id, next_id + 1
+                    while new in used_now or new in present:
+                        new, next_id = next_id, next_id + 1
+                    used_now.add(new)
                     pn = part_count[s]
                     part_count[s] += 1
                 for j in range(a_, b_):
@@ -435,18 +451,24 @@ def split_streets(
     edges["is_main_direction"] = (edges["is_main_direction"].fillna(False).astype(bool).to_numpy() | make_main)
     edges["street_id"] = new_sid.to_numpy()
     edges["street_part"] = part_of.to_numpy()
+    if branch_of:                                                         # the branches are streets of their own: their original id is their id
+        is_branch = edges["street_id"].isin(list(branch_of))
+        edges.loc[is_branch, "street_id_original"] = edges.loc[is_branch, "street_id"]
 
     streets = streets_df.copy()
     streets["street_id_original"] = streets["street_id"]
     streets["street_part"] = 0
     extra = []
-    info = edges[edges["street_part"] > 0][["street_id", "street_id_original", "street_part"]].drop_duplicates()
+    info = edges[(edges["street_part"] > 0) | edges["street_id"].isin(list(branch_of))][["street_id", "street_id_original", "street_part"]].drop_duplicates()
     base = streets.set_index("street_id")
     for _, r in info.iterrows():
-        row = base.loc[r["street_id_original"]].copy()
+        src = branch_of.get(int(r["street_id"]), r["street_id_original"])
+        row = base.loc[src].copy()
         row["street_id"] = r["street_id"]
         row["street_id_original"] = r["street_id_original"]
         row["street_part"] = r["street_part"]
+        if int(r["street_id"]) in branch_of:                              # another street: it does not take the name of the street it ends in
+            row["street_name"] = None
         extra.append(row)
     if extra:
         streets = pd.concat([streets, pd.DataFrame(extra)[streets.columns]], ignore_index=True)
@@ -463,7 +485,7 @@ def split_streets(
         streets["street_name"] = [_suffixed(n, p) for n, p in zip(streets["street_name"], streets["street_part"])]
         if "street_name" in edges.columns:
             by_id = streets.set_index("street_id")["street_name"].to_dict()
-            moved = edges["street_part"] > 0
+            moved = (edges["street_part"] > 0) | edges["street_id"].isin(list(branch_of))
             edges.loc[moved, "street_name"] = [by_id.get(int(s), n) for s, n in zip(edges.loc[moved, "street_id"], edges.loc[moved, "street_name"])]
     mapping = (edges.groupby(["street_id", "street_id_original", "street_part"]).size()
                .rename("n_edges").reset_index().sort_values(["street_id_original", "street_part"]))

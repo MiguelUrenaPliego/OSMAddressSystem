@@ -488,7 +488,7 @@ def test_colour_by_rank_drivable_paved_and_attribute_editing_in_the_popup(live_a
         orig = page.evaluate("S.sel.id && streetById(S.sel.id).properties.original")
         assert page.evaluate("streetById(S.sel.id).properties.paved") is None
         page.locator(".sel-popup select[data-attr=paved]").select_option("true")
-        wait_for(page, f"S.network.streets.features.filter(f => f.properties.original === {orig}).every(f => f.properties.paved === true)", seconds=120)
+        wait_for(page, "streetById(S.sel.id).properties.paved === true", seconds=120)                 # the street (or its part) just edited
     finally:
         browser.close()
         pw.stop()

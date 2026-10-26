@@ -274,4 +274,4 @@ def test_a_street_never_has_three_roads_at_one_node():
         import collections
         deg = collections.Counter(list(g["u"]) + list(g["v"]))
         assert max(deg.values()) <= 4 and all(v <= 2 for v in collections.Counter(list(g[g["u"] < g["v"]]["u"]) + list(g[g["u"] < g["v"]]["v"])).values())
-    assert len(set(e2["street_id"])) == 2 and set(e2["street_id_original"]) == {1}
+    assert len(set(e2["street_id"])) == 2 and set(e2["street_id_original"]) == {1, 2}      # the stub is a street of its own, not a part of street 1

@@ -84,7 +84,7 @@ async function refreshProject() {
   S.project = await api('/project');
   const p = S.project, st = p.status;
   updateLock();
-  $('#project-name').textContent = p.name;
+  $('#project-name').textContent = p.name + (p.version ? ` · v${p.version}` : '');
   const when = (t) => t.replace('T', ' ').slice(0, 16);
   $('#save-state').textContent = (st.last_edit ? `last edit ${when(st.last_edit.ts)}` : 'no edits yet') + ` \u00b7 checkpoint "${st.last_label}" ${when(st.last_saved)}`;
   if (S.rev !== undefined && S.rev !== st.revision) { S.baseStreets = null; S.refNodes = null; S.edgeData = null; S.rawBuildings = null; S.pointRanks = null; S.outsideNet = null; }      // anything edited: every cached layer is reloaded
@@ -229,8 +229,8 @@ document.addEventListener('click', (e) => { if (e.target && e.target.id === 'rec
 function autoCompute() {
   const p = S.project; if (!p || !p.reference || !S.refConfirmed || S.polling) return;
   const atStart = !S.startChecked; S.startChecked = true;       // at the start of the map the ids are recomputed once when edits are waiting
-  if (!p.network_ready || (atStart && p.stale)) {                // otherwise edits wait (see recomputeIfStale)
-    if (S.autoNet !== p.status.revision) { S.autoNet = p.status.revision; startCompute('network', true); }
+  if (!p.network_ready || (atStart && p.stale)) {                // otherwise edits wait (see recomputeIfStale); one try per page load, never after every edit
+    if (!S.autoNet) { S.autoNet = true; startCompute('network', true); }
   } else if (!p.stale && S.tab === 'addresses' && (!p.addresses_ready || p.addresses_stale)) {
     const key = `${p.status.revision}|${p.network_hash}`;
     if (S.autoAddr !== key) { S.autoAddr = key; startCompute('addresses', true); }
@@ -338,7 +338,7 @@ const RANK_COLOR = ['#b71c1c', '#e65100', '#f9a825', '#2e7d32', '#1565c0', '#6a1
 const RANK_NAMES = ['0 motorway / trunk', '1 primary', '2 secondary', '3 tertiary', '4 residential / service', '5 footway / path'];
 function colourLegend() {
   const m = S.idColor;
-  const ring = '<span><i class="dot" style="background:#fff;border:2px solid #d50000;box-sizing:border-box"></i>red circle: a street was cut here for the numbering (the distance to the reference is lowest at this node)</span>';
+  const ring = '<span><i class="dot" style="background:#fff;border:2px solid #d50000;box-sizing:border-box"></i>street cut here for the numbering</span>';
   const withRing = (html) => html.replace(/<\/div>$/, ring + '</div>');            // one legend with the colours and the circle
   if (m === 'rank') return withRing(legend(RANK_NAMES.map((t, i) => [RANK_COLOR[i], t]), true));
   if (m === 'drivable') return withRing(legend([['#1565c0', 'drivable'], ['#9e9e9e', 'not drivable (dashed)'], ['#bdbdbd', 'unknown (dotted)']], true));
@@ -399,7 +399,7 @@ function junctionHtml(p) {
   const compass = (b) => ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'][Math.round(b / 45) % 8];
   const ids = [...new Set(p.spokes.map((s) => s.id))];
   const count = {}; p.spokes.forEach((s) => { count[s.id] = (count[s.id] || 0) + 1; });
-  const busy = !!(S.project && (S.project.stale || S.polling));      // ids can only be changed on an up-to-date network
+  const busy = !!S.polling;                                          // selectors are disabled only while a computation is actively running
   const cutIds = splitForNumbering();                          // ids that are parts of a street cut for the numbering: better not to join them
   let svg = `<svg width="${size}" height="${size}" class="junction-svg">`, boxes = '';
   p.spokes.forEach((s) => {
@@ -413,7 +413,12 @@ function junctionHtml(p) {
       : `<span class="id-plain" style="left:${lx}px;top:${ly}px;color:${col}">${s.id}</span>`;
   });
   svg += `<circle cx="${c}" cy="${c}" r="4" fill="#fff"/></svg>`;
-  const rows = p.spokes.map((s) => `<tr class="click" data-street="${s.id}"><td><span class="dot" style="background:${hue(s.id)}"></span> <strong>${s.id}</strong> <span class="muted">${compass(s.bearing)}</span></td><td>${esc(s.name || '(no name yet)')}</td><td>${esc(s.status || '')}</td></tr>`).join('');
+  const rankSel = (s) => {                                          // the rank of the street, editable here
+    const f = S.network && S.network.streets.features.find((g) => g.properties.id === s.id); if (!f) return '';
+    const q = f.properties, parts = S.network.streets.features.filter((g) => g.properties.original === q.original).length;
+    return `<select class="attr-edit" data-attr="rank" data-orig="${q.original}" ${parts > 1 ? `data-part="${q.part}"` : ''} title="Street rank">${RANK_NAMES.map((t, i) => `<option value="${i}" ${q.rank === i ? 'selected' : ''}>${t.split(' ').slice(0, 2).join(' ')}</option>`).join('')}</select>`;
+  };
+  const rows = p.spokes.map((s) => `<tr class="click" data-street="${s.id}"><td><span class="dot" style="background:${hue(s.id)}"></span> <strong>${s.id}</strong> <span class="muted">${compass(s.bearing)}</span></td><td>${esc(s.name || '(no name yet)')}</td><td>${rankSel(s)}</td></tr>`).join('');
   return `<div class="junction"><div class="muted">Node ${p.node}${p.d !== null ? ` &middot; ${fmt(p.d)} m from the reference` : ''}</div><div class="jbox" style="width:${size}px;height:${size}px">${svg}${boxes}</div><table>${rows}</table><div class="muted">${busy ? 'Updating the street ids... selectors are off until it ends.' : 'Change an id with the selector at its road.'}</div></div>`;
 }
 function drawJunctions(fc) {
@@ -467,7 +472,7 @@ document.addEventListener('change', async (e) => {
     toast(`${r.changed} roads now have the id ${mode === 'merge' ? tid : r.id}${r.name ? ' and the name ' + r.name : ''}`, 5000); await afterEdit();
   } catch (err) { sel.value = ''; toast(err.message, 7000); }
 });
-document.addEventListener('click', (e) => { if (e.target.closest && e.target.closest('select.id-change')) return; const r = e.target.closest('.junction tr[data-street]'); if (r) { map.closePopup(); selectStreet(+r.dataset.street, true); renderPanel(); } });
+document.addEventListener('click', (e) => { if (e.target.closest && e.target.closest('select.id-change, select.attr-edit')) return; const r = e.target.closest('.junction tr[data-street]'); if (r) { map.closePopup(); selectStreet(+r.dataset.street, true); renderPanel(); } });
 
 function selHtml() {
   if (!S.sel) return '';
@@ -736,8 +741,8 @@ function streetBox(editable) {
     ${p.parent ? `<tr><td>derived from</td><td>street ${p.parent}${p.root && p.root !== p.parent ? ` (main street ${p.root})` : ''}</td></tr>` : ''}</table>`;
   h += `<div class="row attrs"><select class="attr-edit" data-attr="rank" data-orig="${p.original}" ${parts.length > 1 ? `data-part="${p.part}"` : ''} title="Street rank">${RANK_NAMES.map((t, i) => `<option value="${i}" ${p.rank === i ? 'selected' : ''}>${t}</option>`).join('')}</select>
     <label>drivable <select class="attr-edit" data-attr="drivable" data-orig="${p.original}" ${parts.length > 1 ? `data-part="${p.part}"` : ''}>${tri(p.drivable)}</select></label>
-    <label>paved <select class="attr-edit" data-attr="paved" data-orig="${p.original}" ${parts.length > 1 ? `data-part="${p.part}"` : ''}>${tri(p.paved)}</select></label></div>${parts.length > 1 ? `<p class="muted">Rank, drivable and paved are set for this part only (street ${p.id}); the other parts of street ${p.original} (${parts.filter((g) => g.properties.id !== p.id).map((g) => g.properties.id).join(', ')}) keep theirs.</p>` : ''}`;
-  if (parts.length > 1) h += `<p class="muted">This street had to be cut: ${parts.map((g) => `<a href="#" data-act="select" data-id="${g.properties.id}">${g.properties.id}</a>`).join(', ')}</p>`;
+    <label>paved <select class="attr-edit" data-attr="paved" data-orig="${p.original}" ${parts.length > 1 ? `data-part="${p.part}"` : ''}>${tri(p.paved)}</select></label></div>${parts.length > 1 ? '<p class="muted">Applies to this part only.</p>' : ''}`;
+  if (parts.length > 1) h += `<p class="muted">Cut parts: ${parts.map((g) => `<a href="#" data-act="select" data-id="${g.properties.id}">${g.properties.id}</a>`).join(', ')}</p>`;
   if (editable) {
     const dup = assigned && S.network.streets.features.some((g) => g.properties.original !== p.original && g.properties.name && g.properties.name.toLowerCase() === assigned.toLowerCase());
     h += `<h3>Name of street ${p.original}${parts.length > 1 ? ' (all parts)' : ''}</h3>

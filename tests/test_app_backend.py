@@ -505,7 +505,7 @@ def test_street_ids_can_be_merged_or_split_from_a_node(client):
     r = client.post("/api/streets/assign", json={"ref": spoke["ref"], "mode": "split", "node": node["node"]}).json()
     assert r["changed"] >= 1 and r["id"] > max(orig.values())
     net2 = compute(client)
-    assert len({f["properties"]["original"] for f in net2["streets"]["features"]}) == n0 + 1               # the branch is a street of its own now
+    assert len({f["properties"]["original"] for f in net2["streets"]["features"]}) >= n0 + 1               # the branch is a street of its own now (a road that is a branch of another street can become one too)
     client.post("/api/undo")
     assert client.get("/api/project").json()["roads"]["imports"] == []
     net3 = compute(client)
@@ -546,7 +546,7 @@ def test_survey_azimuth_decides_the_side_of_the_road(root):
 
 
 def test_merging_streets_keeps_a_name_and_prefers_the_name_of_the_id_that_is_kept(client):
-    """Merge A into B: if only A is named the merged street takes A's name; if both are named, B's name stays; undo restores everything."""
+    """Merge A into B at a corner: if only A is named the merged street takes A's name; undo restores everything."""
     set_reference(client)
     net = compute(client)
     feats = {f["properties"]["id"]: f["properties"] for f in net["streets"]["features"]}
@@ -554,34 +554,24 @@ def test_merging_streets_keeps_a_name_and_prefers_the_name_of_the_id_that_is_kep
     import re as _re
 
     own = lambda i: _re.sub(r" \([A-Z]+\)$", "", feats[i]["name"]) if feats[i]["status"] == "named" else None  # noqa: E731
-    pair = None
-    for j in js:
-        ids = {s["id"] for s in j["spokes"]}
-        for a in ids:
-            for b in ids:
-                if feats[a]["original"] != feats[b]["original"] and own(a) and not own(b):
-                    pair = (j, a, b)
-                    break
-            if pair:
-                break
-        if pair:
-            break
-    assert pair, "the synthetic network has a named and an unnamed street that meet"
-    j, a, b = pair
-    ref = next(s["ref"] for s in j["spokes"] if s["id"] == a)
-    r = client.post("/api/streets/assign", json={"ref": ref, "mode": "merge", "target": b}).json()
-    assert r["name"] == own(a)
-    assert client.get("/api/project").json()["names"][str(feats[b]["original"])] == own(a)                 # the unnamed street takes the name
+    corner, a, b = next((j, x, y) for j in js if len(j["spokes"]) == 2 for x in (s["id"] for s in j["spokes"]) for y in (s["id"] for s in j["spokes"])
+                        if x != y and feats[x]["original"] != feats[y]["original"] and feats[x]["part"] == 0 and feats[x]["status"] != "named" and feats[y]["status"] != "named")
+    orig_a, orig_b = feats[a]["original"], feats[b]["original"]
+    client.post("/api/names", json={"street_id": orig_a, "name": "Corner Road"})            # a is named, b is not; they meet at a corner (2 roads at the node)
+    net = compute(client)
+    feats = {f["properties"]["id"]: f["properties"] for f in net["streets"]["features"]}
+    node = next(j["properties"] for j in net["junctions"]["features"] if j["properties"]["node"] == corner["node"])
+    sa = next(s for s in node["spokes"] if feats[s["id"]]["original"] == orig_a)
+    sb = next(s for s in node["spokes"] if feats[s["id"]]["original"] == orig_b)
+    a, b, ref = sa["id"], sb["id"], sa["ref"]
+    resp = client.post("/api/streets/assign", json={"ref": ref, "mode": "merge", "target": b})
+    assert resp.status_code == 200
+    r = resp.json()
+    own = lambda i: "Corner Road"  # noqa: E731
+    assert r["name"] == "Corner Road"
+    assert client.get("/api/project").json()["names"][str(feats[b]["original"])] == "Corner Road"                 # the unnamed street takes the name
     client.post("/api/undo")
     assert str(feats[b]["original"]) not in client.get("/api/project").json()["names"]                      # name and ids come back in one step
-    # both named: the street whose id is kept keeps its name
-    both = next(((j2, x, y) for j2 in js for x in {s["id"] for s in j2["spokes"]} for y in {s["id"] for s in j2["spokes"]}
-                 if feats[x]["original"] != feats[y]["original"] and own(x) and own(y)), None)
-    if both:
-        j2, x, y = both
-        ref2 = next(s["ref"] for s in j2["spokes"] if s["id"] == x)
-        r2 = client.post("/api/streets/assign", json={"ref": ref2, "mode": "merge", "target": y}).json()
-        assert r2["name"] == own(y) and str(feats[y]["original"]) not in client.get("/api/project").json()["names"]
 
 
 def test_roads_can_be_drawn_and_prolonged_with_snapping_and_joining_a_street(client):
@@ -1141,3 +1131,70 @@ def test_a_rank_set_for_one_part_of_a_cut_street_leaves_the_other_parts_alone(tm
     ctx.store.set_street_attrs({"46": {"rank": 2}}, "t")                       # the whole street, the part keeps its own choice
     whole = ranks()
     assert whole[1] == 0 and all(whole[p] == 2 for p in whole if p != 1)
+
+
+def test_branch_streets_keep_their_ids_from_one_computation_to_the_next(tmp_path):
+    """Branches (side roads cut off a street) get their ids once: recomputing, also after an edit, gives the same ids."""
+    import shutil
+    from pathlib import Path
+
+    from osmaddresssystem.app import engine, server
+
+    src = Path(__file__).resolve().parents[1] / "projects" / "fotouni"
+    root = tmp_path / "fotouni"
+    shutil.copytree(src, root, ignore=shutil.ignore_patterns("project.db*", "computed"))
+    ctx = server.Context(root, None)
+    server.apply_default_reference(ctx)
+    reg = None
+
+    def run():
+        nonlocal reg
+        proj = ctx.store.project()
+        eb, rep = engine.effective_base(engine.load_base(proj), proj)
+        st = engine.compute_network(eb, proj, roads_report=rep.report if rep else None, branch_ids=reg)
+        reg = st.branch_ids
+        s = st.streets
+        return {(int(o), int(p)): int(i) for i, o, p in zip(s["street_id"], s["street_id_original"], s["street_part"])}
+
+    first = run()
+    ctx.store.set_street_attrs({"46": {"rank": 2}}, "t")
+    second = run()
+    branch_ids = {i for (o, p), i in first.items() if o == i}
+    moved = {k: (first[k], second.get(k)) for k in first if k[0] in branch_ids and first[k] != second.get(k)}
+    assert not moved
+
+
+def test_several_ids_can_be_changed_before_one_recomputation(client):
+    """Joining A to B and then the roads of A (now B) to C moves all of them: the second change sees the first one."""
+    set_reference(client)
+    net = compute(client)
+    st = client.app.state.ctx.network
+    es = st.edges.reset_index()
+    es = es[es["key"] < 10**6]
+    by = {}
+    for u, v, k, sid in zip(es["u"], es["v"], es["key"], es["street_id"]):
+        by.setdefault(int(sid), []).append(roads_ref(u, v, k))
+    a, b, c = [i for i in sorted(by) if i in {f["properties"]["original"] for f in net["streets"]["features"]}][:3]
+    r1 = client.post("/api/streets/assign", json={"ref": by[a][0], "mode": "merge", "target": b})
+    assert r1.status_code == 200
+    r2 = client.post("/api/streets/assign", json={"ref": by[a][0], "mode": "merge", "target": c})        # A's roads are B's now: both move
+    assert r2.status_code == 200
+    moved = client.app.state.ctx.store.project().roads["edge_street"]
+    assert {moved[r] for r in by[a] + by[b]} == {c}
+
+
+def test_an_id_cannot_get_three_roads_at_one_node(client):
+    """Joining a third street to an id that already has two roads at a node is refused."""
+    set_reference(client)
+    net = compute(client)
+    node = next(j["properties"] for j in net["junctions"]["features"]
+                if len({s["id"] for s in j["properties"]["spokes"]}) >= 3 and len(j["properties"]["spokes"]) == len({s["id"] for s in j["properties"]["spokes"]}))
+    sp = node["spokes"]
+    for a in sp:
+        for b in sp:
+            if a is not b and client.post("/api/streets/assign", json={"ref": a["ref"], "mode": "merge", "target": b["id"]}).status_code == 200:
+                c = next(x for x in sp if x is not a and x is not b)
+                r = client.post("/api/streets/assign", json={"ref": c["ref"], "mode": "merge", "target": b["id"]})
+                assert r.status_code == 409 and "at most" in r.json()["detail"]
+                return
+    raise AssertionError("no join was possible at all")

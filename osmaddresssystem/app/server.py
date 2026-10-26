@@ -27,6 +27,7 @@ import re
 import json
 import tempfile
 import threading
+import time
 import traceback
 from contextlib import asynccontextmanager
 from pathlib import Path
@@ -144,9 +145,10 @@ class Context:
             report = rres.report if rres else None
             if kind == "network":
                 state = engine.compute_network(base, proj, progress=lambda s: self.job.update(step=s), roads_report=report,
-                                               hint_extra=getattr(self.network, "extra", None))
+                                               hint_extra=getattr(self.network, "extra", None), branch_ids=self.store.get_computed("branch_ids"))
                 data = engine.network_geojson(state, proj)
                 self.network, self.network_json, self.network_hash = state, data, proj.state_hash()
+                self.store.put_computed("branch_ids", state.branch_ids)
                 self.addresses = None
                 self.store.put_computed("summary", {"stats": state.stats, "notes": state.notes, "hash": self.network_hash})
                 self.store.put_computed("plan", data["plan"])
@@ -154,8 +156,9 @@ class Context:
                 if self.network is None or self.network_hash != proj.state_hash():
                     self.job.update(step="computing the network first")
                     state = engine.compute_network(base, proj, progress=lambda s: self.job.update(step=s), roads_report=report,
-                                               hint_extra=getattr(self.network, "extra", None))
+                                               hint_extra=getattr(self.network, "extra", None), branch_ids=self.store.get_computed("branch_ids"))
                     self.network, self.network_json, self.network_hash = state, engine.network_geojson(state, proj), proj.state_hash()
+                    self.store.put_computed("branch_ids", state.branch_ids)
                 self.job.update(step="addressing the houses")
                 self.addresses = engine.compute_addresses(base, self.network, proj)
                 self.addresses_hash = proj.address_hash()
@@ -310,6 +313,21 @@ def create_app(root: Path, auto_compute: bool = True, db_url: str | None = None)
 
     MAX_BODY = 60 * 1024 * 1024
 
+    def code_version() -> str:
+        """Time of the newest code file (UTC): shown in the page, so it is clear which version runs."""
+        files = list(STATIC.glob("*")) + list(STATIC.parent.parent.glob("*.py")) + list(STATIC.parent.glob("*.py"))
+        return time.strftime("%m-%d %H:%M", time.gmtime(max(f.stat().st_mtime for f in files)))
+
+    VERSION = code_version()
+
+    @app.middleware("http")
+    async def no_cache(request: Request, call_next):
+        """The page and its scripts are never taken from the browser cache without asking the server first."""
+        resp = await call_next(request)
+        if not request.url.path.startswith("/api/"):
+            resp.headers["Cache-Control"] = "no-cache"
+        return resp
+
     @app.middleware("http")
     async def limit_uploads(request: Request, call_next):
         """Refuse requests bigger than 60 MB (a roads file is a few hundred KB)."""
@@ -324,7 +342,7 @@ def create_app(root: Path, auto_compute: bool = True, db_url: str | None = None)
             rev = ctx.store.revision()
         except Exception as exc:
             return JSONResponse({"ok": False, "error": str(exc)}, status_code=503)
-        return {"ok": True, "database": ctx.store.engine.dialect.name, "revision": rev, "job": ctx.job["state"], "computed": ctx.network_json is not None}
+        return {"ok": True, "database": ctx.store.engine.dialect.name, "revision": rev, "job": ctx.job["state"], "computed": ctx.network_json is not None, "version": VERSION}
 
     @app.get("/api/revision")
     def get_revision() -> dict:
@@ -354,7 +372,7 @@ def create_app(root: Path, auto_compute: bool = True, db_url: str | None = None)
         except FileNotFoundError:
             pass
         return {"name": p.name, "reference": p.reference, "settings": p.settings.__dict__, "names": {str(k): v for k, v in p.names.items()},
-                "status": ctx.store.status(me()), "user": me(), "names_meta": {str(k): {"user": v["user"], "ts": v["ts"]} for k, v in ctx.store.names_meta().items()},
+                "version": VERSION, "status": ctx.store.status(me()), "user": me(), "names_meta": {str(k): {"user": v["user"], "ts": v["ts"]} for k, v in ctx.store.names_meta().items()},
                 "network_hash": ctx.network_hash, "network_ready": ctx.network_json is not None,
                 "stale": ctx.network_json is not None and ctx.network_hash != h,
                 "addresses_ready": ctx.addresses is not None, "addresses_stale": ctx.addresses is not None and ctx.addresses_hash != p.address_hash(),
@@ -688,9 +706,14 @@ def create_app(root: Path, auto_compute: bool = True, db_url: str | None = None)
         ref = str(body["ref"])
         if ref not in es.index:
             raise HTTPException(404, "that road is not part of the computed network")
+        proj = ctx.store.project()
+        done = proj.roads.get("edge_street", {})                    # earlier changes that are not computed yet: several ids can be changed before one recomputation
+        if done:
+            es["street_id"] = [int(done[r]) if r in done else int(i) for r, i in zip(es.index, es["street_id"])]
         fid = int(es.loc[ref, "street_id"])
         orig = {int(a): int(b) for a, b in zip(st.streets["street_id"], st.streets["street_id_original"])}
-        proj = ctx.store.project()
+        for v in done.values():
+            orig.setdefault(int(v), int(v))
         if body.get("mode") == "merge":
             target = int(body["target"])
             if target not in orig:
@@ -701,6 +724,17 @@ def create_app(root: Path, auto_compute: bool = True, db_url: str | None = None)
                 ctx.store.assign_edge_streets({}, me(), None, [orig[target]])      # never cut it again: the next computation joins the parts
                 return {"changed": 0, "id": orig[target], "name": None, "status": ctx.store.status(me())}
             mine = es[es["street_id"].astype(int) == fid].index
+            final = {r: orig.get(int(i), int(i)) for r, i in zip(es.index, es["street_id"])}
+            final.update({r: orig[target] for r in mine})
+            at_node: dict = {}
+            for r, u_, v_ in zip(es.index, es["u"], es["v"]):
+                for n_ in (int(u_), int(v_)):
+                    at_node.setdefault(n_, []).append(r)
+            touched = {int(es.loc[r, "u"]) for r in mine} | {int(es.loc[r, "v"]) for r in mine}
+            for n_ in sorted(touched):                               # a street id is a path: at a node at most two of its roads
+                same = [r for r in at_node[n_] if final[r] == orig[target]]
+                if len(same) > 2:
+                    raise HTTPException(409, f"id {orig[target]} would have {len(same)} roads at node {n_}: a street has 2 at most")
             own = {int(r.street_id): re.sub(r" \([A-Z]+\)$", "", str(r.street_name).strip()) for r in st.streets.itertuples() if is_named(r.street_name)}
             name_from, name_to = own.get(fid), own.get(target)
             names = {}
@@ -712,8 +746,8 @@ def create_app(root: Path, auto_compute: bool = True, db_url: str | None = None)
                 if "rank" in mine_attrs.get(str(o_), {}):
                     rk[sid_] = int(mine_attrs[str(o_)]["rank"])
             rank_new = rk[target] if name_to else rk[fid] if name_from else rk[target]          # the rank of the named street, else of the id that is taken
-            ctx.store.assign_edge_streets({r: orig[target] for r in mine}, me(), names, [orig[target]] if body.get("force") else None,
-                                          {orig[target]: {"rank": rank_new}})
+            ctx.store.assign_edge_streets({r: orig[target] for r in mine}, me(), names, [orig[target]],
+                                          {orig[target]: {"rank": rank_new}})                  # (a join chosen by the editors is never cut again at a minimum)
             return {"changed": len(mine), "id": orig[target], "name": names.get(orig[target]) or name_to, "status": ctx.store.status(me())}
         if body.get("mode") == "split":
             node = int(body["node"])
