@@ -1,0 +1,39 @@
+#account-controls { display:flex; align-items:center; gap:5px; flex-wrap:wrap; }
+#account-gate[hidden],#account-controls[hidden] { display:none!important; }
+#account-controls button,#account-dialog button { font:600 12px var(--font); padding:7px 10px; border:1px solid var(--line-strong); border-radius:8px; background:var(--surface); color:var(--ink); cursor:pointer; }
+#account-dialog button.primary,.account-card button.primary { background:var(--primary); color:white; border:1px solid var(--primary); border-radius:9px; font:600 13px var(--font); cursor:pointer; }
+#account-controls small { display:block; font-size:9px; font-weight:400; color:var(--muted); }
+#account-profile { text-align:left; }
+#account-gate { position:fixed; inset:0; z-index:10000; display:grid; grid-template-columns:minmax(0,1fr); place-items:start center; padding:24px; overflow:auto; background:radial-gradient(ellipse at 15% 10%,#dcefe8,transparent 60%),radial-gradient(ellipse at 90% 90%,#fde7d8,transparent 55%),var(--bg); }
+.account-card { position:relative; width:430px; max-width:100%; min-width:0; margin:auto; background:var(--surface); border:1px solid var(--line); border-radius:20px; padding:26px 34px; box-shadow:0 12px 60px var(--ink)18; }
+.account-language { display:flex; justify-content:flex-end; }
+.account-logo { display:block; width:138px; height:auto; margin:6px auto 20px; }
+.account-card h1 { font-size:24px; letter-spacing:-.035em; margin:0 0 10px; }
+.account-card p { font-size:13px; color:var(--muted); line-height:1.6; }
+.account-card label,#account-dialog form label { display:block; font-size:12px; font-weight:600; margin:12px 0; }
+.account-card input,#account-dialog input:not([type=checkbox]),#account-dialog select,.account-language select { display:block; padding:10px; border:1px solid var(--line-strong); border-radius:9px; background:white; font:inherit; color:var(--ink); width:100%; margin-top:5px; }
+.account-language select { width:auto; font-size:12px; }
+.account-card small { display:block; color:var(--muted); font-size:11px; line-height:1.5; }
+.account-card .primary { width:100%; margin:18px 0 3px; padding:12px; }
+#account-error,.account-message { color:var(--danger)!important; font-size:12px; overflow-wrap:anywhere; }
+#account-dialog { width:660px; max-width:94vw; max-height:85vh; padding:23px; border:1px solid var(--line-strong); border-radius:16px; background:var(--surface); color:var(--ink); }
+#account-dialog::backdrop { background:rgba(11,44,77,.4); }
+.account-dialog-head { display:flex; align-items:center; justify-content:space-between; gap:16px; }
+.account-dialog-head h2 { font-size:20px; letter-spacing:-.025em; margin:0; }
+.account-dialog-head button { border:0; background:none; font-size:22px; }
+#account-dialog #invite-form { background:var(--surface-2); border:1px solid var(--line); border-radius:12px; padding:14px; margin:16px 0; }
+#account-dialog h3 { font-size:14px; margin:0; }
+.account-person { border-top:1px solid var(--line); padding:14px 0; font-size:12px; }
+.account-person>small { display:block; margin:4px 0; color:var(--muted); }
+.account-person>div { display:flex; gap:15px; align-items:center; }
+.account-person select { width:180px!important; }
+.account-person button { margin:7px 6px 0 0; }
+.new-invitation:not(:empty) { border:1px solid #d4c48a; background:#fffbeb; border-radius:10px; padding:14px; font-size:12px; margin:15px 0; overflow-wrap:anywhere; }
+.new-invitation button { margin-top:8px; }
+.audit-record { border-bottom:1px solid var(--line); padding:15px 0; font-size:12px; }
+.audit-record>div { display:flex; gap:8px; flex-wrap:wrap; justify-content:space-between; }
+.audit-record small { color:var(--muted); }
+.audit-record details { margin-top:8px; }
+.audit-record summary { cursor:pointer; }
+.audit-record pre { max-height:260px; overflow:auto; padding:10px; border-radius:8px; background:var(--surface-3); font-size:10px; }
+@media(max-width:900px) { #account-controls { width:100%; }#account-controls button { font-size:10px; padding:5px 8px; }.account-card { padding:20px; }.account-logo { width:115px; } }
