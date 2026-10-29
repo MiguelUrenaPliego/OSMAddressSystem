@@ -25,6 +25,8 @@ import csv
 import io
 import re
 import json
+import math
+import uuid
 import tempfile
 import threading
 import time
@@ -44,14 +46,17 @@ from ..branches import is_named
 from . import engine, exports, roads as roads_mod
 from .project import Project
 from .store import Conflict, Store
+from . import street_ops
+from . import work_areas
+from .identity import actor_id
 
 def me() -> str:
-    """The editor name recorded with an edit (the app has no login, so it is empty).
+    """Stable editor ID from the verified request session.
 
     Returns:
         The editor name.
     """
-    return ""
+    return actor_id()
 
 
 STATIC = Path(__file__).resolve().parent / "static"
@@ -117,7 +122,7 @@ class Context:
             self.effective_hash = h
         return self.effective
 
-    def run_job(self, kind: str) -> bool:
+    def run_job(self, kind: str, actor: str = 'system:startup') -> bool:
         """Start a background computation unless one is running.
 
         Args:
@@ -130,6 +135,7 @@ class Context:
             if self.job["state"] == "running":
                 return False
             self.job = {"state": "running", "kind": kind, "step": "starting", "error": None}
+        self.store.record_audit('computation_requested',actor,kind='computation',computation=kind)
         threading.Thread(target=self._work, args=(kind,), daemon=True).start()
         return True
 
@@ -163,6 +169,7 @@ class Context:
                 self.addresses = engine.compute_addresses(base, self.network, proj)
                 self.addresses_hash = proj.address_hash()
             self.job = {"state": "done", "kind": kind, "step": "done", "error": None}
+            self.store.record_audit('computation_finished','system:compute',kind='computation',computation=kind,input_hash=proj.state_hash() if kind=='network' else proj.address_hash())
         except Exception as exc:  # reported to the client, never crashes the server
             self.job = {"state": "error", "kind": kind, "step": "failed", "error": f"{exc}", "trace": traceback.format_exc(limit=4)}
 
@@ -284,7 +291,7 @@ def apply_csv_names(ctx: "Context") -> None:
     ctx.store.put_computed("csv_names", True)
 
 
-def create_app(root: Path, auto_compute: bool = True, db_url: str | None = None) -> FastAPI:
+def create_app(root: Path, auto_compute: bool = True, db_url: str | None = None, *, auth_enabled: bool = True) -> FastAPI:
     """Build the application for a project folder.
 
     Args:
@@ -310,6 +317,18 @@ def create_app(root: Path, auto_compute: bool = True, db_url: str | None = None)
 
     app = FastAPI(title="Community address app", lifespan=lifespan)
     app.state.ctx = ctx
+    app.state.auth_enabled = auth_enabled
+    if auth_enabled:
+        from .auth import Accounts
+        accounts=Accounts(ctx.store)
+        app.state.accounts=accounts
+        app.include_router(accounts.router())
+        app.middleware('http')(accounts.protect)
+    else:
+        # Explicit in-process legacy test harness only; serve has no bypass flag.
+        @app.get('/api/auth/status')
+        def test_identity():
+            return {'enabled':False,'user':None,'capabilities':[]}
 
     MAX_BODY = 60 * 1024 * 1024
 
@@ -324,8 +343,11 @@ def create_app(root: Path, auto_compute: bool = True, db_url: str | None = None)
     async def no_cache(request: Request, call_next):
         """The page and its scripts are never taken from the browser cache without asking the server first."""
         resp = await call_next(request)
-        if not request.url.path.startswith("/api/"):
+        path=request.scope.get('path','').removeprefix(request.scope.get('root_path',''))
+        if not path.startswith("/api/"):
             resp.headers["Cache-Control"] = "no-cache"
+        else:
+            resp.headers['Cache-Control']='no-store'
         return resp
 
     @app.middleware("http")
@@ -378,7 +400,7 @@ def create_app(root: Path, auto_compute: bool = True, db_url: str | None = None)
                 "addresses_ready": ctx.addresses is not None, "addresses_stale": ctx.addresses is not None and ctx.addresses_hash != p.address_hash(),
                 "roads": {"imports": [{"id": i["id"], "file": i["file"], "lines": len(i["features"])} for i in p.roads["imports"]],
                           "connections": len(p.roads["connections"])},
-                "access": len(p.access),
+                "access": len(p.access), "work_areas": p.work_areas,
                 "has": {"network": base is not None, "area": bool(base and base.area is not None), "points": bool(base and base.points is not None),
                         "buildings": bool(base and base.buildings is not None)}}
 
@@ -477,6 +499,10 @@ def create_app(root: Path, auto_compute: bool = True, db_url: str | None = None)
         cur = ctx.store.project().reference
         if not cur:
             raise HTTPException(409, "no reference point yet")
+        if auth_enabled:
+            # Acknowledging the origin is local UI state, not permission to
+            # rewrite a shared reference or create an undoable geometry edit.
+            return {'reference':cur,'status':ctx.store.status(me())}
         ctx.store.set_reference(cur["lat"], cur["lon"], cur["node"], me(), by=str(body.get("client") or "anonymous"), name=cur.get("name"))
         return {"reference": ctx.store.project().reference, "status": ctx.store.status(me())}
 
@@ -639,9 +665,14 @@ def create_app(root: Path, auto_compute: bool = True, db_url: str | None = None)
                 raise HTTPException(400, "a road needs at least two points")
             f = {"id": i, "coords": [[round(float(x), 7), round(float(y), 7)] for x, y in coords], "name": (body.get("name") or None),
                  "highway": body.get("highway") or None}
+            if body.get('end_review') == 'uncertain' and i == len(pieces)-1:
+                f['end_review'] = 'uncertain'
+                f['end'] = {'type': 'none'}
             for k, v in (("start", pc.get("start")), ("end", pc.get("end")), ("join", body.get("join")), ("rank", body.get("rank"))):
                 if v is not None:
                     f[k] = v
+            if f.get('end_review') == 'uncertain':
+                f['end'] = {'type': 'none'}
             for k in ("drivable", "paved"):
                 if k in body:
                     f[k] = None if body[k] is None else bool(body[k])           # null = unknown
@@ -687,6 +718,208 @@ def create_app(root: Path, auto_compute: bool = True, db_url: str | None = None)
         fc = lambda x: {"type": "FeatureCollection", "features": x}  # noqa: E731
         return {"edges": fc(live), "removed": fc(dead), "drawn": fc(drawn), "outside": fc(outside)}
 
+    @app.get("/api/roads/geometry")
+    def get_road_geometry() -> dict:
+        """Current editable edge shapes, retaining IDs and fixed junctions."""
+        revision = ctx.store.revision()
+        base, _ = ctx.get_effective()
+        e = base.edges
+        degrees = {}
+        for u,v,k in e.index:
+            if k >= roads_mod.SYNTHETIC_KEY: continue
+            for n in (u,v): degrees.setdefault(int(n),set()).add(roads_mod.edge_ref(u,v,k))
+        e = e[[u < v and k < roads_mod.SYNTHETIC_KEY for u, v, k in e.index]].to_crs(4326)
+        aoi = engine.aoi_polygon(base)
+        if aoi is not None:
+            e = e[e.intersects(aoi)]
+        features = []
+        for (u, v, k), row in e.iterrows():
+            if row.geometry.geom_type != "LineString":
+                continue
+            features.append({"type": "Feature", "properties": {"ref": roads_mod.edge_ref(u, v, k),
+                            "street_id": None if pd.isna(row.street_id) else int(row.street_id),
+                            "u":int(u), "v":int(v), "degree_u":len(degrees.get(int(u),())), "degree_v":len(degrees.get(int(v),())),
+                            "drawn":str(row.osmid).startswith('road'), "length_m":round(float(row['length']),2)},
+                             "geometry": shapely.geometry.mapping(row.geometry)})
+        return {"revision": revision, "edges": {"type": "FeatureCollection", "features": features}}
+
+    @app.post("/api/roads/geometry")
+    def post_road_geometry(body: dict = Body(...)) -> dict:
+        """Save a shape correction without replacing roads or moving junctions."""
+        try:
+            revision = int(body["revision"])
+            ref = str(body["ref"])
+            coords = [[float(x), float(y)] for x, y in body["coords"]]
+            if not 2 <= len(coords) <= 5000 or any(not math.isfinite(x) or not math.isfinite(y) or abs(x) > 180 or abs(y) > 90 for x, y in coords):
+                raise ValueError("invalid coordinates")
+        except (KeyError, TypeError, ValueError):
+            raise HTTPException(400, "provide a road reference, revision and 2-5000 valid lon/lat points")
+        if ctx.store.revision() != revision:
+            raise HTTPException(409, "project changed; reload the road before saving")
+        base, _ = ctx.get_effective()
+        matches = [(idx, row) for idx, row in base.edges.iterrows()
+                   if idx[0] < idx[1] and idx[2] < roads_mod.SYNTHETIC_KEY and roads_mod.edge_ref(*idx) == ref]
+        if not matches:
+            raise HTTPException(404, "road is no longer available; reload the map")
+        idx, row = matches[0]
+        line = shapely.geometry.LineString(coords)
+        line = gpd.GeoSeries([line], crs=4326).to_crs(base.crs).iloc[0]
+        original = list(row.geometry.coords)
+        pts = list(line.coords)
+        if any(shapely.geometry.Point(a).distance(shapely.geometry.Point(b)) > 1 for a, b in [(pts[0], original[0]), (pts[-1], original[-1])]):
+            raise HTTPException(400, "junction endpoints must stay fixed; reshape the points between them")
+        pts[0], pts[-1] = original[0], original[-1]
+        line = shapely.geometry.LineString(pts)
+        if line.length < 0.5 or not line.is_simple:
+            raise HTTPException(400, "road must be at least 0.5 m long and must not cross itself")
+        coords = list(map(list, gpd.GeoSeries([line], crs=base.crs).to_crs(4326).iloc[0].coords))
+        try:
+            ctx.store.set_road_geometry(ref, coords, revision, me())
+        except Conflict:
+            raise HTTPException(409, "project changed; reload the road before saving")
+        return {"status": ctx.store.status(me())}
+
+    def cut_preview(body: dict) -> tuple[dict, dict]:
+        try:
+            ref = str(body['ref'])
+            points = [[float(x), float(y)] for x, y in body['points']]
+            if len(points) != 2 or any(not math.isfinite(x) or not math.isfinite(y) or abs(x) > 180 or abs(y) > 90 for x, y in points):
+                raise ValueError()
+        except (KeyError, ValueError, TypeError):
+            raise HTTPException(400, 'choose two valid cut points on the same road section')
+        base, _ = ctx.get_effective()
+        idx = next((idx for idx in base.edges.index if idx[0] < idx[1] and idx[2] < roads_mod.SYNTHETIC_KEY and roads_mod.edge_ref(*idx) == ref), None)
+        if idx is None:
+            raise HTTPException(404, 'road section changed; select it again')
+        geom = base.edges.loc[idx].geometry
+        tr = Transformer.from_crs(4326, base.crs, always_xy=True)
+        pts = [shapely.geometry.Point(*tr.transform(*p)) for p in points]
+        if any(p.distance(geom) > 25 for p in pts):
+            raise HTTPException(400, 'choose cut points closer to the selected line')
+        a, b = (0.0, geom.length) if body.get('whole') is True else sorted(geom.project(p) for p in pts)
+        a = 0.0 if a < .5 else a
+        b = geom.length if b > geom.length-.5 else b
+        if b-a < .5:
+            raise HTTPException(400, 'the cut must remove at least 0.5 metres')
+        from shapely.ops import substring
+        removed = gpd.GeoSeries([substring(geom, a, b)], crs=base.crs).to_crs(4326).iloc[0]
+        source = gpd.GeoSeries([geom], crs=base.crs).to_crs(4326).iloc[0]
+        cut = {'ref': ref, 'coords': list(map(list, source.coords)), 'start_m': a, 'end_m': b}
+        preview = {'type': 'Feature', 'properties': {'removed_m': round(b-a, 2), 'retained_parts': int(a >= .5)+int(geom.length-b >= .5)}, 'geometry': shapely.geometry.mapping(removed)}
+        return cut, preview
+
+    @app.post('/api/roads/cut/preview')
+    def post_cut_preview(body: dict = Body(...)):
+        _, preview = cut_preview(body)
+        return preview
+
+    @app.post('/api/roads/cut')
+    def post_cut(body: dict = Body(...)):
+        if body.get('revision') != ctx.store.revision():
+            raise HTTPException(409, 'project changed; select the section again')
+        cut, preview = cut_preview(body)
+        cut['id'] = uuid.uuid4().hex
+        try:
+            ctx.store.add_road_cut(cut, int(body['revision']), me())
+        except Conflict:
+            raise HTTPException(409, 'project changed; select the section again')
+        return {'status': ctx.store.status(me()), 'removed_m': preview['properties']['removed_m']}
+
+    def join_preview(body: dict):
+        try:
+            source_node = int(body['source_node'])
+            source_ref, target_ref = str(body['ref']),str(body['target_ref'])
+            lon, lat = float(body['lon']),float(body['lat'])
+            if not math.isfinite(lon) or not math.isfinite(lat) or abs(lon)>180 or abs(lat)>90: raise ValueError()
+        except (KeyError,ValueError,TypeError):
+            raise HTTPException(400,'select a road endpoint and a target road')
+        base,_ = ctx.get_effective()
+        source_idx = next((i for i in base.edges.index if i[0]<i[1] and roads_mod.edge_ref(*i)==source_ref),None)
+        target_idx = next((i for i in base.edges.index if i[0]<i[1] and roads_mod.edge_ref(*i)==target_ref),None)
+        if source_idx is None or target_idx is None: raise HTTPException(404,'road section changed; select it again')
+        if source_node not in source_idx[:2]: raise HTTPException(400,'choose an endpoint of the selected road')
+        if source_ref == target_ref: raise HTTPException(400,'choose another road to connect to')
+        if source_node in target_idx[:2]: return None,{'already_connected':True,'gap_m':0}
+        incident = {roads_mod.edge_ref(*i) for i in base.edges.index if source_node in i[:2] and i[2]<roads_mod.SYNTHETIC_KEY}
+        if len(incident) != 1: raise HTTPException(409,'this endpoint already belongs to a junction; choose a free endpoint')
+        tr = Transformer.from_crs(4326,base.crs,always_xy=True)
+        point = shapely.geometry.Point(*tr.transform(lon,lat))
+        line = base.edges.loc[target_idx].geometry
+        if point.distance(line)>25: raise HTTPException(400,'click closer to the target road')
+        distance = line.project(point)
+        distance = 0.0 if distance<.5 else line.length if distance>line.length-.5 else distance
+        target_point = line.interpolate(distance)
+        gap = base.nodes.loc[source_node].geometry.distance(target_point)
+        if gap>60: raise HTTPException(400,'the target is over 60 m away; trace a connecting road instead')
+        coords = list(map(list,gpd.GeoSeries([line],crs=base.crs).to_crs(4326).iloc[0].coords))
+        source_point = gpd.GeoSeries([base.nodes.loc[source_node].geometry],crs=base.crs).to_crs(4326).iloc[0]
+        op = {'id':uuid.uuid4().hex,'source_node':source_node,'source_point':[source_point.x,source_point.y],
+              'source_osmid':str(base.edges.loc[source_idx].osmid),'ref':source_ref,'target_ref':target_ref,'coords':coords,'target_m':distance}
+        try:
+            _,preview_edges,_ = roads_mod.join_endpoint(base.nodes.copy(),base.edges.copy(),op)
+            for i,row in preview_edges.iterrows():
+                if i not in base.edges.index and (not row.geometry.is_simple or row.geometry.length<.5):
+                    raise ValueError('the connection would collapse or cross the road itself')
+        except ValueError as exc:
+            raise HTTPException(409,str(exc))
+        return op,{'already_connected':False,'gap_m':round(gap,2),
+                  'point':shapely.geometry.mapping(gpd.GeoSeries([target_point],crs=base.crs).to_crs(4326).iloc[0])}
+
+    @app.post('/api/roads/join/preview')
+    def post_join_preview(body: dict = Body(...)):
+        _,preview = join_preview(body)
+        return preview
+
+    @app.post('/api/roads/join')
+    def post_join(body: dict = Body(...)):
+        if body.get('revision') != ctx.store.revision(): raise HTTPException(409,'project changed; select the endpoints again')
+        op,preview = join_preview(body)
+        if op is None: return {**preview,'changed':False,'status':ctx.store.status(me())}
+        try: ctx.store.add_road_join(op,int(body['revision']),me())
+        except Conflict: raise HTTPException(409,'project changed; select the endpoints again')
+        return {**preview,'changed':True,'status':ctx.store.status(me())}
+
+    @app.post('/api/work-areas/grid')
+    def post_area_grid(body: dict = Body(...)):
+        p = ctx.store.project()
+        if p.work_areas.get('features'):
+            raise HTTPException(409, 'a work grid already exists; keep its review history')
+        base = ctx.get_base()
+        aoi = engine.aoi_polygon(base)
+        if aoi is None and base.area is not None and not base.area.empty:
+            aoi = base.area.to_crs(4326).geometry.union_all()
+        if aoi is None:
+            raise HTTPException(400, 'this project needs an area boundary before creating a grid')
+        try:
+            size = body.get('cell_m', 'auto')
+            areas = work_areas.make_grid(aoi, base.crs, 'auto' if size == 'auto' else float(size))
+            ctx.store.set_work_areas(areas, int(body['revision']), me())
+        except Conflict:
+            raise HTTPException(409, 'project changed; reload the areas')
+        except (KeyError, ValueError, TypeError) as exc:
+            raise HTTPException(400, str(exc) or 'invalid area settings')
+        return {'areas': areas, 'status': ctx.store.status(me())}
+
+    @app.post('/api/work-areas/status')
+    def post_area_status(body: dict = Body(...)):
+        import copy
+        areas = copy.deepcopy(ctx.store.project().work_areas)
+        cell = next((f for f in areas.get('features', []) if f['properties']['id'] == body.get('id')), None)
+        if cell is None:
+            raise HTTPException(404, 'no such work area')
+        if body.get('status') not in work_areas.STATUSES:
+            raise HTTPException(400, 'invalid review status')
+        if not isinstance(body.get('note', ''), str) or len(body.get('note', '')) > 2000:
+            raise HTTPException(400, 'area note must be at most 2000 characters')
+        cell['properties'].update(status=body['status'], note=body.get('note', ''))
+        try:
+            ctx.store.set_work_areas(areas, int(body['revision']), me())
+        except (KeyError, ValueError, TypeError):
+            raise HTTPException(400, 'provide the current revision')
+        except Conflict:
+            raise HTTPException(409, 'project changed; reload the areas')
+        return {'status': ctx.store.status(me())}
+
     @app.post("/api/streets/assign")
     def post_streets_assign(body: dict = Body(...)) -> dict:
         """Change the street id of the roads at a node (from the node popup of the Street IDs tab).
@@ -695,8 +928,6 @@ def create_app(root: Path, auto_compute: bool = True, db_url: str | None = None)
         id of the target street) or ``{"mode": "split", "node": <node id>}`` (the branch that leaves the node on that road, as far as the
         street goes, gets a new id; only when the street leaves the node by more than one road). Applied at the next Compute.
         """
-        import networkx as nx
-
         if ctx.network is None:
             raise HTTPException(409, "compute the network first")
         st = ctx.network
@@ -716,58 +947,63 @@ def create_app(root: Path, auto_compute: bool = True, db_url: str | None = None)
             orig.setdefault(int(v), int(v))
         if body.get("mode") == "merge":
             target = int(body["target"])
-            if target not in orig:
+            if target not in orig or not (es["street_id"].astype(int) == target).any():
                 raise HTTPException(404, "no such street id")
+            # Use current membership and pending attributes, including new IDs
+            # created since the last computation. Force never bypasses rank or
+            # topology constraints.
+            root = orig[target]
+            mine = es[es["street_id"].astype(int) == fid].index
+            members = set(mine) | {r for r, sid in zip(es.index, es["street_id"]) if orig.get(int(sid), int(sid)) == root}
+            ranks = {int(row.street_id): int(row.street_rank) for row in st.streets.itertuples()}
+            parts = {int(row.street_id): int(getattr(row, "street_part", 0)) for row in st.streets.itertuples()}
+            previous = st.edges.reset_index()
+            original_by_ref = {roads_mod.edge_ref(u, v, k): int(sid) for u, v, k, sid in zip(previous.u, previous.v, previous.key, previous.street_id) if pd.notna(sid)}
+            attrs = proj.roads.get("attrs", {})
+
+            def rank_at(r):
+                old_sid = original_by_ref[r]
+                sid = int(es.loc[r, "street_id"])
+                old_root = orig.get(old_sid, old_sid)
+                rank = ranks[old_sid]
+                rank = attrs.get(str(old_root), {}).get("rank", rank)
+                rank = attrs.get(f"{old_root}:{parts.get(old_sid, 0)}", {}).get("rank", rank)
+                new_root = orig.get(sid, sid)
+                return int(attrs.get(str(new_root), {}).get("rank", rank) if new_root != old_root else rank)
+
+            joined_ranks = {rank_at(r) for r in members}
+            if len(joined_ranks) != 1:
+                raise HTTPException(409, f"cannot join streets with different ranks ({', '.join(map(str, sorted(joined_ranks)))}): set the same rank first")
+            try:
+                street_ops.validate_path(es, members, root)
+            except ValueError as exc:
+                raise HTTPException(409, str(exc))
             if orig[target] == orig[fid]:                          # two parts of one street that were cut at a minimum of the distance
                 if not body.get("force"):
                     raise HTTPException(409, "these are parts of the same street, cut automatically at a minimum of the distance to the reference: join them with the red option")
                 ctx.store.assign_edge_streets({}, me(), None, [orig[target]])      # never cut it again: the next computation joins the parts
                 return {"changed": 0, "id": orig[target], "name": None, "status": ctx.store.status(me())}
-            mine = es[es["street_id"].astype(int) == fid].index
-            final = {r: orig.get(int(i), int(i)) for r, i in zip(es.index, es["street_id"])}
-            final.update({r: orig[target] for r in mine})
-            at_node: dict = {}
-            for r, u_, v_ in zip(es.index, es["u"], es["v"]):
-                for n_ in (int(u_), int(v_)):
-                    at_node.setdefault(n_, []).append(r)
-            touched = {int(es.loc[r, "u"]) for r in mine} | {int(es.loc[r, "v"]) for r in mine}
-            for n_ in sorted(touched):                               # a street id is a path: at a node at most two of its roads
-                same = [r for r in at_node[n_] if final[r] == orig[target]]
-                if len(same) > 2:
-                    raise HTTPException(409, f"id {orig[target]} would have {len(same)} roads at node {n_}: a street has 2 at most")
             own = {int(r.street_id): re.sub(r" \([A-Z]+\)$", "", str(r.street_name).strip()) for r in st.streets.itertuples() if is_named(r.street_name)}
             name_from, name_to = own.get(fid), own.get(target)
             names = {}
             if name_from and not name_to:                          # only the street that is joined has a name: the merged street takes it
                 names[orig[target]] = name_from                    # (when both have names, the street whose id is kept keeps its name)
-            mine_attrs = proj.roads.get("attrs", {})
-            rk = {int(a): int(b) for a, b in zip(st.streets["street_id"], st.streets["street_rank"])}
-            for sid_, o_ in orig.items():                          # a rank the editors set counts, also when the network was not recomputed since
-                if "rank" in mine_attrs.get(str(o_), {}):
-                    rk[sid_] = int(mine_attrs[str(o_)]["rank"])
-            rank_new = rk[target] if name_to else rk[fid] if name_from else rk[target]          # the rank of the named street, else of the id that is taken
+            rank_new = next(iter(joined_ranks))
             ctx.store.assign_edge_streets({r: orig[target] for r in mine}, me(), names, [orig[target]],
                                           {orig[target]: {"rank": rank_new}})                  # (a join chosen by the editors is never cut again at a minimum)
             return {"changed": len(mine), "id": orig[target], "name": names.get(orig[target]) or name_to, "status": ctx.store.status(me())}
         if body.get("mode") == "split":
             node = int(body["node"])
             mine = es[es["street_id"].astype(int) == fid]
-            at_node = [r for r, row in mine.iterrows() if node in (int(row["u"]), int(row["v"]))]
-            if len(at_node) < 2:
-                raise HTTPException(409, "the street leaves this node by one road only: there is nothing to split")
-            G = nx.Graph()
-            for r, row in mine.iterrows():
-                if int(row["u"]) != node and int(row["v"]) != node:
-                    G.add_edge(int(row["u"]), int(row["v"]))
-            row = es.loc[ref]
-            far = int(row["v"]) if int(row["u"]) == node else int(row["u"])
-            comp = nx.node_connected_component(G, far) if far in G else {far}
-            take = [r for r, rw in mine.iterrows() if (int(rw["u"]) in comp or int(rw["v"]) in comp)]
-            if len(take) == len(mine):
-                raise HTTPException(409, "this branch is the whole street: there is nothing to split off")
-            used = [int(x) for x in st.streets["street_id_original"]] + [int(v) for v in proj.roads.get("edge_street", {}).values()]
+            try:
+                take = street_ops.split_refs(mine, ref, node)
+            except ValueError as exc:
+                raise HTTPException(409, str(exc))
+            used = [int(x) for x in st.streets["street_id_original"]] + [int(x) for x in st.streets["street_id"]] + [int(v) for v in proj.roads.get("edge_street", {}).values()]
+            used += [int(v) for v in ctx.store.get_computed("branch_ids", {}).values()]
+            used += [int(v) for v in proj.names]
             new_id = max(used) + 1
-            ctx.store.assign_edge_streets({r: new_id for r in take}, me())
+            ctx.store.assign_edge_streets({r: new_id for r in take}, me(), no_cut=[new_id])
             return {"changed": len(take), "id": new_id, "status": ctx.store.status(me())}
         raise HTTPException(400, "mode must be merge or split")
 
@@ -908,12 +1144,16 @@ def create_app(root: Path, auto_compute: bool = True, db_url: str | None = None)
     @app.post("/api/undo")
     def post_undo() -> dict:
         """Undo the latest pending edit."""
-        return {"undone": ctx.store.undo(me()), "status": ctx.store.status(me())}
+        try: result=ctx.store.undo(me(),strict=auth_enabled)
+        except Conflict: raise HTTPException(409,'Another editor has newer changes. Review history before undoing.')
+        return {"undone": result, "status": ctx.store.status(me())}
 
     @app.post("/api/redo")
     def post_redo() -> dict:
         """Redo the earliest undone edit."""
-        return {"redone": ctx.store.redo(me()), "status": ctx.store.status(me())}
+        try: result=ctx.store.redo(me(),strict=auth_enabled)
+        except Conflict: raise HTTPException(409,'Another editor has newer changes. Review history before redoing.')
+        return {"redone": result, "status": ctx.store.status(me())}
 
     @app.post("/api/save")
     def post_save(body: dict = Body(default={})) -> dict:
@@ -929,10 +1169,15 @@ def create_app(root: Path, auto_compute: bool = True, db_url: str | None = None)
     @app.post("/api/restore")
     def post_restore(body: dict = Body(...)) -> dict:
         """Go back to an older checkpoint (appends a new checkpoint with its content)."""
+        reason=str(body.get('reason','')).strip()
+        if auth_enabled and (type(body.get('revision')) is not int or not 5<=len(reason)<=1000):
+            raise HTTPException(400,'Restore needs the current revision and a reason (5-1000 characters).')
         try:
-            cid = ctx.store.restore(int(body["id"]), me())
+            cid = ctx.store.restore(int(body["id"]), me(),expected_revision=body.get('revision') if auth_enabled else None,reason=reason)
         except KeyError:
             raise HTTPException(404, "no such checkpoint")
+        except Conflict:
+            raise HTTPException(409,'Project changed. Review the current state before restoring.')
         return {"checkpoint": cid, "status": ctx.store.status(me())}
 
     @app.get("/api/history")
@@ -940,12 +1185,16 @@ def create_app(root: Path, auto_compute: bool = True, db_url: str | None = None)
         """Recent edits."""
         return ctx.store.history(limit)
 
+    @app.get('/api/audit')
+    def get_audit(limit:int=100,before:int | None=None):
+        return ctx.store.audit(limit,before)
+
     @app.post("/api/compute")
     def post_compute() -> dict:
         """Start recomputing ids, routes and names."""
         if not ctx.store.project().reference:
             raise HTTPException(400, "choose the reference node first")
-        return {"started": ctx.run_job("network"), "job": ctx.job}
+        return {"started": ctx.run_job("network",me()), "job": ctx.job}
 
     @app.get("/api/job")
     def get_job() -> dict:
@@ -964,7 +1213,7 @@ def create_app(root: Path, auto_compute: bool = True, db_url: str | None = None)
         """Start computing house numbers, addresses and street signs."""
         if not ctx.store.project().reference:
             raise HTTPException(400, "choose the reference node first")
-        return {"started": ctx.run_job("addresses"), "job": ctx.job}
+        return {"started": ctx.run_job("addresses",me()), "job": ctx.job}
 
     @app.get("/api/addresses")
     def get_addresses():

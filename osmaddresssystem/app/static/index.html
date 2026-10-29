@@ -3,19 +3,22 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Community address app</title>
+<title>Community Addressing Cameroon · Fotouni</title>
 <link rel="stylesheet" href="static/vendor/leaflet.css">
+<link rel="stylesheet" href="static/brand.css">
 <link rel="stylesheet" href="static/style.css">
+<link rel="stylesheet" href="static/auth.css">
 </head>
 <body>
 <header id="top">
-  <div class="brand"><strong id="project-name">Address app</strong><span id="save-state" class="muted"></span></div>
+  <div class="brand"><span class="brand-symbol" aria-hidden="true"><img src="static/brand/community-addressing-cameroon.png" alt="" width="100" height="96"></span><div class="brand-text"><strong class="app-name">Community Addressing Cameroon</strong><span class="project-line"><span id="project-name">Fotouni</span><span id="save-state" class="muted"></span></span></div></div>
   <div class="actions">
-    <button id="btn-undo" title="Undo the last edit">&#8630; Undo</button>
-    <button id="btn-redo" title="Redo">&#8631; Redo</button>
-    <button id="btn-save" class="primary" title="Edits are saved at once. Save makes a named checkpoint (with the street ids) you can come back to">&#128190; Save checkpoint</button>
-    <button id="btn-checkpoints" title="Go back to an older saved checkpoint">&#128339; Checkpoints</button>
-    <span class="menu"><button id="btn-export">&#11015; Export</button>
+    <div class="btn-group" role="group" aria-label="Edit history">
+      <button id="btn-undo" title="Undo the last edit"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg><span>Undo</span></button>
+      <button id="btn-redo" title="Redo"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 14 5-5-5-5"/><path d="M20 9H9.5a5.5 5.5 0 0 0 0 11H13"/></svg><span>Redo</span></button>
+    </div>
+    <button id="btn-checkpoints" title="Go back to an older saved checkpoint"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l3 2"/></svg><span>Checkpoints</span></button>
+    <span class="menu"><button id="btn-export"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg><span>Export</span><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
       <span class="menu-body">
         <div class="menu-row"><span>Reference point<small>where the numbering starts</small></span><span class="fmt"><a href="api/export/reference.gpkg" data-dl="reference.gpkg">GeoPackage</a> <a href="api/export/reference.csv" data-dl="reference.csv">CSV</a></span></div>
         <div class="menu-row"><span>Streets<small>one row per street id</small></span><span class="fmt"><a href="api/export/streets.gpkg" data-dl="streets.gpkg">GeoPackage</a> <a href="api/export/streets.csv" data-dl="streets.csv">CSV</a></span></div>
@@ -26,22 +29,28 @@
         <div class="menu-row"><span>Changes for OpenStreetMap<small>new + modified streets</small></span><span class="fmt"><a href="api/export/osm.osm" data-dl="osm.osm">OSM</a></span></div>
         <div class="menu-row"><span>Street names given<small></small></span><span class="fmt"><a href="api/export/names.csv" data-dl="names.csv">CSV</a></span></div>
             </span></span>
-    <button id="btn-warnings" title="Warnings">&#9888; <span id="warn-count">0</span></button>
+    <button id="btn-save" class="primary" title="Edits are saved at once. Save makes a named checkpoint (with the street ids) you can come back to"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><path d="M17 21v-8H7v8"/><path d="M7 3v5h8"/></svg><span>Save checkpoint</span></button>
+    <span class="bar-divider" aria-hidden="true"></span>
+    <button id="btn-warnings" title="Warnings"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg><span id="warn-count">0</span></button>
   </div>
+  <label class="language-control"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 0 1 0 18a14 14 0 0 1 0-18z"/></svg><select id="language-select" aria-label="Language"><option value="en">English</option><option value="fr">Français</option></select></label>
 </header>
-<nav id="tabs">
-  <button data-tab="roads">1 &middot; Edit streets</button>
-  <button data-tab="ids">2 &middot; Street IDs</button>
-  <button data-tab="names">3 &middot; Street names</button>
-  <button data-tab="addresses">4 &middot; Addresses</button>
+<nav id="tabs" aria-label="Workflow">
+  <button data-tab="roads"><span class="step-n">1</span><span>Edit streets</span></button>
+  <button data-tab="ids"><span class="step-n">2</span><span>Street IDs</span></button>
+  <button data-tab="names"><span class="step-n">3</span><span>Street names</span></button>
+  <button data-tab="addresses"><span class="step-n">4</span><span>Addresses</span></button>
   <span id="job" class="muted"></span>
   <span id="stalebar" hidden></span>
 </nav>
 <main>
-  <div id="map"></div>
+  <div id="map" aria-label="Community map"></div>
+  <details id="map-help"><summary data-i18n="Map guide">Map guide</summary><p data-i18n="Right-click a road for editing tools. Select a work area to review the map one section at a time.">Right-click a road for editing tools. Select a work area to review the map one section at a time.</p><div class="map-key"><span><i class="key-existing"></i><span data-i18n="Existing roads">Existing roads</span></span><span><i class="key-drawn"></i><span data-i18n="Added roads">Added roads</span></span><span><i class="key-review"></i><span data-i18n="Connection to review">Connection to review</span></span></div><p class="muted" data-i18n="Colours vary in the Street IDs and Street names tabs.">Colours vary in the Street IDs and Street names tabs.</p></details>
   <div id="banner" hidden></div>
   <div id="refbox" hidden></div>
   <div id="side">
+    <div id="workspace-heading"><span class="brand-eyebrow" data-i18n="Your workspace">Your workspace</span><h2 id="workspace-title"></h2><p id="workspace-description"></p></div>
+    <section id="workarea-box"></section>
     <aside id="panel"></aside>
     <section id="warnings-box"><div class="warn-head"><strong>Active warnings <span id="warn-count2" class="badge">0</span></strong><button id="warn-close" title="Show or hide the list">&#9662;</button></div><div id="warn-list"></div></section>
   </div>
@@ -49,6 +58,8 @@
 <div id="modal" hidden><div class="modal-body"><div class="warn-head"><strong id="modal-title"></strong><button id="modal-close">&times;</button></div><div id="modal-content"></div></div></div>
 <div id="toast" hidden></div>
 <script src="static/vendor/leaflet.js"></script>
+<script src="static/i18n.js"></script>
+<script src="static/auth.js"></script>
 <script src="static/app.js"></script>
 </body>
 </html>

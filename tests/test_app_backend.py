@@ -27,7 +27,7 @@ def root(tmp_path):
 @pytest.fixture()
 def client(root):
     """A test client of the app on that project (no automatic compute)."""
-    return TestClient(create_app(root, auto_compute=False))
+    return TestClient(create_app(root, auth_enabled=False, auto_compute=False))
 
 
 def wait(client, timeout=60):
@@ -380,15 +380,15 @@ def test_preview_changes_nothing_until_it_is_accepted_and_the_staged_connections
 
 def _table(client, name):
     """A downloaded GeoPackage as a GeoDataFrame."""
-    import io as _io
+    from pathlib import Path
     import tempfile
 
     r = client.get(f"/api/export/{name}")
     assert r.status_code == 200, r.text
-    with tempfile.NamedTemporaryFile(suffix=".gpkg") as f:
-        f.write(r.content)
-        f.flush()
-        return gpd.read_file(f.name)
+    with tempfile.TemporaryDirectory() as directory:
+        path = Path(directory) / 'export.gpkg'
+        path.write_bytes(r.content)
+        return gpd.read_file(path)
 
 
 def test_downloads_have_flags_names_and_wgs84_geometry(client):
@@ -453,7 +453,7 @@ def test_default_reference_is_set_at_start_and_confirming_it_does_not_stale_the_
 
     lon, lat = H.lonlat(H.X0 + 120, H.Y0 + 120)
     (root / "input" / "default_reference.json").write_text(_json.dumps({"name": "Market crossing", "lat": lat, "lon": lon}))
-    c = TestClient(create_app(root, auto_compute=False))
+    c = TestClient(create_app(root, auth_enabled=False, auto_compute=False))
     ref = c.get("/api/project").json()["reference"]
     assert ref and ref["default"] is True and ref["by"] == "default" and ref["name"] == "Market crossing"
     net = compute(c)
@@ -533,7 +533,7 @@ def test_survey_azimuth_decides_the_side_of_the_road(root):
     b.loc[b["building_id"] == "H0", "azimuth"] = 180.0                                           # H0 stands north of the road; it is said to be south of it
     b.loc[b["building_id"] == "H1", "azimuth"] = 0.0                                             # H1 agrees with its position
     b.to_file(root / "input" / "buildings.gpkg")
-    c = TestClient(create_app(root, auto_compute=False))
+    c = TestClient(create_app(root, auth_enabled=False, auto_compute=False))
     set_reference(c)
     compute(c)
     assert c.post("/api/addresses/compute").json()["started"] and wait(c)["state"] == "done"
@@ -766,11 +766,11 @@ def test_full_flow_save_restore_and_exports(client, root):
 
 def test_reopening_the_project_keeps_everything_and_auto_computes(root):
     """A restarted app loads the saved state from the database without any load step and computes the network."""
-    c1 = TestClient(create_app(root, auto_compute=False))
+    c1 = TestClient(create_app(root, auth_enabled=False, auto_compute=False))
     set_reference(c1)
     c1.post("/api/names", json={"street_id": 1, "name": "Rue Un"})
     c1.post("/api/save", json={"label": "x"})
-    c2 = TestClient(create_app(root, auto_compute=True))
+    c2 = TestClient(create_app(root, auth_enabled=False, auto_compute=True))
     with c2:                                                                    # runs the startup hook
         proj = c2.get("/api/project").json()
         assert proj["reference"] and proj["names"] == {"1": "Rue Un"}
@@ -943,14 +943,7 @@ def test_reference_points_have_a_sign_rank_that_goes_to_the_signs(client):
     sg2 = client.get("/api/addresses").json()["signs"]["features"]
     assert not any(p["id"] == pts[0]["id"] for f in sg2 for p in f["properties"]["pois"])
     assert client.post("/api/points/rank", json={"id": pts[0]["id"], "rank": 7}).status_code == 400
-    import io as _io
-    import tempfile
-
-    r = client.get("/api/export/signs.gpkg")
-    with tempfile.NamedTemporaryFile(suffix=".gpkg") as f:
-        f.write(r.content)
-        f.flush()
-        sgt = gpd.read_file(f.name)
+    sgt = _table(client, "signs.gpkg")
     assert "poi_rank" in sgt.columns
 
 
@@ -995,7 +988,7 @@ def test_the_larger_road_network_and_routes_to_reference_points_outside_the_area
     pts.to_file(root / "input" / "points.gpkg")
     area = gpd.GeoDataFrame({"name": ["aoi"], "kind": ["fotouni_aoi"]}, geometry=[P(*H.lonlat(H.X0 + 60, H.Y0 + 60)).buffer(0.0012)], crs=4326)     # a small area
     area.to_file(root / "input" / "area.gpkg")
-    c = TestClient(create_app(root, auto_compute=False))
+    c = TestClient(create_app(root, auth_enabled=False, auto_compute=False))
     set_reference(c)
     out = c.get("/api/base/outside").json()
     assert len(out["features"]) > 0
@@ -1031,11 +1024,11 @@ def test_the_osm_changes_only_show_what_differs_from_osm_in_the_last_version(cli
 def test_the_kml_of_the_project_is_loaded_as_its_first_file_once(root):
     """input/missing_roads.kml is loaded as file 1 at the first start; removing it keeps it removed."""
     (root / "input" / "missing_roads.kml").write_text(__import__("base64").b64decode(H.kml_b64([[(H.X0 + 5, H.Y0 - 30), (H.X0 + 5, H.Y0 - 200)]], ["Kml road"])).decode())
-    c = TestClient(create_app(root, auto_compute=False))
+    c = TestClient(create_app(root, auth_enabled=False, auto_compute=False))
     imps = c.get("/api/project").json()["roads"]["imports"]
     assert [i["file"] for i in imps] == ["missing_roads.kml"] and imps[0]["id"] == 1
     c.post("/api/roads/remove", json={"id": 1})
-    c2 = TestClient(create_app(root, auto_compute=False))
+    c2 = TestClient(create_app(root, auth_enabled=False, auto_compute=False))
     assert c2.get("/api/project").json()["roads"]["imports"] == []                    # the removal is kept
 
 
@@ -1068,8 +1061,8 @@ def test_an_end_that_stops_near_another_road_splits_it_and_connects_automaticall
 from osmaddresssystem.app.roads import edge_ref as roads_ref
 
 
-def test_merging_ids_keeps_the_rank_the_editors_set_even_when_the_network_was_not_recomputed(client):
-    """A rank set by hand wins over the (stale) computed rank when two streets are joined."""
+def test_merging_ids_checks_pending_rank_changes_before_recomputation(client):
+    """Pending ranks are checked immediately; unlike ranks cannot be merged."""
     set_reference(client)
     net = compute(client)
     feats = net["streets"]["features"]
@@ -1078,10 +1071,11 @@ def test_merging_ids_keeps_the_rank_the_editors_set_even_when_the_network_was_no
     es = client.app.state.ctx.network.edges.reset_index()
     ref = next(roads_ref(u, v, k) for u, v, k, sid in zip(es["u"], es["v"], es["key"], es["street_id"]) if sid == a["id"])
     r = client.post("/api/streets/assign", json={"ref": ref, "mode": "merge", "target": b["id"]})
-    assert r.status_code == 200
+    assert r.status_code == 409 and 'rank' in r.json()['detail']
     assert client.get("/api/project").json()["roads"] is not None
     attrs = client.app.state.ctx.store.project().roads["attrs"]
-    assert attrs[str(r.json()["id"])]["rank"] == 2
+    assert attrs[str(b['original'])]['rank'] == 2
+    assert not client.app.state.ctx.store.project().roads['edge_street']
 
 
 def test_ranks_set_by_the_editors_hold_for_streets_changed_by_the_community_edit_files(tmp_path):
@@ -1164,23 +1158,53 @@ def test_branch_streets_keep_their_ids_from_one_computation_to_the_next(tmp_path
     assert not moved
 
 
-def test_several_ids_can_be_changed_before_one_recomputation(client):
-    """Joining A to B and then the roads of A (now B) to C moves all of them: the second change sees the first one."""
+def test_several_ids_can_be_changed_before_one_recomputation(client, root):
+    """Split a real path into three, rejoin it in two pending edits, then compute."""
+    import networkx as nx
+
     set_reference(client)
     net = compute(client)
-    st = client.app.state.ctx.network
-    es = st.edges.reset_index()
-    es = es[es["key"] < 10**6]
-    by = {}
-    for u, v, k, sid in zip(es["u"], es["v"], es["key"], es["street_id"]):
-        by.setdefault(int(sid), []).append(roads_ref(u, v, k))
-    a, b, c = [i for i in sorted(by) if i in {f["properties"]["original"] for f in net["streets"]["features"]}][:3]
-    r1 = client.post("/api/streets/assign", json={"ref": by[a][0], "mode": "merge", "target": b})
-    assert r1.status_code == 200
-    r2 = client.post("/api/streets/assign", json={"ref": by[a][0], "mode": "merge", "target": c})        # A's roads are B's now: both move
-    assert r2.status_code == 200
-    moved = client.app.state.ctx.store.project().roads["edge_street"]
-    assert {moved[r] for r in by[a] + by[b]} == {c}
+    state = client.app.state.ctx.network
+    es = state.edges.reset_index()
+    es = es[(es.key < 10**6) & (es.u < es.v)]
+    candidates = []
+    for sid, group in es.groupby('street_id'):
+        g = nx.Graph()
+        g.add_edges_from(zip(group.u, group.v))
+        if len(group) >= 3 and nx.is_tree(g) and max(dict(g.degree()).values()) <= 2:
+            candidates.append((int(sid), group, g))
+    sid, group, graph = candidates[0]
+    ends = [n for n, degree in graph.degree() if degree == 1]
+    nodes = nx.shortest_path(graph, *ends)
+    refs = {(min(int(row.u), int(row.v)), max(int(row.u), int(row.v))): roads_ref(row.u, row.v, row.key)
+            for row in group.itertuples()}
+    first = refs[tuple(sorted(nodes[:2]))]
+    second = refs[tuple(sorted(nodes[1:3]))]
+    a = client.post('/api/streets/assign', json={'ref': first, 'mode': 'split', 'node': int(nodes[1])})
+    b = client.post('/api/streets/assign', json={'ref': second, 'mode': 'split', 'node': int(nodes[2])})
+    assert a.status_code == b.status_code == 200
+    join1 = client.post('/api/streets/assign', json={'ref': first, 'mode': 'merge', 'target': b.json()['id']})
+    assert join1.status_code == 200, join1.text
+    join2 = client.post('/api/streets/assign', json={'ref': first, 'mode': 'merge', 'target': sid})
+    assert join2.status_code == 200, join2.text
+    final_id = join2.json()['id']
+    moved = client.app.state.ctx.store.project().roads['edge_street']
+    assert moved[first] == moved[second] == final_id
+    after = compute(client)
+    selected = set(refs.values())
+    for (u, v, k), row in client.app.state.ctx.network.edges.iterrows():
+        if roads_ref(u, v, k) in selected:
+            assert int(row.street_id) == final_id
+    assert after['streets']['features']
+    checkpoint = client.post('/api/save', json={'label': 'manual-ID roundtrip'}).json()['checkpoint']
+    assert client.post('/api/undo').status_code == 200
+    assert client.app.state.ctx.store.project().roads['edge_street'][first] != final_id
+    assert client.post('/api/restore', json={'id': checkpoint}).status_code == 200
+    reopened = TestClient(create_app(root, auth_enabled=False, auto_compute=False))
+    compute(reopened)
+    for (u, v, k), row in reopened.app.state.ctx.network.edges.iterrows():
+        if roads_ref(u, v, k) in selected:
+            assert int(row.street_id) == final_id
 
 
 def test_an_id_cannot_get_three_roads_at_one_node(client):

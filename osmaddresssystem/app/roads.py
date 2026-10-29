@@ -23,6 +23,7 @@ the stored drawn lines and connection choices every time (see ``engine.effective
 from __future__ import annotations
 
 import json
+import hashlib
 import math
 import xml.etree.ElementTree as ET
 from dataclasses import dataclass, field
@@ -246,6 +247,33 @@ def edge_ref(u, v, key) -> str:
     return f"{a}-{b}-{int(key)}"
 
 
+def reshape_edges(edges: gpd.GeoDataFrame, geometry: dict) -> gpd.GeoDataFrame:
+    """Apply WGS84 shape overrides to both directions, keeping graph endpoints.
+
+    An obsolete reference or moved endpoint is ignored rather than attaching an
+    old correction to a different road. Junctions are never created or moved.
+    """
+    if not geometry:
+        return edges
+    edges = edges.copy()
+    tr = Transformer.from_crs(4326, edges.crs, always_xy=True)
+    for (u, v, k), row in edges.iterrows():
+        coords = geometry.get(edge_ref(u, v, k))
+        if not coords:
+            continue
+        points = [tr.transform(*p) for p in coords]
+        if int(u) > int(v):
+            points.reverse()
+        original = list(row.geometry.coords)
+        if Point(points[0]).distance(Point(original[0])) > 1 or Point(points[-1]).distance(Point(original[-1])) > 1:
+            continue
+        points[0], points[-1] = original[0], original[-1]
+        line = LineString(points)
+        edges.at[(u, v, k), "geometry"] = line
+        edges.at[(u, v, k), "length"] = line.length
+    return edges
+
+
 def drop_edges(edges: gpd.GeoDataFrame, streets: pd.DataFrame, refs) -> tuple[gpd.GeoDataFrame, pd.DataFrame]:
     """Remove roads (both directions) and the streets that are left without any edge.
 
@@ -447,13 +475,152 @@ def _rewrite_edge_edits(edits: pd.DataFrame, mapping: list) -> tuple[pd.DataFram
             for piece in old_map[key][1:]:
                 nr = r.copy()
                 nr["u"], nr["v"], nr["key"] = str(piece[0]), str(piece[1]), str(piece[2])
-                if str(r.get("geom_edited")) == "True" or str(r.get("is_new")) == "True":
+                if str(r.get("geom_edited")).strip().lower() == "true" or str(r.get("is_new")).strip().lower() == "true":
                     nr["coords"], nr["geom_edited"], nr["is_new"] = "", "False", "False"
                     lost += 1
                 rows.append(nr)
         else:
             rows.append(r)
     return pd.DataFrame(rows, columns=edits.columns), lost
+
+
+def join_endpoint(nodes, edges, join, edits=None):
+    """Join one free endpoint to an effective edge, splitting its interior."""
+    source = int(join['source_node'])
+    if join.get('source_point'):
+        pt = gpd.GeoSeries([Point(join['source_point'])],crs=4326).to_crs(edges.crs).iloc[0]
+        if source not in nodes.index or nodes.loc[source].geometry.distance(pt) > .2:
+            raise ValueError('connection source moved or its ID changed')
+        if not any(source in i[:2] and str(row.osmid)==join.get('source_osmid') for i,row in edges.iterrows()):
+            raise ValueError('connection source road changed')
+    idx = next((i for i in edges.index if i[0] < i[1] and edge_ref(*i) == join['target_ref']), None)
+    if idx is None or source not in nodes.index or not any(source in i[:2] for i in edges.index):
+        raise ValueError('connection source or target no longer exists')
+    target = edges.loc[idx].geometry
+    expected = gpd.GeoSeries([LineString(join['coords'])], crs=4326).to_crs(edges.crs).iloc[0]
+    if target.hausdorff_distance(expected) > .2 or abs(target.length-expected.length) > .2:
+        raise ValueError('connection target shape changed')
+    distance = join['target_m']
+    target_node = idx[0] if distance <= .5 else idx[1] if distance >= target.length-.5 else None
+    if target_node is None:
+        target_node = -int(hashlib.sha256(f"{join['id']}:join".encode()).hexdigest()[:11], 16)-1
+        if target_node in nodes.index:
+            raise ValueError('connection node ID collision')
+        edges, info = _split_edge(edges, idx, target.interpolate(distance), target_node, edges.crs)
+        if info is None:
+            raise ValueError('connection point could not split the target')
+        x, y, mapping = info
+        row = nodes.iloc[0].copy()
+        row['x'], row['y'], row['geometry'] = x, y, Point(x, y)
+        if 'node_id' in nodes: row['node_id'] = target_node
+        nodes.loc[target_node] = row
+        if edits is not None: edits, _ = _rewrite_edge_edits(edits, mapping)
+    if source == target_node:
+        return nodes, edges, edits
+    affected = [i for i in edges.index if source in i[:2]]
+    other = {n for i in affected for n in i[:2] if n != source}
+    if len(other) != 1 or target_node in other:
+        raise ValueError('only a free endpoint can be connected; this join would collapse or move a junction')
+    point = nodes.loc[target_node].geometry
+    additions, mapping = [], []
+    for i in affected:
+        u, v, key = i
+        row = edges.loc[i].copy()
+        coords = list(row.geometry.coords)
+        coords[0 if u == source else -1] = (point.x, point.y)
+        u, v = (target_node if u == source else u), (target_node if v == source else v)
+        while (u,v,key) in edges.index or (v,u,key) in edges.index:
+            key += 1
+        line = LineString(coords)
+        row['geometry'], row['length'], row['geom_edited'] = line, line.length, True
+        row['is_main_direction'], row['nearest_main_eid'] = False, ''
+        additions.append(((u,v,key),row)); mapping.append((i,(u,v,key)))
+    edges = edges.drop(index=affected)
+    add = gpd.GeoDataFrame([r for _,r in additions],index=pd.MultiIndex.from_tuples([i for i,_ in additions],names=edges.index.names),crs=edges.crs)
+    edges = pd.concat([edges,add])
+    if edits is not None: edits, _ = _rewrite_edge_edits(edits,mapping)
+    return nodes, edges, edits
+
+
+def cut_sections(nodes, edges, streets, cuts, edits=None, removed=(), geometry=None, joins=()):
+    """Remove only selected intervals, retaining directed outside fragments.
+
+    Stable negative node IDs keep subsequent edits on fragments reproducible.
+    Source files are untouched. Old CSV decisions follow the retained pieces.
+    """
+    nodes, edges = nodes.copy(), edges.copy()
+    stale, consumed = [], set()
+    operations = [{**op, 'kind':'cut', 'order':op.get('order', i+1)} for i,op in enumerate(cuts)]
+    operations += [{**op,'kind':'join'} for op in joins]
+    for cut in sorted(operations,key=lambda op:op['order']):
+        if cut['kind'] == 'join':
+            if geometry: edges = reshape_edges(edges,geometry)
+            try: nodes,edges,edits = join_endpoint(nodes,edges,cut,edits)
+            except ValueError: stale.append('connection:'+cut['target_ref'])
+            continue
+        if geometry and cut['ref'] in geometry:
+            # A fragment only exists after its parent's cut has been replayed.
+            # Apply its saved reshape before validating/cutting that fragment.
+            edges = reshape_edges(edges, {cut['ref']: geometry[cut['ref']]})
+        idx = next((idx for idx in edges.index if idx[0] < idx[1] and edge_ref(*idx) == cut['ref']), None)
+        if idx is None:
+            if cut['ref'] not in removed and cut['ref'] not in consumed:
+                stale.append(cut['ref'])
+            continue
+        u, v, k = idx
+        geom = edges.loc[idx].geometry
+        expected = gpd.GeoSeries([LineString(cut['coords'])], crs=4326).to_crs(edges.crs).iloc[0]
+        if geom.hausdorff_distance(expected) > .2 or abs(geom.length-expected.length) > .2:
+            stale.append(cut['ref'])
+            continue
+        a, b = cut['start_m'], cut['end_m']
+        ids = [u, v]
+        for i, distance in enumerate((a, b)):
+            if .5 <= distance <= geom.length-.5:
+                nid = -int(hashlib.sha256(f"{cut['id']}:{i}".encode()).hexdigest()[:11], 16)-1
+                pt = geom.interpolate(distance)
+                if nid in nodes.index:
+                    raise ValueError('cut node ID collision; undo and retry the cut')
+                row = nodes.iloc[0].copy()
+                row['x'], row['y'], row['geometry'] = pt.x, pt.y, pt
+                if 'node_id' in nodes:
+                    row['node_id'] = nid
+                nodes.loc[nid] = row
+                ids[i] = nid
+        pieces = []
+        if a >= .5:
+            pieces.append((u, ids[0], substring(geom, 0, a)))
+        if geom.length-b >= .5:
+            pieces.append((ids[1], v, substring(geom, b, geom.length)))
+        additions, mapping, drop = [], [], []
+        for original in ((u, v, k), (v, u, k)):
+            if original not in edges.index:
+                continue
+            before = edges.loc[original]
+            indexes = []
+            for x, y, line in pieces:
+                if original != idx:
+                    x, y, line = y, x, LineString(list(line.coords)[::-1])
+                row = before.copy()
+                row['geometry'], row['length'], row['geom_edited'] = line, line.length, True
+                row['is_main_direction'], row['nearest_main_eid'] = False, ''
+                indexes.append((x, y, k))
+                additions.append(((x, y, k), row))
+            mapping.append((original, *indexes))
+            drop.append(original)
+        edges = edges.drop(index=drop)
+        if additions:
+            add = gpd.GeoDataFrame([row for _, row in additions], index=pd.MultiIndex.from_tuples([i for i, _ in additions], names=edges.index.names), crs=edges.crs)
+            edges = pd.concat([edges, add])
+        if edits is not None:
+            edits, _ = _rewrite_edge_edits(edits, mapping)
+        consumed.add(cut['ref'])
+    alive = set(edges.street_id.dropna().astype(int))
+    # Appending a mixed Series row can clear GeoPandas' geometry-array CRS.
+    nodes = gpd.GeoDataFrame(nodes, geometry='geometry', crs=edges.crs)
+    if 'node_id' in nodes:
+        nodes['node_id'] = nodes['node_id'].astype('int64')
+    return nodes, edges, streets[streets.street_id.astype(int).isin(alive)].copy(), edits, stale
 
 
 def integrate_roads(nodes: gpd.GeoDataFrame, edges: gpd.GeoDataFrame, streets: pd.DataFrame, edge_edits: pd.DataFrame | None,
@@ -698,6 +865,8 @@ def integrate_roads(nodes: gpd.GeoDataFrame, edges: gpd.GeoDataFrame, streets: p
     report = {"features": len(feats), "pieces": len(noded.pieces), "nodes": node_rep, "dangling": dangling, "isolated": isolated,
               "street_ids": sid_of, "split_edges": split_count, "auto_connected": sum(1 for r in node_rep if r["state"] == "connected" and not r.get("manual")),
               "geometry_edits_lost": lost_geom, "replaced": replaced}
+    report['uncertain_ends'] = [{'key': f['key'], 'lon': f['coords'][-1][0], 'lat': f['coords'][-1][1]}
+                                for f in features if f.get('end_review') == 'uncertain']
     new_edges = gpd.GeoDataFrame(new_lines, geometry="geometry", crs=crs).to_crs(4326) if new_lines else gpd.GeoDataFrame(
         {"street_id": [], "geometry": []}, geometry="geometry", crs=4326)
     return RoadsResult(nodes, edges, streets, edge_edits, report, new_edges)

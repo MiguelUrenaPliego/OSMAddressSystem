@@ -76,6 +76,7 @@ class Project:
     names: dict[int, str] = field(default_factory=dict)
     access: dict[str, dict] = field(default_factory=dict)
     roads: dict = field(default_factory=lambda: {"imports": [], "connections": {}, "removed": [], "removed_features": [], "keep": [], "edge_street": {}, "no_cut": [], "attrs": {}, "point_rank": {}})
+    work_areas: dict = field(default_factory=dict)
 
     @property
     def input_dir(self) -> Path:
@@ -100,7 +101,7 @@ class Project:
         """
         return {"name": self.name, "reference": self.reference, "settings": asdict(self.settings),
                 "names": {str(k): v for k, v in sorted(self.names.items())},
-                "access": {k: self.access[k] for k in sorted(self.access)}, "roads": self.roads}
+                "access": {k: self.access[k] for k in sorted(self.access)}, "roads": self.roads, "work_areas": self.work_areas}
 
     @classmethod
     def from_dict(cls, root: Path, data: dict) -> "Project":
@@ -117,6 +118,7 @@ class Project:
         return cls(root=Path(root), name=str(data.get("name", "project")), reference=data.get("reference"),
                    settings=Settings(**fields), names={int(k): str(v) for k, v in (data.get("names") or {}).items()},
                    access={str(k): dict(v) for k, v in (data.get("access") or {}).items()},
+                   work_areas=dict(data.get("work_areas") or {}),
                    roads={"imports": list((data.get("roads") or {}).get("imports", [])),
                           "connections": dict((data.get("roads") or {}).get("connections", {})),
                           "removed": list((data.get("roads") or {}).get("removed", [])),
@@ -125,6 +127,9 @@ class Project:
                           "edge_street": dict((data.get("roads") or {}).get("edge_street", {})),
                           "no_cut": list((data.get("roads") or {}).get("no_cut", [])),
                           "attrs": dict((data.get("roads") or {}).get("attrs", {})),
+                          "geometry": dict((data.get("roads") or {}).get("geometry", {})),
+                          "cuts": list((data.get("roads") or {}).get("cuts", [])),
+                          "joins": list((data.get("roads") or {}).get("joins", [])),
                           "point_rank": dict((data.get("roads") or {}).get("point_rank", {}))})
 
     def state_hash(self) -> str:
@@ -136,6 +141,7 @@ class Project:
         d = self.to_dict()
         d.pop("name", None)
         d.pop("access", None)                    # the road point of a house only matters for the addresses (see address_hash)
+        d.pop("work_areas", None)                # progress labels do not change geography or numbering
         if d.get("roads"):
             d["roads"] = {k: v for k, v in d["roads"].items() if k != "point_rank"}      # the rank of a reference point only matters for the signs (see address_hash)
         if d.get("reference"):                   # who confirmed the point does not change the computation

@@ -2,9 +2,9 @@
 const $ = (s) => document.querySelector(s);
 const esc = (t) => String(t == null ? '' : t).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const api = async (path, body) => {
-  const r = await fetch(P + 'api' + path, body === undefined ? {} : { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+  const r = await fetch(P + 'api' + path, body === undefined ? {} : { method: 'POST', headers: { 'Content-Type': 'application/json',...AuthUI.headers() }, body: JSON.stringify(body) });
   let d = null; try { d = await r.json(); } catch (e) { d = null; }
-  if (!r.ok) { const e = new Error((d && d.detail && (d.detail.message || d.detail)) || r.statusText); e.status = r.status; e.detail = d && d.detail; throw e; }
+  if (!r.ok) { if(r.status===401)AuthUI.expired(); const e = new Error((d && d.detail && (d.detail.message || d.detail)) || r.statusText); e.status = r.status; e.detail = d && d.detail; throw e; }
   return d;
 };
 const COLOR = { named: '#2e7d32', derived: '#f9a825', planned: '#d50000', uncovered: '#d50000', other: '#9e9e9e' };
@@ -13,9 +13,11 @@ const map = L.map('map', { zoomControl: true });
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '&copy; OpenStreetMap' }).addTo(map);
 const layer = L.layerGroup().addTo(map);
 const S = { tab: 'names', network: null, addresses: null, lines: {}, busy: false };
-const state = (t) => { $('#state').textContent = t || ''; };
+map.on('popupclose',e=>{if(e.popup===S.streetPopup){S.openStreet=null;S.streetPopup=null;}});
+const state = (t) => { $('#state').textContent = I18n.t(t || ''); };
 
 async function wait(kind) {                                             // run a computation and wait for it
+  if(!AuthUI.can('compute'))throw Error('Ask a mapper to update the computed results.');
   await api(kind === 'network' ? '/compute' : '/addresses/compute', {});
   for (;;) {
     const j = await api('/job');
@@ -55,10 +57,10 @@ function drawNames(fit) {
   fc.features.forEach((f) => { const p = f.properties; if (NEEDS(p) && !seen.has(p.original)) { seen.add(p.original); need.push(p); } });
   need.sort((a, b) => b.length - a.length);
   const st = S.network.stats || {};
-  $('#side').innerHTML = `<h2>Streets that need a name</h2><div class="big" style="color:${need.length ? COLOR.planned : COLOR.named}">${need.length}</div>
-    <p class="muted">${need.length ? 'Click a red street on the map or in this list, type its name and press Enter.' : 'Every street has a name. Thank you!'}</p>
+  $('#side').innerHTML = I18n.html`<h2>Streets that need a name</h2><div class="big" style="color:${need.length ? COLOR.planned : COLOR.named}">${need.length}</div>
+    <p class="muted">${I18n.t(need.length ? 'Click a red street on the map or in this list, type its name and press Enter.' : 'Every street has a name. Thank you!')}</p>
     <p class="muted"><span class="dot" style="background:${COLOR.named}"></span>has a name &nbsp; <span class="dot" style="background:${COLOR.derived}"></span>name follows from another street &nbsp; <span class="dot" style="background:${COLOR.planned}"></span>needs a name</p>
-    ${need.map((p) => `<button class="item" data-id="${p.original}"><span class="dot" style="background:${COLOR.planned}"></span>street ${p.original} &middot; ${Math.round(p.length)} m</button>`).join('')}
+    ${need.map((p) => I18n.html`<button class="item" data-id="${p.original}"><span class="dot" style="background:${COLOR.planned}"></span>street ${p.original} &middot; ${Math.round(p.length)} m</button>`).join('')}
     <p><a class="dl" href="${P}api/export/streets.csv" download>&#11015; Street names (CSV)</a></p>`;
   document.querySelectorAll('#side .item').forEach((b) => b.addEventListener('click', () => openStreet(+b.dataset.id, null)));
 }
@@ -69,11 +71,12 @@ function openStreet(original, ll) {
   const own = (S.network.streets.features.map((f) => f.properties).find((q) => q.original === original && q.name) || {}).name || '';
   const box = document.createElement('div');
   box.style.minWidth = '230px';
-  box.innerHTML = `<strong>${esc(p.display || '(no name yet)')}</strong><br><span class="muted">street ${original} &middot; ${Math.round(parts.reduce((a, f) => a + f.properties.length, 0))} m</span>
+  box.innerHTML = I18n.html`<strong>${esc(p.display || '(no name yet)')}</strong><br><span class="muted">street ${original} &middot; ${Math.round(parts.reduce((a, f) => a + f.properties.length, 0))} m</span>
     <p style="margin:8px 0 2px">Name of this street</p><input type="text" id="nm" value="${esc(own)}" placeholder="type the name">
     <button class="go" id="ok">Save</button> <span class="muted">(empty = no name)</span>`;
   const f0 = parts[0], c = L.geoJSON(f0).getBounds().getCenter();
-  const pop = L.popup({ maxWidth: 300 }).setLatLng(ll || c).setContent(box).openOn(map);
+  const pop = (S.streetPopup?.isOpen() ? S.streetPopup : L.popup({ maxWidth: 300 })).setLatLng(ll || c).setContent(box).openOn(map);
+  S.openStreet={original,ll}; S.streetPopup=pop;
   if (!ll) map.setView(c, Math.max(map.getZoom(), 17));
   const input = box.querySelector('#nm'); setTimeout(() => input.focus(), 50);
   const save = async () => {
@@ -94,11 +97,11 @@ function drawAddresses() {
   const g = L.geoJSON(hs, {
     pointToLayer: (f, ll) => L.circleMarker(ll, { radius: 5, color: '#000', weight: 1, fillColor: f.properties.status === 'ok' ? COLOR.named : COLOR.planned, fillOpacity: .95 }),
     style: (f) => ({ color: '#555', weight: 1, fillColor: f.properties.status === 'ok' ? '#a5d6a7' : '#ef9a9a', fillOpacity: .8 }),
-    onEachFeature: (f, l) => { const p = f.properties; const t = p.status === 'ok' ? esc(p.address) : 'no address yet: the street has no name'; l.bindPopup(`<strong>${t}</strong>${p.name ? '<br>' + esc(p.name) : ''}`); l.bindTooltip(p.status === 'ok' ? esc(p.address) : 'no address yet', { sticky: true }); },
+    onEachFeature: (f, l) => { const p = f.properties; const t = p.status === 'ok' ? esc(p.address) : 'no address yet: the street has no name'; l.bindPopup(I18n.html`<strong>${t}</strong>${p.name ? '<br>' + esc(p.name) : ''}`); l.bindTooltip(p.status === 'ok' ? esc(p.address) : 'no address yet', { sticky: true }); },
   }).addTo(layer);
   try { map.fitBounds(g.getBounds().pad(0.05)); } catch (e) { /* empty */ }
   const rows = hs.features.map((f) => f.properties), ok = rows.filter((p) => p.status === 'ok').length;
-  $('#side').innerHTML = `<h2>Addresses</h2><div class="big">${ok} <span class="muted">of ${rows.length} buildings</span></div>
+  $('#side').innerHTML = I18n.html`<h2>Addresses</h2><div class="big">${ok} <span class="muted">of ${rows.length} buildings</span></div>
     <p class="muted">Click a building to see its address. Buildings in red have no address yet because their street has no name: give it a name in <em>Street names</em>.</p>
     <input type="text" id="q" placeholder="search an address or a name">
     <div id="res"></div>
@@ -106,8 +109,8 @@ function drawAddresses() {
   const find = () => {
     const q = $('#q').value.trim().toLowerCase();
     const hits = q ? hs.features.filter((f) => `${f.properties.address || ''} ${f.properties.name || ''}`.toLowerCase().includes(q)).slice(0, 30) : [];
-    $('#res').innerHTML = hits.map((f, i) => `<button class="item" data-i="${i}">${esc(f.properties.address || '(no address)')}${f.properties.name ? ' &middot; ' + esc(f.properties.name) : ''}</button>`).join('');
-    $('#res').querySelectorAll('.item').forEach((b) => b.addEventListener('click', () => { const f = hits[+b.dataset.i]; const c = L.geoJSON(f).getBounds().getCenter(); map.setView(c, 19); L.popup().setLatLng(c).setContent(`<strong>${esc(f.properties.address || 'no address yet')}</strong>`).openOn(map); }));
+    $('#res').innerHTML = hits.map((f, i) => I18n.html`<button class="item" data-i="${i}">${esc(f.properties.address || '(no address)')}${f.properties.name ? ' &middot; ' + esc(f.properties.name) : ''}</button>`).join('');
+    $('#res').querySelectorAll('.item').forEach((b) => b.addEventListener('click', () => { const f = hits[+b.dataset.i]; const c = L.geoJSON(f).getBounds().getCenter(); map.setView(c, 19); L.popup().setLatLng(c).setContent(I18n.html`<strong>${esc(f.properties.address || 'no address yet')}</strong>`).openOn(map); }));
   };
   $('#q').addEventListener('input', find);
 }
@@ -120,7 +123,17 @@ async function show(tab) {
     if (tab === 'names') { if (!(await ensureNetwork())) return; drawNames(true); }
     else { if (!(await ensureNetwork())) return; await ensureAddresses(); drawAddresses(); }
     state('');
-  } catch (e) { state(''); $('#side').innerHTML = `<h2>Something went wrong</h2><p>${esc(e.message)}</p>`; }
+  } catch (e) { state(''); $('#side').innerHTML = I18n.html`<h2>Something went wrong</h2><p>${esc(e.message)}</p>`; }
 }
 document.querySelectorAll('.tab').forEach((b) => b.addEventListener('click', () => show(b.dataset.tab)));
-show('names');
+window.addEventListener('languagechange',()=>{
+  const input=document.getElementById('nm'),draft=input?.value,open=S.openStreet;
+  const center=map.getCenter(),zoom=map.getZoom(),query=document.getElementById('q')?.value;
+  if (S.tab==='names' && S.network) drawNames(false);
+  if (S.tab==='addresses' && S.addresses) drawAddresses();
+  if (open) {openStreet(open.original,open.ll);document.getElementById('nm').value=draft;}
+  if(query!==undefined) {const el=document.getElementById('q');el.value=query;el.dispatchEvent(new Event('input'));}
+  map.setView(center,zoom,{animate:false});
+});
+AuthUI.ready.then(()=>{if(AuthUI.canView())show('names');});
+window.addEventListener('authchange',()=>show(S.tab));

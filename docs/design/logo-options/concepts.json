@@ -1,0 +1,32 @@
+{
+  "concepts": {
+    "a-home-path": {
+      "letter": "A",
+      "title": "Home & path",
+      "meaning": "A home reached by a clear access path.",
+      "note": "The clearest link to finding a home and giving it an address."
+    },
+    "b-reference-junction": {
+      "letter": "B",
+      "title": "Reference & routes",
+      "meaning": "Connected roads meet at one shared reference.",
+      "note": "Emphasises the road network, junctions and the numbering origin."
+    },
+    "c-shared-map": {
+      "letter": "C",
+      "title": "Shared map",
+      "meaning": "A visible route crosses a folded map.",
+      "note": "The closest continuation of the map symbol already in the interface."
+    }
+  },
+  "implementation": "User-supplied pin logo selected; A/B/C retained as earlier explorations.",
+  "project_label": "Project",
+  "project_name": "Community Addressing Cameroon",
+  "name_status": "Confirmed by user",
+  "selected_artwork": {
+    "type": "user-supplied PNG",
+    "asset": "../../../osmaddresssystem/app/static/brand/community-addressing-cameroon.png",
+    "background": "Original transparency preserved",
+    "status": "Implemented in full and community pages"
+  }
+}

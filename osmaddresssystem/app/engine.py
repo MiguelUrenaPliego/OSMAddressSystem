@@ -34,6 +34,7 @@ from pyproj import Transformer
 from .. import branches, naming_plan, numbering, path_numbering, pipeline, street_editor, street_signs
 from ..branches import is_named, placeholder
 from . import roads as roads_mod
+from . import street_ops
 from .project import Project
 
 _EMPTY_STREET_EDITS = "old_street_id,new_street_id,street_name,street_rank,is_drivable\n"
@@ -233,24 +234,93 @@ def effective_base(base: BaseData, project: Project, write_cache: bool = True) -
     removed_feats = set(rd.get("removed_features", []))
     imports = rd.get("imports", [])
     nodes, edges, streets = base.nodes, base.edges, base.streets
+    edges = roads_mod.reshape_edges(edges, rd.get("geometry", {}))
     if rd.get("removed"):
         edges, streets = roads_mod.drop_edges(edges, streets, rd["removed"])
     features = [{**f, "key": f"{imp['id']}:{f['id']}"} for imp in imports for f in imp["features"] if f"{imp['id']}:{f['id']}" not in removed_feats]
     edges = add_flag_columns(edges, project.input_dir / "streets.osm")                  # paved / drivable_info of the downloaded roads (None = unknown)
     ee = pd.read_csv(base.edge_edits, dtype=str).fillna("") if base.edge_edits else None
+    def prefer_current_shapes(edits):
+        if edits is not None and "coords" in edits and rd.get("geometry"):
+            edits = edits.copy()
+            mask = [roads_mod.edge_ref(u, v, k) in rd["geometry"] for u, v, k in zip(edits["u"].astype(int), edits["v"].astype(int), edits["key"].astype(int))]
+            # Keep the historical street/name decision, but do not let its
+            # older shape overwrite the newly reviewed geometry at Compute.
+            edits.loc[mask, "coords"] = ""
+        return edits
+    ee = prefer_current_shapes(ee)
     res = None
     if features:
         res = roads_mod.integrate_roads(nodes, edges, streets, ee, features, rd.get("connections", {}), keep=set(rd.get("keep", [])))
         nodes, edges, streets = res.nodes, res.edges, res.streets
         if res.edge_edits is not None:
             ee = res.edge_edits
+    ee = prefer_current_shapes(ee)
     assign = rd.get("edge_street") or {}
+    edges = roads_mod.reshape_edges(edges, rd.get("geometry", {}))
+    if res is not None and rd.get("geometry"):
+        # Keep the Edit streets overlay consistent with the corrected graph.
+        wgs = edges.to_crs(4326)
+        for idx, row in res.new_edges.iterrows():
+            matches = wgs.loc[(wgs.index.get_level_values("u") == row.u) &
+                              (wgs.index.get_level_values("v") == row.v) &
+                              (wgs["osmid"].astype(str) == "road" + str(row.feature))]
+            if len(matches):
+                res.new_edges.at[idx, "geometry"] = matches.iloc[0].geometry
     if assign:
         edges, streets = roads_mod.assign_street_ids(edges, streets, assign)
         if ee is not None and len(ee):                       # the community edge edits must not undo the choice made here
             ee = ee[[roads_mod.edge_ref(u, v, k) not in assign for u, v, k in zip(ee["u"].astype(int), ee["v"].astype(int), ee["key"].astype(int))]]
+    if rd.get('cuts') or rd.get('joins'):
+        nodes, edges, streets, ee, stale = roads_mod.cut_sections(nodes, edges, streets, rd.get('cuts', []), ee, rd.get('removed', ()), rd.get('geometry'), rd.get('joins', []))
+        edges = roads_mod.reshape_edges(edges, rd.get('geometry', {}))
+        if rd.get('removed'):
+            edges, streets = roads_mod.drop_edges(edges, streets, rd['removed'])
+        if res is None:
+            report = {'features': 0, 'pieces': 0, 'nodes': [], 'dangling': [], 'isolated': [], 'street_ids': {}, 'split_edges': 0, 'auto_connected': 0, 'replaced': []}
+            res = roads_mod.RoadsResult(nodes, edges, streets, ee, report, gpd.GeoDataFrame(geometry=[], crs=4326))
+        res.report['stale_cuts'] = stale
+    if rd.get('removed'):
+        edges, streets = roads_mod.drop_edges(edges, streets, rd['removed'])
+    if assign:
+        edges, streets = roads_mod.assign_street_ids(edges, streets, assign)
+        if ee is not None and len(ee):
+            ee = ee[[roads_mod.edge_ref(u,v,k) not in assign for u,v,k in zip(ee.u.astype(int),ee.v.astype(int),ee.key.astype(int))]]
+    if res is not None and (rd.get('cuts') or rd.get('joins') or rd.get('removed')):
+        # Replace the imported-road overlay with the current retained graph.
+        drawn = edges[edges.osmid.astype(str).str.startswith('road')]
+        drawn = drawn.loc[[u < v for u, v, _ in drawn.index]].to_crs(4326)
+        rows = [{'street_id': int(row.street_id), 'u': u, 'v': v, 'feature': str(row.osmid)[4:],
+                 'name': None if pd.isna(row.get('name')) else str(row.get('name')), 'u_state': 'free', 'v_state': 'free', 'geometry': row.geometry}
+                for (u, v, _), row in drawn.iterrows()]
+        res.new_edges = gpd.GeoDataFrame(rows, geometry='geometry', crs=4326) if rows else gpd.GeoDataFrame(geometry=[], crs=4326)
+        # Integration reports describe the graph before cuts/joins. Rebuild the
+        # endpoint overlay too, otherwise deleted or moved ends remain clickable.
+        incident, drawn_nodes = {}, set()
+        for (u,v,k),row in edges.iterrows():
+            if u >= v or k >= roads_mod.SYNTHETIC_KEY: continue
+            for n in (u,v): incident.setdefault(n,[]).append(str(row.osmid))
+            if str(row.osmid).startswith('road'): drawn_nodes.update((u,v))
+        back = Transformer.from_crs(base.crs,4326,always_xy=True)
+        records=[]
+        for n in sorted(drawn_nodes):
+            osms=incident[n]; keys=sorted({s[4:] for s in osms if s.startswith('road')})
+            lon,lat=back.transform(nodes.loc[n].geometry.x,nodes.loc[n].geometry.y)
+            connected=len(osms)>1 and (len(keys)>1 or any(not s.startswith('road') for s in osms))
+            records.append({'key':f'current:{n}','node':int(n),'lon':lon,'lat':lat,'degree':len(osms),
+                            'state':'connected' if connected else 'free' if len(osms)==1 else 'inner',
+                            'to':'node','features':keys,'effective':True})
+        res.report['nodes']=records
+        res.report['dangling']=[r['key'] for r in records if r['degree']==1]
+        current_base=BaseData(nodes,edges,streets,base.street_edits,base.edge_edits,base.buildings,base.area,base.points)
+        res.report['isolated']=sorted({str(edges.loc[i].osmid)[4:] for part in disconnected_parts(current_base)
+                                       for i in part['edges'] if str(edges.loc[i].osmid).startswith('road')})
+        tr = Transformer.from_crs(4326, base.crs, always_xy=True)
+        res.report['uncertain_ends'] = [end for end in res.report.get('uncertain_ends', [])
+            if any(str(row.osmid) == 'road'+end['key'] and row.geometry.distance(shapely.geometry.Point(*tr.transform(end['lon'], end['lat']))) < 1
+                   for _, row in edges.iterrows())]
     edges, streets = apply_attributes(edges, streets, {})             # the rank / drivable / paved of the editors are applied in compute_network, to the ids they were given for
-    changed = bool(assign) or bool(res is not None and res.report["split_edges"])
+    changed = bool(assign) or bool(rd.get("geometry")) or bool(rd.get('cuts')) or bool(rd.get('joins')) or bool(res is not None and res.report["split_edges"])
     edits_path = base.edge_edits
     if write_cache and ee is not None and changed:
         cache = project.root / "computed"
@@ -276,6 +346,14 @@ def roads_warnings(report: dict, streets: pd.DataFrame) -> list[dict]:
         return [int(s) for s in streets.loc[streets["street_id_original"].isin(originals), "street_id"]]
 
     out = []
+    if report.get('stale_cuts'):
+        out.append(_warning('stale_cuts', 'error', 'Road edits need review',
+                            'A source road changed or disappeared; its saved cut or connection could not be applied. Review or undo the changed road before using the network.',
+                            count=len(report['stale_cuts'])))
+    if report.get('uncertain_ends'):
+        ends = report['uncertain_ends']
+        out.append(_warning('path_uncertain', 'warning', f'{len(ends)} traced path ends need review',
+                            'Tracing was stopped where the path was unclear. Do not assume a connection beyond these endpoints.', count=len(ends), nodes=ends))
     dang = [n for n in report["nodes"] if n["key"] in set(report["dangling"])]
     if dang:
         keys = sorted({f for n in dang for f in n.get("features", [])})
@@ -1247,6 +1325,11 @@ def _junctions(state: NetworkState, status: pd.DataFrame) -> dict:
                                                 "bearing": round(bearing, 1), "length": round(float(r.geometry.length), 1)})
     pts = state.nodes.to_crs(4326)
     d = state.distance
+    real = state.edges.reset_index()
+    real = real[(real["key"] < roads_mod.SYNTHETIC_KEY) & real["street_id"].notna()].copy()
+    real["ref"] = [roads_mod.edge_ref(u, v, k) for u, v, k in zip(real.u, real.v, real.key)]
+    real = real.drop_duplicates("ref").set_index("ref")
+    by_street = {int(sid): group for sid, group in real.groupby("street_id")}
     feats = []
     for node, sp in spokes.items():
         if len(sp) < 3 and len({s["id"] for s in sp}) < 2:
@@ -1255,6 +1338,14 @@ def _junctions(state: NetworkState, status: pd.DataFrame) -> dict:
         if g is None:
             continue
         dv = d.get(node)
+        for spoke in sp:
+            spoke["can_split"] = False
+            if spoke["ref"] in real.index:
+                try:
+                    street_ops.split_refs(by_street[spoke["id"]], spoke["ref"], int(node))
+                    spoke["can_split"] = True
+                except ValueError:
+                    pass
         feats.append({"type": "Feature", "properties": {"node": int(node), "d": None if dv is None or pd.isna(dv) else round(float(dv), 1), "spokes": sp},
                       "geometry": {"type": "Point", "coordinates": [round(g.x, 7), round(g.y, 7)]}})
     return {"type": "FeatureCollection", "features": feats}

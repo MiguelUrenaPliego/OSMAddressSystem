@@ -41,6 +41,12 @@ def main(argv: list[str] | None = None) -> None:
     v.add_argument("--host", default="127.0.0.1")
     v.add_argument("--port", type=int, default=8000)
     v.add_argument("--db", default=None, help="database URL (default: project.db, or $ADDRESS_DB_URL), e.g. postgresql+psycopg://user:pw@host/db")
+    account=sub.add_parser('account',help='create the initial administrator or recover an account locally')
+    account.add_argument('--project',type=Path,required=True)
+    account.add_argument('--db',default=None)
+    account.add_argument('--username',required=True)
+    account.add_argument('--name',required=True)
+    account.add_argument('--recover',action='store_true',help='reset this account and revoke its sessions; local operator access required')
     for name, hlp in (("backup", "copy the SQLite database"),):
         p = sub.add_parser(name, help=hlp)
         p.add_argument("--project", type=Path, required=True)
@@ -68,6 +74,15 @@ def main(argv: list[str] | None = None) -> None:
         from .setup import build_network
 
         print("network built" if build_network(a.project, a.force) else "network already exists (use --force to rebuild)")
+    elif a.cmd=='account':
+        import getpass
+        from .auth import Accounts
+        password=getpass.getpass('New passphrase (15-128 characters): ')
+        if password!=getpass.getpass('Repeat passphrase: '):raise SystemExit('Passphrases do not match.')
+        accounts=Accounts(Store(a.project,url=a.db))
+        if a.recover:accounts.reset_local(a.username,a.name,password)
+        else:accounts.bootstrap(a.username,a.name,password)
+        print('Administrator account ready. Sign in through the app.')
     elif a.cmd == "backup":
         print("backup written to", Store(a.project, url=a.db).backup(a.to))
     else:
