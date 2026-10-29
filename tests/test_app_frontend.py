@@ -26,7 +26,7 @@ def live_app(tmp_path):
     s.bind(("127.0.0.1", 0))
     port = s.getsockname()[1]
     s.close()
-    server = uvicorn.Server(uvicorn.Config(create_app(root, auto_compute=False), host="127.0.0.1", port=port, log_level="warning"))
+    server = uvicorn.Server(uvicorn.Config(create_app(root, auth_enabled=False, auto_compute=False), host="127.0.0.1", port=port, log_level="warning"))
     t = threading.Thread(target=server.run, daemon=True)
     t.start()
     for _ in range(100):
@@ -59,7 +59,7 @@ def test_whole_workflow_in_a_browser(live_app):
     url, root = live_app
     try:
         pw = playwright_sync_api.sync_playwright().start()
-        browser = pw.chromium.launch(executable_path="/usr/bin/chromium", args=["--no-sandbox"])
+        browser = H.launch_browser(pw)
     except Exception as exc:  # pragma: no cover - environment without a browser
         pytest.skip(f"no Chromium available: {exc}")
     try:
@@ -143,7 +143,7 @@ def test_edit_streets_tab_preview_accept_and_delete_in_a_browser(live_app, tmp_p
     post("/reference", {"lat": lat, "lon": lon})
     try:
         pw = playwright_sync_api.sync_playwright().start()
-        browser = pw.chromium.launch(executable_path="/usr/bin/chromium", args=["--no-sandbox"])
+        browser = H.launch_browser(pw)
     except Exception as exc:  # pragma: no cover
         pytest.skip(f"no Chromium available: {exc}")
     try:
@@ -181,16 +181,16 @@ def test_edit_streets_tab_preview_accept_and_delete_in_a_browser(live_app, tmp_p
         page.click("#panel button[data-act=del-start]")
         page.wait_for_selector("#panel button[data-act=del-apply]")
         wait_for(page, "S.edgeData")
-        page.evaluate("""() => { const f = S.edgeData.edges.features.find(f => f.properties.street_id != null); const c = f.geometry.coordinates[0];
+        page.evaluate("""() => { const f = S.edgeData.edges.features.find(f => f.properties.street_id != null && f.geometry.coordinates.length === 2); const c = f.geometry.coordinates[0];
             map.setView([c[1], c[0]], 18, { animate: false }); }""")
         page.wait_for_timeout(800)
-        pt = page.evaluate("""() => { const f = S.edgeData.edges.features.find(f => f.properties.street_id != null); const c = f.geometry.coordinates;
+        pt = page.evaluate("""() => { const f = S.edgeData.edges.features.find(f => f.properties.street_id != null && f.geometry.coordinates.length === 2); const c = f.geometry.coordinates;
             const a = c[0], b = c[c.length - 1]; const p = map.latLngToContainerPoint([(a[1] + b[1]) / 2, (a[0] + b[0]) / 2]);
             const r = document.getElementById('map').getBoundingClientRect(); return [r.left + p.x, r.top + p.y]; }""")
         page.mouse.click(*pt)
         page.wait_for_function("S.del.sel.size >= 1")
         page.click("#panel button[data-act=del-apply]")
-        wait_for(page, "S.edgeData.removed.features.length >= 1")
+        wait_for(page, "S.edgeData && S.edgeData.removed.features.length >= 1")
         assert not errors, errors
     finally:
         browser.close()
@@ -205,7 +205,7 @@ def test_reference_point_is_confirmed_on_every_start_and_locks_the_app(live_app)
     lon, lat = H.lonlat(H.X0 + 120, H.Y0 + 120)
     try:
         pw = playwright_sync_api.sync_playwright().start()
-        browser = pw.chromium.launch(executable_path="/usr/bin/chromium", args=["--no-sandbox"])
+        browser = H.launch_browser(pw)
     except Exception as exc:  # pragma: no cover
         pytest.skip(f"no Chromium available: {exc}")
     try:
@@ -250,7 +250,7 @@ def test_node_popup_offers_id_changes_only_where_they_make_sense(live_app):
     urllib.request.urlopen(urllib.request.Request(url + "/api/compute", b"{}", {"Content-Type": "application/json"}))
     try:
         pw = playwright_sync_api.sync_playwright().start()
-        browser = pw.chromium.launch(executable_path="/usr/bin/chromium", args=["--no-sandbox"])
+        browser = H.launch_browser(pw)
     except Exception as exc:  # pragma: no cover
         pytest.skip(f"no Chromium available: {exc}")
     try:
@@ -288,7 +288,7 @@ def test_all_building_points_are_shown_on_the_addresses_tab_before_computing(liv
     urllib.request.urlopen(urllib.request.Request(url + "/api/reference", json.dumps({"lat": lat, "lon": lon}).encode(), {"Content-Type": "application/json"}))
     try:
         pw = playwright_sync_api.sync_playwright().start()
-        browser = pw.chromium.launch(executable_path="/usr/bin/chromium", args=["--no-sandbox"])
+        browser = H.launch_browser(pw)
     except Exception as exc:  # pragma: no cover
         pytest.skip(f"no Chromium available: {exc}")
     try:
@@ -320,7 +320,7 @@ def test_everything_recomputes_by_itself_and_there_are_no_compute_buttons(live_a
     post("/reference", {"lat": lat, "lon": lon})
     try:
         pw = playwright_sync_api.sync_playwright().start()
-        browser = pw.chromium.launch(executable_path="/usr/bin/chromium", args=["--no-sandbox"])
+        browser = H.launch_browser(pw)
     except Exception as exc:  # pragma: no cover
         pytest.skip(f"no Chromium available: {exc}")
     try:
@@ -356,7 +356,7 @@ def test_draw_a_road_and_prolong_its_dead_end_onto_another_road(live_app):
     urllib.request.urlopen(urllib.request.Request(url + "/api/reference", json.dumps({"lat": lat0, "lon": lon0}).encode(), {"Content-Type": "application/json"}))
     try:
         pw = playwright_sync_api.sync_playwright().start()
-        browser = pw.chromium.launch(executable_path="/usr/bin/chromium", args=["--no-sandbox"])
+        browser = H.launch_browser(pw)
     except Exception as exc:  # pragma: no cover
         pytest.skip(f"no Chromium available: {exc}")
 
@@ -413,7 +413,7 @@ def test_the_map_view_is_not_moved_when_a_recomputation_ends(live_app):
     urllib.request.urlopen(urllib.request.Request(url + "/api/reference", json.dumps({"lat": lat, "lon": lon}).encode(), {"Content-Type": "application/json"}))
     try:
         pw = playwright_sync_api.sync_playwright().start()
-        browser = pw.chromium.launch(executable_path="/usr/bin/chromium", args=["--no-sandbox"])
+        browser = H.launch_browser(pw)
     except Exception as exc:  # pragma: no cover
         pytest.skip(f"no Chromium available: {exc}")
     try:
@@ -440,7 +440,7 @@ def test_background_map_opacity_slider_in_the_layer_control(live_app):
     url, root = live_app
     try:
         pw = playwright_sync_api.sync_playwright().start()
-        browser = pw.chromium.launch(executable_path="/usr/bin/chromium", args=["--no-sandbox"])
+        browser = H.launch_browser(pw)
     except Exception as exc:  # pragma: no cover
         pytest.skip(f"no Chromium available: {exc}")
     try:
@@ -466,7 +466,7 @@ def test_colour_by_rank_drivable_paved_and_attribute_editing_in_the_popup(live_a
     urllib.request.urlopen(urllib.request.Request(url + "/api/reference", json.dumps({"lat": lat, "lon": lon}).encode(), {"Content-Type": "application/json"}))
     try:
         pw = playwright_sync_api.sync_playwright().start()
-        browser = pw.chromium.launch(executable_path="/usr/bin/chromium", args=["--no-sandbox"])
+        browser = H.launch_browser(pw)
     except Exception as exc:  # pragma: no cover
         pytest.skip(f"no Chromium available: {exc}")
     try:
@@ -504,7 +504,7 @@ def test_reference_point_sign_ranks_are_editable_on_the_addresses_tab(live_app):
     urllib.request.urlopen(urllib.request.Request(url + "/api/reference", json.dumps({"lat": lat, "lon": lon}).encode(), {"Content-Type": "application/json"}))
     try:
         pw = playwright_sync_api.sync_playwright().start()
-        browser = pw.chromium.launch(executable_path="/usr/bin/chromium", args=["--no-sandbox"])
+        browser = H.launch_browser(pw)
     except Exception as exc:  # pragma: no cover
         pytest.skip(f"no Chromium available: {exc}")
     try:
@@ -535,7 +535,7 @@ def test_a_click_on_an_empty_place_clears_the_selection_and_the_special_styles(l
     urllib.request.urlopen(urllib.request.Request(url + "/api/reference", json.dumps({"lat": lat, "lon": lon}).encode(), {"Content-Type": "application/json"}))
     try:
         pw = playwright_sync_api.sync_playwright().start()
-        browser = pw.chromium.launch(executable_path="/usr/bin/chromium", args=["--no-sandbox"])
+        browser = H.launch_browser(pw)
     except Exception as exc:  # pragma: no cover
         pytest.skip(f"no Chromium available: {exc}")
     try:
@@ -567,7 +567,7 @@ def test_simple_page_names_a_street_and_shows_addresses_in_the_same_database(liv
     urllib.request.urlopen(urllib.request.Request(url + "/api/reference", data=json.dumps({"lat": lat, "lon": lon}).encode(), headers={"Content-Type": "application/json"}))
     try:
         pw = playwright_sync_api.sync_playwright().start()
-        browser = pw.chromium.launch(executable_path="/usr/bin/chromium", args=["--no-sandbox"])
+        browser = H.launch_browser(pw)
     except Exception as exc:  # pragma: no cover
         pytest.skip(f"no Chromium available: {exc}")
     try:
@@ -605,7 +605,7 @@ def test_simple_page_redirects_to_the_full_app_when_the_network_has_connection_p
     post("/api/roads/draw", {"pieces": [{"coords": [list(a), list(b)], "start": None, "end": None}], "name": "Island"})
     try:
         pw = playwright_sync_api.sync_playwright().start()
-        browser = pw.chromium.launch(executable_path="/usr/bin/chromium", args=["--no-sandbox"])
+        browser = H.launch_browser(pw)
     except Exception as exc:  # pragma: no cover
         pytest.skip(f"no Chromium available: {exc}")
     try:

@@ -14,7 +14,8 @@ whole history stays readable.
   event with the old state - itself undoable - so history is never rewritten.
 * **Conflicts**: ``set_name(..., expected=...)`` refuses (``Conflict``) when somebody else changed the street since the editor loaded it.
 * Plain tables for QGIS / DB Browser / scripts: ``street_names`` (current names, who and when) and ``street_ids`` (the computed ids).
-* There is no login: edits carry no editor name unless the caller passes one, and Undo / Redo then act on the shared history. ``meta`` holds the revision counter.
+* The API supplies verified account IDs. A separate append-only audit retains before/after data and Undo/Redo/checkpoint decisions.
+* Undone replay events are retained; ``closed_redo`` ends a redo branch without deleting the evidence. ``meta`` holds the revision counter.
 """
 
 from __future__ import annotations
@@ -29,8 +30,9 @@ import sqlalchemy as sa
 from sqlalchemy import event
 
 from .project import Project, Settings
+from .identity import audit_identity
 
-SCHEMA_VERSION = "2"
+SCHEMA_VERSION = "3"
 metadata = sa.MetaData()
 meta_t = sa.Table("meta", metadata, sa.Column("key", sa.String(40), primary_key=True), sa.Column("value", sa.Text))
 events_t = sa.Table("events", metadata, sa.Column("id", sa.Integer, primary_key=True, autoincrement=True), sa.Column("ts", sa.String(32), nullable=False),
@@ -49,6 +51,12 @@ street_ids_t = sa.Table("street_ids", metadata, sa.Column("street_id", sa.Intege
                         sa.Column("length_m", sa.Float), sa.Column("parent_id", sa.Integer), sa.Column("root_id", sa.Integer),
                         sa.Column("d_start", sa.Float), sa.Column("d_end", sa.Float))
 computed_t = sa.Table("computed", metadata, sa.Column("key", sa.String(40), primary_key=True), sa.Column("value", sa.Text))
+audit_t = sa.Table('audit',metadata,sa.Column('id',sa.Integer,primary_key=True,autoincrement=True),
+                   sa.Column('ts',sa.String(32),nullable=False),sa.Column('actor',sa.String(64),nullable=False),
+                   sa.Column('kind',sa.String(32),nullable=False),sa.Column('event_id',sa.Integer),
+                   sa.Column('action',sa.String(40),nullable=False),sa.Column('street',sa.Integer),
+                   sa.Column('before',sa.Text),sa.Column('after',sa.Text),sa.Column('details',sa.Text,nullable=False))
+closed_redo_t = sa.Table('closed_redo',metadata,sa.Column('event_id',sa.Integer,primary_key=True))
 
 
 class Conflict(Exception):
@@ -125,6 +133,14 @@ class Store:
                                            {"key": "name", "value": name or self.root.name}])
                 c.execute(checkpoints_t.insert().values(ts=_now(), label="created", user="", revision=0,
                                                          state=json.dumps(self._initial_state(c, name or self.root.name))))
+            if c.execute(sa.select(meta_t.c.value).where(meta_t.c.key=='audit_migrated')).first() is None:
+                for ev in c.execute(sa.select(events_t).order_by(events_t.c.id)).mappings():
+                    self._audit(c,'legacy_edit',ev['action'],ev['user'],event_id=ev['id'],street=ev['street'],
+                                before=json.loads(ev['old']) if ev['old'] else None,
+                                after=json.loads(ev['new']) if ev['new'] else None,
+                                details={'legacy':True,'undone_at_migration':bool(ev['undone']),'original_ts':ev['ts']})
+                c.execute(meta_t.insert().values(key='audit_migrated',value='1'))
+                c.execute(meta_t.update().where(meta_t.c.key=='schema').values(value=SCHEMA_VERSION))
 
     # ---- state ----------------------------------------------------------------------------------------------------------
     @staticmethod
@@ -178,6 +194,14 @@ class Store:
         elif act == "street_attrs":
             for sid_, a_ in new["attrs"].items():
                 roads().setdefault("attrs", {}).setdefault(str(sid_), {}).update(a_)
+        elif act == "road_geometry":
+            roads().setdefault("geometry", {})[new["ref"]] = new["coords"]
+        elif act == "road_cut":
+            roads().setdefault("cuts", []).append(new)
+        elif act == "road_join":
+            roads().setdefault("joins", []).append(new)
+        elif act == "work_areas":
+            state["work_areas"] = new
         elif act == "edges_assign":
             roads().setdefault("edge_street", {}).update({k: int(v) for k, v in new["edges"].items()})
             roads()["no_cut"] = sorted(set(roads().get("no_cut", [])) | {int(x) for x in new.get("no_cut", [])})
@@ -269,11 +293,34 @@ class Store:
         Returns:
             The event id.
         """
-        c.execute(events_t.delete().where(sa.and_(events_t.c.user == user, events_t.c.undone.is_(True))))
+        retired=list(c.execute(sa.select(events_t.c.id).where(sa.and_(events_t.c.user==user,events_t.c.undone.is_(True),
+                         ~events_t.c.id.in_(sa.select(closed_redo_t.c.event_id))))).scalars())
+        if retired:
+            self._audit(c,'redo_branch_closed','redo_branch_closed',user,details={'events':retired})
+            c.execute(closed_redo_t.insert(),[{'event_id':eid} for eid in retired])
         res = c.execute(events_t.insert().values(ts=_now(), user=user, action=action, street=street, old=json.dumps(old), new=json.dumps(new),
                                                  undone=False))
         self._bump(c)
+        self._audit(c,'edit',action,user,event_id=int(res.inserted_primary_key[0]),street=street, before=old,after=new)
         return int(res.inserted_primary_key[0])
+
+    def _audit(self,c,kind,action,user='',event_id=None,street=None,before=None,after=None,details=None):
+        """Append evidence independently of the mutable undo/replay projection."""
+        c.execute(audit_t.insert().values(ts=_now(),actor=user,kind=kind,action=action,event_id=event_id,street=street,
+                  before=json.dumps(before) if before is not None else None,after=json.dumps(after) if after is not None else None,
+                  details=json.dumps({**audit_identity(user),'revision':self.revision(c),**(details or {})})))
+
+    def record_audit(self,action,user='',kind='account',**details):
+        with self.engine.begin() as c:
+            self._audit(c,kind,action,user,details=details)
+
+    def audit(self,limit=100,before_id=None):
+        with self.engine.connect() as c:
+            query=sa.select(audit_t).order_by(audit_t.c.id.desc()).limit(max(1,min(int(limit),200)))
+            if before_id is not None: query=query.where(audit_t.c.id<int(before_id))
+            rows=c.execute(query).mappings().all()
+        return [{**dict(r),'before':json.loads(r['before']) if r['before'] else None,
+                 'after':json.loads(r['after']) if r['after'] else None,'details':json.loads(r['details'])} for r in rows]
 
     def _after(self, c) -> None:
         """Keep the plain ``street_names`` table equal to the current state.
@@ -485,6 +532,14 @@ class Store:
                                                                   "names": {str(k): v for k, v in (names or {}).items()}, "no_cut": [int(x) for x in (no_cut or [])], "attrs": {str(k): v for k, v in (attrs or {}).items()}}, user)
                 self._after(c)
 
+    def set_road_geometry(self, ref: str, coords: list, expected_revision: int, user: str = "") -> None:
+        """Reshape one edge, retaining its identity; one undoable event."""
+        with self.engine.begin() as c:
+            if self.revision(c) != expected_revision:
+                raise Conflict("project changed; reload the road before saving")
+            old = self._state(c).get("roads", {}).get("geometry", {}).get(ref)
+            self._add_event(c, "road_geometry", None, {"ref": ref, "coords": old}, {"ref": ref, "coords": coords}, user)
+
     def remove_edges(self, edges: list[str], features: list[str], user: str = "") -> None:
         """Delete street edges (base network edges by reference, drawn lines by key); undoable.
 
@@ -496,6 +551,29 @@ class Store:
         if edges or features:
             with self.engine.begin() as c:
                 self._add_event(c, "edges_remove", None, None, {"edges": list(edges), "features": list(features)}, user)
+
+    def add_road_cut(self, cut: dict, expected_revision: int, user: str = "") -> None:
+        self._road_operation('road_cut', cut, expected_revision, user)
+
+    def add_road_join(self, join: dict, expected_revision: int, user: str = "") -> None:
+        self._road_operation('road_join', join, expected_revision, user)
+
+    def _road_operation(self, action: str, operation: dict, expected_revision: int, user: str) -> None:
+        with self.engine.begin() as c:
+            if self.revision(c) != expected_revision:
+                raise Conflict('project changed; reload the road')
+            rd = self._state(c).get('roads', {})
+            orders = [op.get('order', i+1) for i, op in enumerate(rd.get('cuts', []))]
+            orders += [op['order'] for op in rd.get('joins', [])]
+            operation = {**operation, 'order': max(orders, default=0)+1}
+            self._add_event(c, action, None, None, operation, user)
+
+    def set_work_areas(self, areas: dict, expected_revision: int, user: str = "") -> None:
+        with self.engine.begin() as c:
+            if self.revision(c) != expected_revision:
+                raise Conflict('project changed; reload the areas')
+            old = self._state(c).get('work_areas', {})
+            self._add_event(c, 'work_areas', None, old, areas, user)
 
     def restore_edges(self, edges: list[str], features: list[str], user: str = "") -> None:
         """Bring back deleted street edges.
@@ -549,7 +627,7 @@ class Store:
         return True
 
     # ---- undo / redo (own edits only) -----------------------------------------------------------------------------------------------
-    def undo(self, user: str = "") -> dict | None:
+    def undo(self, user: str = "", strict: bool = False) -> dict | None:
         """Undo the latest edit *of this editor*.
 
         Args:
@@ -563,12 +641,15 @@ class Store:
                            .order_by(events_t.c.id.desc()).limit(1)).mappings().first()
             if ev is None:
                 return None
+            if strict and c.execute(sa.select(events_t.c.id).where(sa.and_(events_t.c.id>ev['id'],events_t.c.user!=user,events_t.c.undone.is_(False))).limit(1)).first():
+                raise Conflict('another editor has newer changes; review history before undoing')
             c.execute(events_t.update().where(events_t.c.id == ev["id"]).values(undone=True))
             self._bump(c)
+            self._audit(c,'undo',ev['action'],user,event_id=ev['id'],street=ev['street'],before={'undone':False},after={'undone':True})
             self._after(c)
             return dict(ev)
 
-    def redo(self, user: str = "") -> dict | None:
+    def redo(self, user: str = "", strict: bool = False) -> dict | None:
         """Redo the earliest undone edit of this editor.
 
         Args:
@@ -580,12 +661,21 @@ class Store:
         with self.engine.begin() as c:
             last = c.execute(sa.select(sa.func.coalesce(sa.func.max(events_t.c.id), 0)).where(
                 sa.and_(events_t.c.user == user, events_t.c.undone.is_(False)))).scalar_one()
-            ev = c.execute(sa.select(events_t).where(sa.and_(events_t.c.user == user, events_t.c.undone.is_(True), events_t.c.id > last))
+            ev = c.execute(sa.select(events_t).where(sa.and_(events_t.c.user == user, events_t.c.undone.is_(True), events_t.c.id > last,
+                                   ~events_t.c.id.in_(sa.select(closed_redo_t.c.event_id))))
                            .order_by(events_t.c.id).limit(1)).mappings().first()
             if ev is None:
                 return None
+            if strict and c.execute(sa.select(events_t.c.id).where(sa.and_(events_t.c.id>ev['id'],events_t.c.user!=user,events_t.c.undone.is_(False))).limit(1)).first():
+                raise Conflict('another editor has newer changes; review history before redoing')
+            if strict:
+                last_undo=c.execute(sa.select(sa.func.max(audit_t.c.id)).where(sa.and_(audit_t.c.event_id==ev['id'],audit_t.c.kind=='undo'))).scalar_one() or 0
+                if c.execute(sa.select(audit_t.c.id).where(sa.and_(audit_t.c.id>last_undo,audit_t.c.actor!=user,
+                             audit_t.c.kind.in_(['edit','undo','redo','checkpoint_restore']))).limit(1)).first():
+                    raise Conflict('another editor changed the project since this undo; review before redoing')
             c.execute(events_t.update().where(events_t.c.id == ev["id"]).values(undone=False))
             self._bump(c)
+            self._audit(c,'redo',ev['action'],user,event_id=ev['id'],street=ev['street'],before={'undone':True},after={'undone':False})
             self._after(c)
             return dict(ev)
 
@@ -603,7 +693,8 @@ class Store:
             mine = events_t.c.user == user
             can_undo = c.execute(sa.select(sa.func.count()).where(sa.and_(mine, events_t.c.undone.is_(False)))).scalar_one() > 0
             last = c.execute(sa.select(sa.func.coalesce(sa.func.max(events_t.c.id), 0)).where(sa.and_(mine, events_t.c.undone.is_(False)))).scalar_one()
-            can_redo = c.execute(sa.select(sa.func.count()).where(sa.and_(mine, events_t.c.undone.is_(True), events_t.c.id > last))).scalar_one() > 0
+            can_redo = c.execute(sa.select(sa.func.count()).where(sa.and_(mine, events_t.c.undone.is_(True), events_t.c.id > last,
+                                       ~events_t.c.id.in_(sa.select(closed_redo_t.c.event_id))))).scalar_one() > 0
             cp = c.execute(sa.select(checkpoints_t).order_by(checkpoints_t.c.id.desc()).limit(1)).mappings().first()
             n = c.execute(sa.select(sa.func.count()).select_from(checkpoints_t)).scalar_one()
             le = c.execute(sa.select(events_t.c.user, events_t.c.ts, events_t.c.action).where(events_t.c.undone.is_(False))
@@ -629,6 +720,7 @@ class Store:
                                                           streets=json.dumps(streets) if streets is not None else None))
             if streets is not None:
                 self._write_ids(c, streets)
+            self._audit(c,'checkpoint','checkpoint_saved',user,details={'checkpoint':int(res.inserted_primary_key[0]),'label':label or 'saved'})
             return int(res.inserted_primary_key[0])
 
     def _write_ids(self, c, streets: list[dict]) -> None:
@@ -657,7 +749,7 @@ class Store:
         return [{"id": r["id"], "ts": r["ts"], "label": r["label"], "user": r["user"], "named_streets": len(json.loads(r["state"]).get("names", {})),
                  "has_ids": r["streets"] is not None} for r in rows]
 
-    def restore(self, checkpoint_id: int, user: str = "") -> int:
+    def restore(self, checkpoint_id: int, user: str = "", expected_revision: int | None = None, reason: str = '') -> int:
         """Go back to an older checkpoint: add a ``restore`` event (undoable) and a checkpoint with its content.
 
         Args:
@@ -671,10 +763,13 @@ class Store:
             KeyError: If the checkpoint does not exist.
         """
         with self.engine.begin() as c:
+            if expected_revision is not None and self.revision(c)!=expected_revision:
+                raise Conflict('project changed; review the current revision before restoring')
             row = c.execute(sa.select(checkpoints_t).where(checkpoints_t.c.id == int(checkpoint_id))).mappings().first()
             if row is None:
                 raise KeyError(checkpoint_id)
-            self._add_event(c, "restore", None, None, json.loads(row["state"]), user)
+            self._add_event(c, "restore", None, self._state(c), json.loads(row["state"]), user)
+            self._audit(c,'checkpoint_restore','restore',user,details={'checkpoint':checkpoint_id,'reason':reason})
             self._after(c)
             streets = json.loads(row["streets"]) if row["streets"] else None
             res = c.execute(checkpoints_t.insert().values(ts=_now(), label=f"restored #{row['id']} ({row['label']})", user=user, revision=self.revision(c),

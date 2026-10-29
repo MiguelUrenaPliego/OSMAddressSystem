@@ -2,6 +2,8 @@
 
 import base64
 import json
+import os
+import shutil
 from pathlib import Path
 
 import geopandas as gpd
@@ -14,6 +16,28 @@ from osmaddresssystem.synthetic_grid import build_idealized_grid
 
 CRS = "EPSG:32632"
 X0, Y0 = 635000.0, 577000.0
+
+
+def launch_browser(playwright):
+    """Use an installed browser on Windows/Linux without downloading one."""
+    executable = os.environ.get('ADDRESS_TEST_BROWSER') or shutil.which('chromium') or shutil.which('chromium-browser')
+    if not executable:
+        executable = next((str(p) for p in [
+            Path('C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe'),
+            Path('C:/Program Files/Google/Chrome/Application/chrome.exe'),
+        ] if p.exists()), None)
+    if not executable and not Path(playwright.chromium.executable_path).exists():
+        import pytest
+        pytest.skip('No installed browser; set ADDRESS_TEST_BROWSER to reuse one without downloading')
+    args = ['--no-sandbox'] if hasattr(os, 'geteuid') and os.geteuid() == 0 else []
+    browser = playwright.chromium.launch(**({'executable_path': executable} if executable else {}), headless=True, args=args)
+    def offline_tiles(context):
+        # UI workflows are local integration tests, not tests of public tile
+        # servers. Avoid downloads and navigation stalls on limited connections.
+        context.route('https://mt1.google.com/**', lambda route: route.abort())
+        context.route('https://tile.openstreetmap.org/**', lambda route: route.abort())
+    browser.on('context', offline_tiles)
+    return browser
 
 
 def make_project(root: Path, rows: int = 4, cols: int = 5, spacing: float = 120.0) -> Path:

@@ -3,44 +3,58 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Street names</title>
+<title>Community Addressing Cameroon - Street names</title>
 <style>
-  :root { --bg:#fff; --fg:#1b1b1b; --muted:#666; --line:#d8d8d8; --accent:#1565c0; --bad:#d50000; --good:#2e7d32; }
-  * { box-sizing:border-box; }
-  body { margin:0; font:16px system-ui, sans-serif; color:var(--fg); background:var(--bg); height:100vh; display:flex; flex-direction:column; }
-  header { display:flex; align-items:center; gap:10px; padding:8px 12px; border-bottom:1px solid var(--line); flex-wrap:wrap; }
-  header h1 { font-size:18px; margin:0 12px 0 0; }
-  .tab { font:inherit; padding:8px 16px; border:2px solid var(--accent); background:#fff; color:var(--accent); border-radius:8px; cursor:pointer; font-weight:600; }
-  .tab.on { background:var(--accent); color:#fff; }
-  #state { margin-left:auto; color:var(--muted); font-size:14px; }
+  /* Community page: the same design system as the editor (brand.css), tuned for phones and first-time users. */
+  body { margin:0; height:100vh; display:flex; flex-direction:column; font-size:16px; line-height:1.5; color:var(--ink, #14263a); background:var(--bg, #eef2f0); }
+  header { display:flex; align-items:center; gap:10px; flex-wrap:wrap; padding:10px 16px; background:var(--surface, #fff); border-bottom:1px solid var(--line, #dfe5e2); }
+  header h1 { margin:0; }
+  .tab { font:600 14px var(--font, system-ui); min-height:40px; padding:8px 16px; border:1px solid var(--line-strong, #c9d2cd); background:var(--surface, #fff); color:var(--ink-2, #3c4d5c); border-radius:999px; cursor:pointer; }
+  .tab:hover { background:var(--surface-3, #edf1ef); }
+  .tab.on { background:var(--primary, #0f7a63); border-color:var(--primary, #0f7a63); color:#fff; }
+  #state { margin-left:auto; color:var(--muted, #66757f); font-size:13px; }
   main { flex:1; display:flex; min-height:0; }
-  #map { flex:1; }
-  aside { width:330px; border-left:1px solid var(--line); overflow:auto; padding:12px; }
-  aside h2 { font-size:17px; margin:0 0 6px; }
-  .big { font-size:30px; font-weight:700; }
-  .muted { color:var(--muted); font-size:14px; }
-  .item { display:block; width:100%; text-align:left; font:inherit; padding:9px 10px; margin:5px 0; border:1px solid var(--line); background:#fff; border-radius:8px; cursor:pointer; }
-  .item:hover { border-color:var(--accent); }
-  .dot { display:inline-block; width:12px; height:12px; border-radius:50%; margin-right:8px; vertical-align:-1px; }
-  input[type=text] { font:inherit; padding:9px; width:100%; border:2px solid var(--line); border-radius:8px; }
-  button.go { font:inherit; font-weight:600; padding:9px 14px; background:var(--accent); color:#fff; border:0; border-radius:8px; cursor:pointer; margin-top:6px; }
-  a.dl { display:inline-block; margin:6px 8px 0 0; color:var(--accent); }
-  @media (max-width:760px) { main { flex-direction:column; } aside { width:auto; height:42%; border-left:0; border-top:1px solid var(--line); } }
+  #map { flex:1; background:#dfe6e2; }
+  aside { width:360px; overflow:auto; padding:20px; background:var(--surface, #fff); border-left:1px solid var(--line, #dfe5e2); box-shadow:-6px 0 20px rgba(11,44,77,.05); }
+  aside h2 { font-size:20px; font-weight:700; margin:0 0 4px; letter-spacing:-.01em; }
+  .big { font-size:44px; font-weight:800; line-height:1.1; color:var(--primary, #0f7a63); font-variant-numeric:tabular-nums; }
+  .muted { color:var(--muted, #66757f); font-size:14px; line-height:1.55; }
+  .item { display:flex; align-items:center; justify-content:flex-start; width:100%; text-align:left; font:500 15px var(--font, system-ui); min-height:48px; padding:10px 12px; margin:6px 0; border:1px solid var(--line, #dfe5e2); background:var(--surface, #fff); border-radius:10px; cursor:pointer; box-shadow:0 1px 2px rgba(11,44,77,.06); }
+  .item:hover { border-color:var(--primary, #0f7a63); background:var(--primary-soft, #e5f3ef); }
+  .dot { display:inline-block; flex:none; width:12px; height:12px; border-radius:50%; margin-right:10px; vertical-align:-1px; }
+  input[type=text] { font:inherit; min-height:44px; padding:9px 12px; width:100%; border:1.5px solid var(--line-strong, #c9d2cd); border-radius:10px; }
+  input[type=text]:focus { border-color:var(--primary, #0f7a63); outline:none; box-shadow:0 0 0 3px var(--primary-soft, #e5f3ef); }
+  button.go { min-height:40px; padding:8px 18px; margin-top:8px; background:var(--primary, #0f7a63); border-color:var(--primary, #0f7a63); color:#fff; border-radius:8px; }
+  button.go:hover { background:var(--primary-hover, #0b6452) !important; }
+  a.dl { display:inline-flex; align-items:center; gap:6px; margin:8px 8px 0 0; padding:7px 12px; border:1px solid var(--line-strong, #c9d2cd); border-radius:8px; color:var(--primary-ink, #0a5646); font-weight:600; font-size:14px; text-decoration:none; }
+  a.dl:hover { background:var(--primary-soft, #e5f3ef); }
+  .leaflet-popup-content-wrapper { border-radius:14px; }
+  @media (max-width:760px) {
+    header { padding:8px 12px; }
+    .simple-identity { flex:1 1 100%; }
+    main { flex-direction:column; }
+    #map { min-height:220px; }
+    aside { width:auto; flex:1; min-height:0; padding:16px; border-left:0; border-top:1px solid var(--line, #dfe5e2); }
+  }
 </style>
 </head>
 <body>
 <header>
-  <h1>Street names &mdash; Fotouni</h1>
+  <div class="simple-identity"><span class="brand-symbol" aria-hidden="true"><img id="community-brand-image" alt="" width="100" height="96"></span><div><strong class="app-name">Community Addressing Cameroon</strong><h1>Street names &mdash; Fotouni</h1></div></div>
   <button class="tab on" data-tab="names">Street names</button>
   <button class="tab" data-tab="addresses">Addresses</button>
   <span id="state"></span>
+  <label class="language-control"><select id="language-select" aria-label="Language"><option value="en">English</option><option value="fr">Français</option></select></label>
 </header>
 <main><div id="map"></div><aside id="side"></aside></main>
 <script>
   const P = location.pathname.endsWith('/') ? '../' : '';                  // the page is /simple or /simple/ : the api and static files are one level up
   const load = (src) => new Promise((ok) => { const s = document.createElement('script'); s.src = P + src; s.onload = ok; document.head.appendChild(s); });
   const css = document.createElement('link'); css.rel = 'stylesheet'; css.href = P + 'static/vendor/leaflet.css'; document.head.appendChild(css);
-  load('static/vendor/leaflet.js').then(() => load('static/simple.js'));
+  const brandCss=document.createElement('link'); brandCss.rel='stylesheet'; brandCss.href=P+'static/brand.css'; document.head.appendChild(brandCss);
+  document.getElementById('community-brand-image').src=P+'static/brand/community-addressing-cameroon.png';
+  const accountCss=document.createElement('link'); accountCss.rel='stylesheet'; accountCss.href=P+'static/auth.css'; document.head.appendChild(accountCss);
+  load('static/i18n.js').then(() => load('static/auth.js')).then(() => load('static/vendor/leaflet.js')).then(() => load('static/simple.js'));
 </script>
 </body>
 </html>
